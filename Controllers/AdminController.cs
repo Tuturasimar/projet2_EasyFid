@@ -32,12 +32,14 @@ namespace Projet2_EasyFid.Controllers
             {
                 // On récupère l'utilisateur en fonction de son id
                 User user = dal.GetUserById(id);
+                List<RoleUser> roles = dal.GetAllRoles(id);
 
                 // Si l'utilisateur existe en BDD
                 if(user != null)
                 {
+                    UserRoleViewModel urvm = new UserRoleViewModel { User = user, Roles = roles };
                     // Envoi en paramètre à la vue UserDetail
-                    return View(user);
+                    return View(urvm);
                 }
                 // Si l'utilisateur n'existe pas, redirection vers l'Index Admin
                 return RedirectToAction("Index");

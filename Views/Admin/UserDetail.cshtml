@@ -1,4 +1,4 @@
-﻿@model Projet2_EasyFid.Models.User
+﻿@model Projet2_EasyFid.ViewModels.UserRoleViewModel
 @{
     Layout = "_Layout";
     ViewBag.Title = "Détail Utilisateur";
@@ -6,10 +6,18 @@
 
 <h2>Je suis la vue détails utilisateur</h2>
 <ul>
-    <li>Login : @Model.Login</li>
-    <li>Créé le : @Model.CreationDate.ToString("dd/MM/yyyy")</li>
-    <li>Prénom : @Model.UserData.Firstname</li>
-    <li>Nom : @Model.UserData.Lastname</li>
-    <li>Date de naissance : @Model.UserData.Birthday.ToString("dd/MM/yyyy")</li>
-    <li>Email : @Model.UserData.Email</li>
+    <li>Login : @Model.User.Login</li>
+    <li>Créé le : @Model.User.CreationDate.ToString("dd/MM/yyyy")</li>
+    <li>Prénom : @Model.User.UserData.Firstname</li>
+    <li>Nom : @Model.User.UserData.Lastname</li>
+    <li>Date de naissance : @Model.User.UserData.Birthday.ToString("dd/MM/yyyy")</li>
+    <li>Email : @Model.User.UserData.Email</li>
 </ul>
+
+@foreach (var role in Model.Roles)
+{
+        <ul>
+            <li>Intitulé du job : @role.Role.JobLabel</li>
+            <li>Accréditation :  @role.Role.RoleType</li>
+        </ul>
+}

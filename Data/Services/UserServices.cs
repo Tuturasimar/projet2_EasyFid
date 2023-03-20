@@ -42,6 +42,11 @@ namespace Projet2_EasyFid.Data.Services
             _bddContext.SaveChanges();
             return userData.Id;
         }
+
+        public static List<RoleUser> GetAllRolesByUserId(BddContext _bddContext, int id)
+        {
+            return _bddContext.RoleUsers.Include(r => r.Role).Where(r => r.UserId == id).ToList();
+        }
     }
 }
 
