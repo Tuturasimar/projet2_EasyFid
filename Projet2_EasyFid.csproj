@@ -29,7 +29,6 @@
     <Folder Include="Data\Enums\" />
     <Folder Include="Views\Shared\" />
     <Folder Include="Views\Login\" />
-    <Folder Include="Views\Manager\" />
     <Folder Include="Views\Admin\" />
 
     <Folder Include="Views\Salarie\" />
