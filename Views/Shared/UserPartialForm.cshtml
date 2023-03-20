@@ -3,8 +3,7 @@
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
 
-<fieldset>
-    <legend>Connexion : </legend>
+
     @Html.HiddenFor(m => Model.Id)
     @Html.Label("Login", "Login : ")
     @Html.TextBoxFor(mn => Model.Login)
@@ -25,15 +24,7 @@
         Condition qui rajoute les champs souhaités (avoir un seul formulaire pour le salarié/admin ?)
     *@
 
-    <br />
-    @if (Model != null)
-    {
-        <input type="submit" value="Modifier" />
-    }
-    else
-    {
-        <input type="submit" value="Ajouter" />
-    }
+    
 
-</fieldset>
+
 

@@ -9,5 +9,9 @@
 @*On crée le début du formulaire ici pour que le même formulaire puisse être utilisé dans le controller Salarie*@
 @using (Html.BeginForm("CreateUser", "Admin", FormMethod.Post))
 {
-    @Html.Partial("UserPartialForm", Model)
+   <fieldset>
+       <legend>Ajout</legend>
+       @Html.Partial("UserPartialForm", Model)
+       <input type="submit" value="Ajouter" />
+   </fieldset>
 }
