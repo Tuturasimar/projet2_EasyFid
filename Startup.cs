@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Projet2_EasyFid.Data;
 
 namespace Projet2_EasyFid
 {
@@ -28,6 +29,13 @@ namespace Projet2_EasyFid
                 app.UseDeveloperExceptionPage();
             }
 
+            using (BddContext ctx = new BddContext())
+            {
+                ctx.InitialiseDb();
+            }
+
+
+            app.UseStaticFiles();
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>

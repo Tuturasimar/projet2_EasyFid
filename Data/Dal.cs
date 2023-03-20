@@ -1,5 +1,5 @@
 ﻿using System;
-namespace Projet2_EasyFid.Models
+namespace Projet2_EasyFid.Data
 {
 	public class Dal
 	{
