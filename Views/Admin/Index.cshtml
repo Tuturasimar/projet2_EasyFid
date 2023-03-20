@@ -18,8 +18,8 @@
         <tr>
             <td>@user.Login</td>
             <td>@user.CreationDate.ToString("dd/MM/yyyy")</td>
-            <td>@Html.ActionLink("Détails", "UserDetail", "Home", new { id = user.Id })</td>
-            <td>@Html.ActionLink("Modifier", "UserForm", "Home", new { id = user.Id })</td>
+            <td>@Html.ActionLink("Détails", "UserDetail", "Admin", new { id = user.Id })</td>
+            <td>@Html.ActionLink("Modifier", "UserForm", "Admin", new { id = user.Id })</td>
         </tr>
     }
 </table>

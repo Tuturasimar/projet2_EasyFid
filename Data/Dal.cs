@@ -22,6 +22,16 @@ namespace Projet2_EasyFid.Data
         {
             return UserServices.GetAllUsers(_bddContext);
         }
+
+        public User GetUserById(int id)
+        {
+            return UserServices.GetUserById(_bddContext, id);
+        }
+
+        public void ModifyUser(User user)
+        {
+            UserServices.ModifyUser(_bddContext, user);
+        }
     }
 }
 
