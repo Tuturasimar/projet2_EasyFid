@@ -2,6 +2,7 @@ using System;
 using Projet2_EasyFid.Models;
 using System.Collections.Generic;
 using Projet2_EasyFid.Data.Services;
+using System.Security.Cryptography;
 using System.Linq;
 using Projet2_EasyFid.Data.Enums;
 
@@ -43,7 +44,38 @@ namespace Projet2_EasyFid.Data
 				_bddContext.SaveChanges();
 			}
 		}
-
+    
+            public int LoginUser(string login, string password)
+        {
+            string encryptedPassword = EncodeMD5(password);
+            User user = new User() { Login = login, Password = encryptedPassword };
+            this._bddContext.Users.Add(user);
+            this._bddContext.SaveChanges();
+            return user.Id;
+        }
+        
+                public User Authentifier(string login, string password)
+        {
+            string encryptedPassword = EncodeMD5(password);
+            User user = this._bddContext.Users.FirstOrDefault(u => u.Login == login && u.Password == encryptedPassword);
+            return user;
+        }
+        
+            public User GetUser(string idStr)
+        {
+            int id;
+            if (int.TryParse(idStr, out id))
+            {
+                return UserServices.GetUserById(_bddContext, id);
+            }
+            return null;
+        }
+        
+               public static string EncodeMD5(string encryptedPassword)
+        {
+            string encryptedPasswordSel = "Choix" + encryptedPassword + "ASP.NET MVC";
+            return BitConverter.ToString(new MD5CryptoServiceProvider().ComputeHash(ASCIIEncoding.Default.GetBytes(encryptedPasswordSel)));
+        }
 
         public void Dispose()
         {
@@ -74,8 +106,6 @@ namespace Projet2_EasyFid.Data
         {
             return UserServices.CreateUserData(_bddContext, userData);
         }
-
-       
     }
 }
 

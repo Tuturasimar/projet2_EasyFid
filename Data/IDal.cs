@@ -7,6 +7,9 @@ namespace Projet2_EasyFid.Data
 {
 	public interface IDal : IDisposable
 	{
+
+    User GetUser(string idStr);
+
 		void DeleteCreateDatabase();
 		List<Cra> GetAllCras();
 

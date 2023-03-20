@@ -1,6 +1,32 @@
-﻿@{
-    Layout = "_Layout";
-    ViewBag.Title = "Accueil";
-}
+﻿@model Projet2_EasyFid.ViewModels.UserViewModel
 
-<h2>Je suis la vue du login</h2>
+@if (Model.Authenticated)
+{
+    <h3>
+        Vous êtes déjà authentifié avec le login :
+        @Model.User.Login
+    </h3>
+    @Html.ActionLink("Souhaitez-vous vous déconnecter ?", "Logout")
+}
+else
+{
+    <p>
+        Veuillez vous authentifier :
+    </p>
+    using (Html.BeginForm())
+    {
+        <div>
+            @Html.LabelFor(m => m.User.Login)
+            @Html.TextBoxFor(m => m.User.Login)
+            @Html.ValidationMessageFor(m => m.User.Login)
+        </div>
+        <div>
+            @Html.LabelFor(m => m.User.Password)
+            @Html.PasswordFor(m => m.User.Password)
+            @Html.ValidationMessageFor(m => m.User.Password)
+        </div>
+        <input type="submit" value="Se connecter" />
+        <br />
+        @Html.ActionLink("Mot de passe oublié", "ForgottenPassword")
+    }
+}
