@@ -1,0 +1,29 @@
+﻿@model Projet2_EasyFid.ViewModels.SalarieViewModel
+@{
+    Layout = null;
+}
+
+<h2>Bienvenue sur votre espace personnel</h2>
+<table id="cras" border="1">
+    <tr>
+        <td>Date de création</td>
+        <td>Date de modification</td>
+        <td>Status</td>
+        <td>Modification</td>
+        <td>Suppression</td>
+    </tr>
+    @foreach(var cra in Model.Cras)
+    {
+        <tr>
+            <td>@cra.CreatedAt</td>
+            <td>@cra.UpdatedAt</td>
+            <td>@cra.StateCra</td>
+            <td>@Html.ActionLink("Modifier", "UpdateCra", new { id = cra.Id})</td>
+            <td>@Html.ActionLink("Supprimer", "IndexSalarie")</td>
+        </tr>
+    }
+    <div>
+        @Html.ActionLink("Ajouter", "CreateCra")
+    </div>
+
+</table>

@@ -1,0 +1,22 @@
+﻿@model Projet2_EasyFid.Models.Cra
+@{
+    Layout = null;
+}
+<h2>Formulaire de création du Cra</h2>
+@using (Html.BeginForm())
+{
+    <fieldset>
+        <legend>Formulaire d'ajout</legend>
+        <table id="cra" border="0">
+            <tr>
+            <td>@Html.HiddenFor(m=> Model.Id)</td>
+            <td>@Html.Label("CreatedAt")</td>
+            <td>@Html.EditorFor(mcreated => Model.CreatedAt)</td>
+            </tr>
+        
+
+        </table><br>
+
+        <input type="submit" value="Valider" />
+    </fieldset>
+}

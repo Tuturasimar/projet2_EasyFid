@@ -1,27 +1,51 @@
-﻿using System;
-using System.Text;
+using System;
+using Projet2_EasyFid.Models;
+using System.Collections.Generic;
+using Projet2_EasyFid.Data.Services;
 using System.Security.Cryptography;
 using System.Linq;
+using Projet2_EasyFid.Data.Enums;
 
-namespace Projet2_EasyFid.Models
+namespace Projet2_EasyFid.Data
 {
+	public class Dal : IDal
+	{
+		private BddContext _bddContext;
+		public Dal()
+		{
+			_bddContext = new BddContext();
+		}
 
-    public class Dal : IDal
 
-    {
-        private BddContext _bddContext;
-        public Dal()
-        {
-            _bddContext = new BddContext();
-        }
+		public List<Cra> GetAllCras()
+		{
+			return _bddContext.Cras.ToList();
+		}
 
-        public void DeleteCreateDatabase()
-        {
-            _bddContext.Database.EnsureDeleted();
-            _bddContext.Database.EnsureCreated();
-        }
+		//Methode pour creer un cra et qui nous retourne son Id
+		public int CreateCra(int id, DateTime createdAt, StateEnum stateCra, int? userId)
+		{
+			//On instancie un nouveau Cra
+			Cra cra = new Cra() { CreatedAt = createdAt, StateCra = stateCra, UserId = userId };
+			//On l'ajoute à la liste des cras
+			_bddContext.Cras.Add(cra);
+			//On sauvegarde les changements 
+			_bddContext.SaveChanges();
+			return cra.Id;
+		}
 
-        public int AddUser(string login, string password)
+		//Methode pour modifier un cra
+		public void UpdateCra(int id, StateEnum stateCra) {
+			Cra cra = _bddContext.Cras.Find(id);
+			if (cra != null)
+			{
+				cra.Id = id;
+				cra.StateCra = stateCra;
+				_bddContext.SaveChanges();
+			}
+		}
+    
+            public int LoginUser(string login, string password)
         {
             string encryptedPassword = EncodeMD5(password);
             User user = new User() { Login = login, Password = encryptedPassword };
@@ -29,48 +53,58 @@ namespace Projet2_EasyFid.Models
             this._bddContext.SaveChanges();
             return user.Id;
         }
-
-        public User Authentifier(string login, string password)
+        
+                public User Authentifier(string login, string password)
         {
             string encryptedPassword = EncodeMD5(password);
             User user = this._bddContext.Users.FirstOrDefault(u => u.Login == login && u.Password == encryptedPassword);
             return user;
         }
-
-        public User GetUser(int id)
-        {
-            return this._bddContext.Users.Find(id);
-        }
-
-        public User GetUser(string idStr)
+        
+            public User GetUser(string idStr)
         {
             int id;
             if (int.TryParse(idStr, out id))
             {
-                return this.GetUser(id);
+                return UserServices.GetUserById(_bddContext, id);
             }
             return null;
         }
-
-        public static string EncodeMD5(string encryptedPassword)
+        
+               public static string EncodeMD5(string encryptedPassword)
         {
             string encryptedPasswordSel = "Choix" + encryptedPassword + "ASP.NET MVC";
             return BitConverter.ToString(new MD5CryptoServiceProvider().ComputeHash(ASCIIEncoding.Default.GetBytes(encryptedPasswordSel)));
         }
 
-        public User ObtenirUtilisateur(string idStr)
-        {
-            throw new NotImplementedException();
-        }
-
         public void Dispose()
         {
-            throw new NotImplementedException();
+            _bddContext.Dispose();
         }
 
-        public User Authenticate(string nom, string password)
+        public List<User> GetAllUsers()
         {
-            throw new NotImplementedException();
+            return UserServices.GetAllUsers(_bddContext);
+        }
+
+        public User GetUserById(int id)
+        {
+            return UserServices.GetUserById(_bddContext, id);
+        }
+
+        public void ModifyUser(User user)
+        {
+            UserServices.ModifyUser(_bddContext, user);
+        }
+
+        public int CreateUser(User user)
+        {
+            return UserServices.CreateUser(_bddContext, user);
+        }
+
+        public int CreateUserData(UserData userData)
+        {
+            return UserServices.CreateUserData(_bddContext, userData);
         }
     }
 }
