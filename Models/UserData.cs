@@ -17,8 +17,8 @@ namespace Projet2_EasyFid.Models
 
         public DateTime Birthday { get; set; }
 
-        [Required(ErrorMessage = "Ce champ doit être rempli.")]
-        public string Email { get; set; }
+        //delete email champ
+
     }
 }
 
