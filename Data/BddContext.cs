@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.EntityFrameworkCore;
 using Projet2_EasyFid.Data.Enums;
 using Projet2_EasyFid.Models;
@@ -13,11 +13,13 @@ namespace Projet2_EasyFid.Data
         public DbSet<Company> Companies { get; set; }
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<RoleUser> RoleUsers { get; set; }
+        	public DbSet<Cra> Cras { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             // Les paramètres du serveur changent en fonction des configurations personnelles
             optionsBuilder.UseMySql("server=localhost;port=8889;user id=root;password=root;database=easyFid"); // connexion trévor
+            //optionsBuilder.UseMySql("server=localhost;user id=root;password=rrrrr;database=projet2"); //connexion Laura
         }
 
         public void InitialiseDb()
@@ -43,6 +45,13 @@ namespace Projet2_EasyFid.Data
                 new User { Id = 1, Login = "xxxxx", Password = "ppppp", CreationDate = DateTime.Now, CompanyId = 1, UserDataId = 1, JobEnum = JobEnum.Developpeur },
                 new User { Id = 2, Login = "Bob", Password = "ppppp", CreationDate = DateTime.Now, CompanyId = 1, UserDataId = 2, ManagerId = 1, JobEnum = JobEnum.ChefDeProjet },
                 new User { Id = 3, Login = "Lilou", Password = "ppppp", CreationDate = DateTime.Now, CompanyId = 1, UserDataId = 3, JobEnum = JobEnum.Administrateur }
+                );
+                
+                 //Ajout de cras dans la table Cra de la base de données 
+            this.Cras.AddRange(
+                new Cra { CreatedAt = DateTime.Now, UpdatedAt = new DateTime(2022, 03, 01), StateCra = StateEnum.CREATED, UserId = 1},
+                new Cra { CreatedAt = DateTime.Now, StateCra = StateEnum.VALIDATED, UserId = 2},
+                new Cra { CreatedAt = DateTime.Now, UpdatedAt = new DateTime(2021, 03, 01), StateCra = StateEnum.CREATED, UserId = 1 }
                 );
 
        
