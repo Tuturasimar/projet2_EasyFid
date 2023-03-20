@@ -8,9 +8,6 @@ namespace Projet2_EasyFid.Models
 	{
         public int Id { get; set; }
 
-        [MaxLength(30)]
-        public string JobLabel { get; set; }
-
         public RoleTypeEnum RoleType { get; set; }
     }
 }

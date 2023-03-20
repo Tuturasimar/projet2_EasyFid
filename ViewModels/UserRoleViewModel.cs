@@ -7,7 +7,8 @@ namespace Projet2_EasyFid.ViewModels
 	public class UserRoleViewModel
 	{
 		public User User { get; set; }
-		public List<RoleUser> Roles { get; set; }
+		public List<RoleUser> RolesUser { get; set; }
+		public List<Role> Roles { get; set; }
 	}
 }
 

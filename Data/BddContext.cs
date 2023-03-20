@@ -5,15 +5,14 @@ using Projet2_EasyFid.Models;
 
 namespace Projet2_EasyFid.Data
 {
-	public class BddContext : DbContext
-	{
+    public class BddContext : DbContext
+    {
 
         public DbSet<User> Users { get; set; }
         public DbSet<UserData> UserDatas { get; set; }
         public DbSet<Company> Companies { get; set; }
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<RoleUser> RoleUsers { get; set; }
-        public DbSet<Role> Roles { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -41,24 +40,19 @@ namespace Projet2_EasyFid.Data
 
             // Dans la table Users
             this.Users.AddRange(
-                new User { Id = 1, Login = "xxxxx", Password = "ppppp", CreationDate = DateTime.Now, CompanyId = 1, UserDataId = 1 },
-                new User { Id = 2, Login = "Bob", Password = "ppppp", CreationDate = DateTime.Now, CompanyId = 1, UserDataId = 2, ManagerId=1 },
-                new User { Id = 3, Login = "Lilou", Password = "ppppp", CreationDate = DateTime.Now, CompanyId = 1, UserDataId = 3, ManagerId=1 }
+                new User { Id = 1, Login = "xxxxx", Password = "ppppp", CreationDate = DateTime.Now, CompanyId = 1, UserDataId = 1, JobEnum = JobEnum.Developpeur },
+                new User { Id = 2, Login = "Bob", Password = "ppppp", CreationDate = DateTime.Now, CompanyId = 1, UserDataId = 2, ManagerId = 1, JobEnum = JobEnum.ChefDeProjet },
+                new User { Id = 3, Login = "Lilou", Password = "ppppp", CreationDate = DateTime.Now, CompanyId = 1, UserDataId = 3, JobEnum = JobEnum.Administrateur }
                 );
 
-            // Ajout de roles dans la table Roles
-            this.Roles.AddRange(
-                new Role { JobLabel = "Développeur", RoleType = RoleTypeEnum.SALARIE },
-                new Role { JobLabel = "Chef de projet", RoleType = RoleTypeEnum.MANAGER },
-                new Role { JobLabel = "Administrateur réseau", RoleType = RoleTypeEnum.ADMIN }
-                );
+       
 
             // Ajout de liens entre des clés étrangères (user et role) dans la table RoleUsers
             this.RoleUsers.AddRange(
-                new RoleUser { UserId = 1, RoleId = 1 },
-                new RoleUser { UserId = 2, RoleId = 1 },
-                new RoleUser { UserId = 2, RoleId = 2 },
-                new RoleUser { UserId = 3, RoleId = 3 }
+                new RoleUser { UserId = 1, RoleType= RoleTypeEnum.SALARIE},
+                new RoleUser { UserId = 1, RoleType = RoleTypeEnum.MANAGER },
+                new RoleUser { UserId = 2, RoleType = RoleTypeEnum.SALARIE },
+                new RoleUser { UserId = 3, RoleType = RoleTypeEnum.ADMIN }
                 );
 
             // Dans la table Notifications

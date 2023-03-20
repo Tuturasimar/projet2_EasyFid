@@ -1,4 +1,4 @@
-﻿@model Projet2_EasyFid.ViewModels.UserRoleViewModel
+﻿@model Projet2_EasyFid.Models.User;
 @{
     Layout = "_Layout";
     ViewBag.Title = "Formulaire Utilisateur";
@@ -12,6 +12,30 @@
    <fieldset>
        <legend>Ajout</legend>
        @Html.Partial("UserPartialForm", Model)
+
+       @foreach (var item in Enum.GetValues(typeof(Projet2_EasyFid.Data.Enums.RoleTypeEnum)))
+       {
+           <div>
+               <input type="checkbox" name="RoleType" value=@item />
+               <label>@item</label>
+           </div>
+       }
+
+       @*<div>
+           <input type="checkbox" id=1 name="RoleType" value="@(Projet2_EasyFid.Data.Enums.RoleTypeEnum.ADMIN.ToString())" />
+           <label>Admin</label>
+       </div>
+       <div>
+           <input type="checkbox" id=2 name="RoleType" value="@(Projet2_EasyFid.Data.Enums.RoleTypeEnum.SALARIE.ToString())" />
+           <label>Salarié</label>
+       </div>
+       <div>
+           <input type="checkbox" id=3 name="RoleType" value="@(Projet2_EasyFid.Data.Enums.RoleTypeEnum.MANAGER.ToString())" />
+           <label>Manager</label>
+       </div>*@
+
+
+
        <input type="submit" value="Ajouter" />
    </fieldset>
 }

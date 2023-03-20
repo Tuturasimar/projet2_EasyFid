@@ -8,11 +8,12 @@
 
 
 @*On crée le début du formulaire ici pour que le même formulaire puisse être utilisé dans le controller Salarie*@
-@using (Html.BeginForm("ModifyUser", "Admin", FormMethod.Post))
+@using (@Html.BeginForm("ModifyUser", "Admin", FormMethod.Post))
 {
     <fieldset>
         <legend>Modification </legend>
         @Html.Partial("UserPartialForm", Model.User)
+
         <input type="submit" value="Modifier" />
     </fieldset>
         }

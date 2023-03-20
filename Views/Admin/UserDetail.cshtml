@@ -12,12 +12,12 @@
     <li>Nom : @Model.User.UserData.Lastname</li>
     <li>Date de naissance : @Model.User.UserData.Birthday.ToString("dd/MM/yyyy")</li>
     <li>Email : @Model.User.UserData.Email</li>
+    <li>Poste : @Model.User.JobEnum</li>
 </ul>
 
-@foreach (var role in Model.Roles)
+@foreach (var role in Model.RolesUser)
 {
         <ul>
-            <li>Intitulé du job : @role.Role.JobLabel</li>
-            <li>Accréditation :  @role.Role.RoleType</li>
+            @*<li>Accréditation :  @role.Role.RoleType</li>*@
         </ul>
 }

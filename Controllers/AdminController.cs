@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Projet2_EasyFid.Data;
+using Projet2_EasyFid.Data.Enums;
 using Projet2_EasyFid.Models;
 using Projet2_EasyFid.ViewModels;
 
@@ -35,8 +36,8 @@ namespace Projet2_EasyFid.Controllers
                 // Si l'utilisateur existe en BDD
                 if(user != null)
                 {
-                    List<RoleUser> roles = dal.GetAllRoles(id);
-                    UserRoleViewModel urvm = new UserRoleViewModel { User = user, Roles = roles };
+                //    List<RoleUser> rolesUser = dal.GetAllRolesById(id);
+                    UserRoleViewModel urvm = new UserRoleViewModel { User = user};
                     // Envoi en paramètre à la vue UserDetail
                     return View(urvm);
                 }
@@ -52,8 +53,8 @@ namespace Projet2_EasyFid.Controllers
                     User user = dal.GetUserById(id);
                     if (user != null)
                     {
-                    List<RoleUser> roles = dal.GetAllRoles(id);
-                    UserRoleViewModel urvm = new UserRoleViewModel { User = user, Roles = roles };
+                  //  List<RoleUser> rolesUser = dal.GetAllRolesById(id);
+                    UserRoleViewModel urvm = new UserRoleViewModel { User = user };
                     return View(urvm);
                     }
                 
@@ -87,13 +88,15 @@ namespace Projet2_EasyFid.Controllers
         {
             using (Dal dal = new Dal())
             {
+                //List<Role> roles = dal.GetAllRoles();
+               
                     return View();
             }
         }
 
         [HttpPost]
         // Une fois qu'on appuie sur le bouton du formulaire, cette méthode récupère un objet user
-        public IActionResult CreateUser(User user)
+        public IActionResult CreateUser(User user, List<RoleTypeEnum> roleType)
         {
             using (Dal dal = new Dal())
             {
@@ -102,6 +105,8 @@ namespace Projet2_EasyFid.Controllers
                 // !!!! \\ Ajouter un champ Password, choix de Company, choix de Manager , attribution de roles pour ce formulaire
                 User newUser = new User { Login = user.Login, Password = "test", CompanyId = 1, CreationDate = DateTime.Now, UserDataId = UserDataId };
                 int UserId = dal.CreateUser(newUser);
+
+                // boucler sur RoleType pour instancier des roleType en fonction du nombre de role coché
 
                 // Une fois que c'est réalisé, on redirige vers la vue UserDetail avec un id en paramètre.
                 // On va donc sur la page des détails de l'utilisateur qu'on vient de créer
