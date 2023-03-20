@@ -19,7 +19,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
-    <Folder Include="Views\" />
     <Folder Include="wwwroot\" />
     <Folder Include="Models\" />
     <Folder Include="wwwroot\css\" />
@@ -28,11 +27,9 @@
     <Folder Include="Data\" />
     <Folder Include="Data\Services\" />
     <Folder Include="Data\Enums\" />
-    <Folder Include="Views\Shared\" />
     <Folder Include="Views\Login\" />
     <Folder Include="Views\Manager\" />
     <Folder Include="Views\Admin\" />
-    <Folder Include="Views\Salarie\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\" />
@@ -46,6 +43,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.2.5" />
   </ItemGroup>
 </Project>

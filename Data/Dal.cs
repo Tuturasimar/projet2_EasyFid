@@ -38,11 +38,12 @@ namespace Projet2_EasyFid.Data
 		}
 
 		//Methode pour modifier un cra
-		public void UpdateCra(int id) {
+		public void UpdateCra(int id, StateEnum stateCra) {
 			Cra cra = _bddContext.Cras.Find(id);
 			if (cra != null)
 			{
 				cra.Id = id;
+				cra.StateCra = stateCra;
 				_bddContext.SaveChanges();
 			}
 		}

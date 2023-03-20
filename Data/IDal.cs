@@ -12,7 +12,7 @@ namespace Projet2_EasyFid.Data
 
 		int CreateCra (int id, DateTime createdAt, StateEnum stateCra, int? userId);
 
-		void UpdateCra(int id);
+		void UpdateCra(int id, StateEnum stateCra);
 
 	}
 }

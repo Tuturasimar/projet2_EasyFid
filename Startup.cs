@@ -29,7 +29,7 @@ namespace Projet2_EasyFid
                 app.UseDeveloperExceptionPage();
             }
 
-            //On appelle la méthode qui initialise la BDD
+            //On appelle la méthode pour initialiser la base de données
             using (BddContext ctx = new BddContext())
             {
                 ctx.InitializeDb();
@@ -43,7 +43,7 @@ namespace Projet2_EasyFid
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Login}/{action=Index}/{id?}");
+                    pattern: "{controller=Salarie}/{action=IndexSalarie}/{id?}");
             });
         }
     }

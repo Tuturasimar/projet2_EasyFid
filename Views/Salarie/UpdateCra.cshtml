@@ -1,0 +1,14 @@
+﻿@model Projet2_EasyFid.Models.Cra
+@{
+    Layout = null;
+}
+<h2>Formulaire de modification du Cra</h2>
+@using (Html.BeginForm())
+{
+<fieldset>
+    <legend>Formulaire de modification</legend>
+    @Html.LabelFor(m =>Model.StateCra)
+    @*@Html.DropDownList(m => Model.StateCra)*@
+   
+    </fieldset>
+}
