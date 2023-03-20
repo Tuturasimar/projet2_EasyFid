@@ -1,6 +1,25 @@
-﻿@{
+﻿@model Projet2_EasyFid.ViewModels.UserListViewModel
+@{
     Layout = "_Layout";
     ViewBag.Title = "AdminAccueil";
 }
 
 <h2>Je suis la vue de l'accueil admin</h2>
+
+<table id="users">
+    <tr>
+        <th>Login</th>
+        <th>Créé le</th>
+        <th>Détails</th>
+        <th>Modifier</th>
+    </tr>
+    @foreach (var user in @Model.Users)
+    {
+        <tr>
+            <td>@user.Login</td>
+            <td>@user.CreationDate.ToString("dd/MM/yyyy")</td>
+            <td>@Html.ActionLink("Détails", "UserDetail", "Home", new { id = user.Id })</td>
+            <td>@Html.ActionLink("Modifier", "UserForm", "Home", new { id = user.Id })</td>
+        </tr>
+    }
+</table>

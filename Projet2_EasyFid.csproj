@@ -16,6 +16,7 @@
     <None Remove="Views\Manager\" />
     <None Remove="Views\Admin\" />
     <None Remove="Views\Salarie\" />
+    <None Remove="ViewModels\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
@@ -33,6 +34,7 @@
     <Folder Include="Views\Manager\" />
     <Folder Include="Views\Admin\" />
     <Folder Include="Views\Salarie\" />
+    <Folder Include="ViewModels\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\" />
