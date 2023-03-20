@@ -16,7 +16,7 @@ namespace Projet2_EasyFid.Models
         [Display(Name = "Date de modification du Cra : ")]
         public DateTime LastModified { get; set; }
 
-        public int UserId;
+        public int UserId { get; set; }
         public virtual User User { get; set; }
 
         public State StateCra { get; set; }

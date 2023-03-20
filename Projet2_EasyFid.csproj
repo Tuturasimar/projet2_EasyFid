@@ -16,6 +16,7 @@
     <None Remove="Views\Manager\" />
     <None Remove="Views\Admin\" />
     <None Remove="Views\Salarie\" />
+    <None Remove="ViewModels\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
@@ -33,11 +34,20 @@
     <Folder Include="Views\Manager\" />
     <Folder Include="Views\Admin\" />
     <Folder Include="Views\Salarie\" />
+    <Folder Include="ViewModels\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\" />
     <Content Remove="wwwroot\css\" />
     <Content Remove="wwwroot\assets\" />
     <Content Remove="wwwroot\assets\image\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.15" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.15">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.2.5" />
   </ItemGroup>
 </Project>

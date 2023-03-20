@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Projet2_EasyFid.Data;
 
 namespace Projet2_EasyFid
 {
@@ -28,13 +29,29 @@ namespace Projet2_EasyFid
                 app.UseDeveloperExceptionPage();
             }
 
+            // Initialisation de la BDD pour la phase de test, à supprimer pour la phase prod
+            using (BddContext ctx = new BddContext())
+            {
+                ctx.InitialiseDb();
+            }
+
+
+            app.UseStaticFiles();
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
             {
+                // Première route visible avec l'adresse url vide
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Login}/{action=Index}/{id?}");
+
+                // Route de la partie Admin (/admin)
+                endpoints.MapControllerRoute(
+                    name: "adminHome",
+                    pattern: "{controller=Admin}/{action=Index}/{id?}");
+
+
             });
         }
     }
