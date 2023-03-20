@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Projet2_EasyFid.Data;
 
 namespace Projet2_EasyFid
 {
@@ -27,6 +28,14 @@ namespace Projet2_EasyFid
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            //On appelle la méthode qui initialise la BDD
+            using (BddContext ctx = new BddContext())
+            {
+                ctx.InitializeDb();
+            }
+
+            app.UseStaticFiles();
 
             app.UseRouting();
 

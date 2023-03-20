@@ -14,12 +14,13 @@ namespace Projet2_EasyFid.Models
         public DateTime CreatedAt { get; set; }
 
         [Display(Name = "Date de modification du Cra : ")]
-        public DateTime LastModified { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
-        public int UserId;
+        //Pour creer une clef etrangere dans la table cra vers la table User
+        public int? UserId { get; set; }
         public virtual User User { get; set; }
 
-        public State StateCra { get; set; }
+        public StateEnum StateCra { get; set; }
 
     }
 }
