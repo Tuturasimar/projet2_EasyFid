@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
+using Projet2_EasyFid.Data.Enums;
 using Projet2_EasyFid.Models;
 
 namespace Projet2_EasyFid.Data
@@ -11,6 +12,8 @@ namespace Projet2_EasyFid.Data
         public DbSet<UserData> UserDatas { get; set; }
         public DbSet<Company> Companies { get; set; }
         public DbSet<Notification> Notifications { get; set; }
+        public DbSet<RoleUser> RoleUsers { get; set; }
+        public DbSet<Role> Roles { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -41,6 +44,21 @@ namespace Projet2_EasyFid.Data
                 new User { Id = 1, Login = "xxxxx", Password = "ppppp", CreationDate = DateTime.Now, CompanyId = 1, UserDataId = 1 },
                 new User { Id = 2, Login = "Bob", Password = "ppppp", CreationDate = DateTime.Now, CompanyId = 1, UserDataId = 2, ManagerId=1 },
                 new User { Id = 3, Login = "Lilou", Password = "ppppp", CreationDate = DateTime.Now, CompanyId = 1, UserDataId = 3, ManagerId=1 }
+                );
+
+            // Ajout de roles dans la table Roles
+            this.Roles.AddRange(
+                new Role { JobLabel = "Développeur", RoleType = RoleTypeEnum.SALARIE },
+                new Role { JobLabel = "Chef de projet", RoleType = RoleTypeEnum.MANAGER },
+                new Role { JobLabel = "Administrateur réseau", RoleType = RoleTypeEnum.ADMIN }
+                );
+
+            // Ajout de liens entre des clés étrangères (user et role) dans la table RoleUsers
+            this.RoleUsers.AddRange(
+                new RoleUser { UserId = 1, RoleId = 1 },
+                new RoleUser { UserId = 2, RoleId = 1 },
+                new RoleUser { UserId = 2, RoleId = 2 },
+                new RoleUser { UserId = 3, RoleId = 3 }
                 );
 
             // Dans la table Notifications
