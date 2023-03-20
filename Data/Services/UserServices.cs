@@ -28,6 +28,20 @@ namespace Projet2_EasyFid.Data.Services
             _bddContext.Users.Update(user);
             _bddContext.SaveChanges();
         }
+
+        public static int CreateUser(BddContext _bddContext, User user)
+        {
+            _bddContext.Users.Add(user);
+            _bddContext.SaveChanges();
+            return user.Id;
+        }
+
+        public static int CreateUserData(BddContext _bddContext, UserData userData)
+        {
+            _bddContext.UserDatas.Add(userData);
+            _bddContext.SaveChanges();
+            return userData.Id;
+        }
     }
 }
 

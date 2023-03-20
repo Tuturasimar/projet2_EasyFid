@@ -44,22 +44,23 @@ namespace Projet2_EasyFid.Controllers
             }
         }
 
-        public IActionResult UserForm(int id)
+        public IActionResult ModifyUser(int id)
         {
             using (Dal dal = new Dal())
             {
-                User user = dal.GetUserById(id);
-                if (user != null)
-                {
-                    return View(user);
-                }
+                    User user = dal.GetUserById(id);
+                    if (user != null)
+                    {
+                        return View(user);
+                    }
+                
                 return RedirectToAction("Index");
             }
         }
 
         [HttpPost]
         // Une fois qu'on appuie sur le bouton du formulaire, cette méthode récupère un objet user
-        public IActionResult UserForm(User user)
+        public IActionResult ModifyUser(User user)
         {
             using (Dal dal = new Dal())
             {
@@ -79,6 +80,32 @@ namespace Projet2_EasyFid.Controllers
             return RedirectToAction("UserDetail", new { @id = user.Id });
         }
 
+        public IActionResult CreateUser()
+        {
+            using (Dal dal = new Dal())
+            {
+                    return View();
+            }
+        }
+
+        [HttpPost]
+        // Une fois qu'on appuie sur le bouton du formulaire, cette méthode récupère un objet user
+        public IActionResult CreateUser(User user)
+        {
+            using (Dal dal = new Dal())
+            {
+                UserData newUserData = new UserData { Firstname = user.UserData.Firstname, Lastname = user.UserData.Lastname, Birthday = user.UserData.Birthday, Email = user.UserData.Email };
+                int UserDataId = dal.CreateUserData(newUserData);
+                // !!!! \\ Ajouter un champ Password, choix de Company, choix de Manager , attribution de roles pour ce formulaire
+                User newUser = new User { Login = user.Login, Password = "test", CompanyId = 1, CreationDate = DateTime.Now, UserDataId = UserDataId };
+                int UserId = dal.CreateUser(newUser);
+
+                // Une fois que c'est réalisé, on redirige vers la vue UserDetail avec un id en paramètre.
+                // On va donc sur la page des détails de l'utilisateur qu'on vient de créer
+                return RedirectToAction("UserDetail", new { @id = UserId });
+            }
+            
+        }
 
     }
 }

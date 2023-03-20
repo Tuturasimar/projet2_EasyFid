@@ -6,6 +6,7 @@
 
 <h2>Je suis la vue de l'accueil admin</h2>
 
+<button>@Html.ActionLink("Ajouter un utilisateur", "CreateUser", "Admin")</button>
 <table id="users">
     <tr>
         <th>Login</th>
@@ -19,7 +20,7 @@
             <td>@user.Login</td>
             <td>@user.CreationDate.ToString("dd/MM/yyyy")</td>
             <td>@Html.ActionLink("Détails", "UserDetail", "Admin", new { id = user.Id })</td>
-            <td>@Html.ActionLink("Modifier", "UserForm", "Admin", new { id = user.Id })</td>
+            <td>@Html.ActionLink("Modifier", "ModifyUser", "Admin", new { id = user.Id })</td>
         </tr>
     }
 </table>
