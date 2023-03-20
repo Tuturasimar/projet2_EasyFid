@@ -29,11 +29,13 @@ namespace Projet2_EasyFid
                 app.UseDeveloperExceptionPage();
             }
 
-            //On appelle la méthode pour initialiser la base de données
+
+            // Initialisation de la BDD pour la phase de test, à supprimer pour la phase prod
             using (BddContext ctx = new BddContext())
             {
-                ctx.InitializeDb();
+                ctx.InitialiseDb();
             }
+
 
             app.UseStaticFiles();
 
@@ -41,9 +43,18 @@ namespace Projet2_EasyFid
 
             app.UseEndpoints(endpoints =>
             {
+                // Première route visible avec l'adresse url vide
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Salarie}/{action=IndexSalarie}/{id?}");
+
+                    //pattern: "{controller=Salarie}/{action=IndexSalarie}/{id?}");
+
+                    pattern: "{controller=Login}/{action=Index}/{id?}");
+
+                // Route de la partie Admin (/admin)
+                endpoints.MapControllerRoute(
+                    name: "adminHome",
+                    pattern: "{controller=Admin}/{action=Index}/{id?}");
             });
         }
     }

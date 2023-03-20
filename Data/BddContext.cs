@@ -1,46 +1,76 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Projet2_EasyFid.Controllers;
+using System;
+using Microsoft.EntityFrameworkCore;
 using Projet2_EasyFid.Data.Enums;
 using Projet2_EasyFid.Models;
-using System;
-using System.Security.Cryptography.X509Certificates;
 
 namespace Projet2_EasyFid.Data
 {
-	public class BddContext : DbContext
-	{
-		public DbSet<User> Users { get; set; }
-		public DbSet<Cra> Cras { get; set; }
+    public class BddContext : DbContext
+    {
 
-        //Methode pour se connecter a la base de donnees
+        public DbSet<User> Users { get; set; }
+        public DbSet<UserData> UserDatas { get; set; }
+        public DbSet<Company> Companies { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
+        public DbSet<RoleUser> RoleUsers { get; set; }
+        	public DbSet<Cra> Cras { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseMySql("server=localhost;user id=root;password=rrrrr;database=projet2");
+            // Les paramètres du serveur changent en fonction des configurations personnelles
+            optionsBuilder.UseMySql("server=localhost;port=8889;user id=root;password=root;database=easyFid"); // connexion trévor
+            //optionsBuilder.UseMySql("server=localhost;user id=root;password=rrrrr;database=projet2"); //connexion Laura
         }
 
-        //Methode pour initialiser la base de donnees
-        public void InitializeDb()
+        public void InitialiseDb()
         {
-            //On supprime la database si elle existe déjà
-            this.Database.EnsureDeleted();  
-            //On creee la database
+            // Suppression et création de la BDD
+            this.Database.EnsureDeleted();
             this.Database.EnsureCreated();
 
-            //Ajout de cras dans la table Cra de la base de données 
+            // Ajout des données factices \\
+
+            // Dans la table Companies
+            this.Companies.Add(new Company { Id = 1, Name = "Isika", Adress = "25 rue de la Boustifaille 75000 Paris", TotalCA = 200000 });
+
+            // Dans la table UserDatas
+            this.UserDatas.AddRange(
+                new UserData { Id = 1, Lastname = "Xuxu", Firstname = "Xaxa", Birthday = new DateTime(2018, 12, 4), Email = "xxxx@gmail.com" },
+                new UserData { Id = 2, Lastname = "Watson", Firstname = "Bobby", Birthday = new DateTime(2015, 5, 28), Email = "bobby.watson@gmail.com" },
+                new UserData { Id = 3, Lastname = "Multipass", Firstname = "Lilou", Birthday = new DateTime(2019, 6, 18), Email = "lilou@gmail.com" }
+                );
+
+            // Dans la table Users
+            this.Users.AddRange(
+                new User { Id = 1, Login = "xxxxx", Password = "ppppp", CreationDate = DateTime.Now, CompanyId = 1, UserDataId = 1, JobEnum = JobEnum.Developpeur },
+                new User { Id = 2, Login = "Bob", Password = "ppppp", CreationDate = DateTime.Now, CompanyId = 1, UserDataId = 2, ManagerId = 1, JobEnum = JobEnum.ChefDeProjet },
+                new User { Id = 3, Login = "Lilou", Password = "ppppp", CreationDate = DateTime.Now, CompanyId = 1, UserDataId = 3, JobEnum = JobEnum.Administrateur }
+                );
+                
+                 //Ajout de cras dans la table Cra de la base de données 
             this.Cras.AddRange(
                 new Cra { CreatedAt = DateTime.Now, UpdatedAt = new DateTime(2022, 03, 01), StateCra = StateEnum.CREATED, UserId = 1},
                 new Cra { CreatedAt = DateTime.Now, StateCra = StateEnum.VALIDATED, UserId = 2},
                 new Cra { CreatedAt = DateTime.Now, UpdatedAt = new DateTime(2021, 03, 01), StateCra = StateEnum.CREATED, UserId = 1 }
                 );
 
-            //Ajout d'User pour tester la liaison avec la table Cra
-            this.Users.AddRange(
-                new User { Id = 1, Login = "lolo74", Password = "lolo", CreationDate = new DateTime(2020, 03, 01) },
-                new User { Id = 2, Login = "tutu74", Password = "tutu", CreationDate = new DateTime(2022, 10, 12) }
+       
 
+            // Ajout de liens entre des clés étrangères (user et role) dans la table RoleUsers
+            this.RoleUsers.AddRange(
+                new RoleUser { UserId = 1, RoleType= RoleTypeEnum.SALARIE},
+                new RoleUser { UserId = 1, RoleType = RoleTypeEnum.MANAGER },
+                new RoleUser { UserId = 2, RoleType = RoleTypeEnum.SALARIE },
+                new RoleUser { UserId = 3, RoleType = RoleTypeEnum.ADMIN }
                 );
 
-            //Sauvegarde des changements 
+            // Dans la table Notifications
+            this.Notifications.AddRange(
+                new Notification { MessageContent = "Cra validé avec succès", ClassContext = "success", UserId = 1 },
+                new Notification { MessageContent = "Cra refusée, il manque des données sur les jours du 12 au 14 février", ClassContext = "danger", UserId = 1 }
+                );
+
+            // Sauvegarde des données dans la BDD
             this.SaveChanges();
 
         }

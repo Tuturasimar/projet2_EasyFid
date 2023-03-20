@@ -16,6 +16,7 @@
     <None Remove="Views\Manager\" />
     <None Remove="Views\Admin\" />
     <None Remove="Views\Salarie\" />
+    <None Remove="ViewModels\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
@@ -30,6 +31,9 @@
     <Folder Include="Views\Login\" />
     <Folder Include="Views\Manager\" />
     <Folder Include="Views\Admin\" />
+
+    <Folder Include="Views\Salarie\" />
+    <Folder Include="ViewModels\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\" />
@@ -40,6 +44,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.15" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.15">
+
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

@@ -1,4 +1,4 @@
-﻿using Projet2_EasyFid.Data.Enums;
+using Projet2_EasyFid.Data.Enums;
 using Projet2_EasyFid.Models;
 using System;
 using System.Collections.Generic;

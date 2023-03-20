@@ -1,0 +1,19 @@
+﻿@model Projet2_EasyFid.ViewModels.UserRoleViewModel
+@{
+    Layout = "_Layout";
+    ViewBag.Title = "Formulaire Utilisateur";
+}
+
+    <h2>Edition du profil de @Model.User.UserData.Firstname @Model.User.UserData.Lastname</h2>
+
+
+@*On crée le début du formulaire ici pour que le même formulaire puisse être utilisé dans le controller Salarie*@
+@using (@Html.BeginForm("ModifyUser", "Admin", FormMethod.Post))
+{
+    <fieldset>
+        <legend>Modification </legend>
+        @Html.Partial("UserPartialForm", Model.User)
+
+        <input type="submit" value="Modifier" />
+    </fieldset>
+        }
