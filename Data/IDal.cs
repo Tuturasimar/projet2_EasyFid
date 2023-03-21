@@ -10,7 +10,7 @@ namespace Projet2_EasyFid.Data
 
     User GetUser(string idStr);
 
-		void DeleteCreateDatabase();
+		
 		List<Cra> GetAllCras();
 
 		int CreateCra (int id, DateTime createdAt, StateEnum stateCra, int? userId);

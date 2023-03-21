@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Projet2_EasyFid.Data;
 using Projet2_EasyFid.Models;
 using Projet2_EasyFid.ViewModels;
 

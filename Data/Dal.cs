@@ -5,6 +5,7 @@ using Projet2_EasyFid.Data.Services;
 using System.Security.Cryptography;
 using System.Linq;
 using Projet2_EasyFid.Data.Enums;
+using System.Text;
 
 namespace Projet2_EasyFid.Data
 {

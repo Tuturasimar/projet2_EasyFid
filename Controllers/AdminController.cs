@@ -75,7 +75,7 @@ namespace Projet2_EasyFid.Controllers
                 oldUser.UserData.Firstname = user.UserData.Firstname;
                 oldUser.UserData.Lastname = user.UserData.Lastname;
                 oldUser.UserData.Birthday = user.UserData.Birthday;
-                oldUser.UserData.Email = user.UserData.Email;
+                //oldUser.UserData.Email = user.UserData.Email;
                 // On envoie l'ancien user maintenant modifié à la méthode pour confirmer les changements dans la BDD
                 dal.ModifyUser(oldUser);
             }
@@ -100,7 +100,7 @@ namespace Projet2_EasyFid.Controllers
         {
             using (Dal dal = new Dal())
             {
-                UserData newUserData = new UserData { Firstname = user.UserData.Firstname, Lastname = user.UserData.Lastname, Birthday = user.UserData.Birthday, Email = user.UserData.Email };
+                UserData newUserData = new UserData { Firstname = user.UserData.Firstname, Lastname = user.UserData.Lastname, Birthday = user.UserData.Birthday };
                 int UserDataId = dal.CreateUserData(newUserData);
                 // !!!! \\ Ajouter un champ Password, choix de Company, choix de Manager , attribution de roles pour ce formulaire
                 User newUser = new User { Login = user.Login, Password = "test", CompanyId = 1, CreationDate = DateTime.Now, UserDataId = UserDataId };
