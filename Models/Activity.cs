@@ -1,8 +1,11 @@
-﻿namespace Projet2_EasyFid.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Projet2_EasyFid.Models
 {
     public class Activity
     {
         public int Id { get; set; }
+        [MaxLength(20)]
         public string LabelActivity { get; set; }
 
         //On cree une clef etrangere vers la table Mission

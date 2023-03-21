@@ -1,6 +1,8 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Xml.Linq;
+using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 using Projet2_EasyFid.Data.Enums;
 
 namespace Projet2_EasyFid.Models
@@ -22,6 +24,7 @@ namespace Projet2_EasyFid.Models
 
         public StateEnum StateCra { get; set; }
 
+        
     }
 }
 

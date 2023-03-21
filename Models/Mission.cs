@@ -19,6 +19,9 @@ namespace Projet2_EasyFid.Models
 		public DateTime? MissionEnd { get; set; }
 		public float Tjm { get; set; }
 		public MissionTypeEnum MissionType { get; set; }
+
+		//pour creer une relation one one entre Mission et Activity
+		public Activity Activity { get; set; }
 	}
 }
 
