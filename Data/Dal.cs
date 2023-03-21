@@ -24,7 +24,7 @@ namespace Projet2_EasyFid.Data
 		}
 
 		//Methode pour creer un cra et qui nous retourne son Id
-		public int CreateCra(int id, DateTime createdAt, StateEnum stateCra, int? userId)
+		public int CreateCra(int id, DateTime createdAt, StateEnum stateCra, int userId)
 		{
 			//On instancie un nouveau Cra
 			Cra cra = new Cra() { CreatedAt = createdAt, StateCra = stateCra, UserId = userId };
