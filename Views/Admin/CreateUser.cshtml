@@ -23,6 +23,15 @@
                <label>@item</label>
            </div>
        }
+
+       @Html.Label("JobEnum", "Intitulé du poste : ")
+       <select name="JobEnum">
+           @foreach (var item in Enum.GetValues(typeof(Projet2_EasyFid.Data.Enums.JobEnum)))
+           {
+               <option name="JobEnum" value=@item>@item</option>
+           }
+       </select>
+
        @Html.Label("company", "Entreprise : ")
        @Html.DropDownList("company", new SelectList(ViewBag.companies, "Id", "Name"))
        @Html.Label("manager", "Manager : ")
