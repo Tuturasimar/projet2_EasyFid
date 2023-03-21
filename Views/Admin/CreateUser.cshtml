@@ -23,10 +23,12 @@
                <label>@item</label>
            </div>
        }
-
+       @Html.Label("company", "Entreprise : ")
        @Html.DropDownList("company", new SelectList(ViewBag.companies, "Id", "Name"))
+       @Html.Label("manager", "Manager : ")
+       @Html.DropDownList("manager", new SelectList(ViewBag.userDatas, "Id", "Lastname"))
 
-     
+
        <input type="submit" value="Ajouter" />
    </fieldset>
 }

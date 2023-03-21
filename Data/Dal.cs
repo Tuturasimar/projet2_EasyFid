@@ -96,6 +96,11 @@ namespace Projet2_EasyFid.Data
             return UserServices.GetUserById(_bddContext, id);
         }
 
+        public User GetUserByUserDataId (int id)
+        {
+            return UserServices.GetUserByUserDataId(_bddContext, id);
+        }
+
         public void ModifyUser(User user)
         {
             UserServices.ModifyUser(_bddContext, user);
@@ -124,6 +129,16 @@ namespace Projet2_EasyFid.Data
         public List<Company> GetAllCompanies()
         {
             return UserServices.GetAllCompanies(_bddContext);
+        }
+
+        public List<UserData> GetAllUserDatas()
+        {
+            return UserServices.GetAllUserDatas(_bddContext);
+        }
+
+        public List<UserData> GetAllManagerUserDatas()
+        {
+            return UserServices.GetAllManagerUserDatas(_bddContext);
         }
     }
 }
