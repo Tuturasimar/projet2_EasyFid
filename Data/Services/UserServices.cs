@@ -48,6 +48,12 @@ namespace Projet2_EasyFid.Data.Services
         {
           return _bddContext.RoleUsers.Where(u => u.UserId == id).ToList();
         }
+
+        public static void CreateRoleUser(BddContext _bddContext, RoleUser roleUser)
+        {
+            _bddContext.RoleUsers.Add(roleUser);
+            _bddContext.SaveChanges();
+        }
        
 
         

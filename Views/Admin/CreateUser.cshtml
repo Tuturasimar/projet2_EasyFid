@@ -13,6 +13,9 @@
        <legend>Ajout</legend>
        @Html.Partial("UserPartialForm", Model)
 
+       @Html.Label("Password", "Mot de passe : ")
+       @Html.PasswordFor(m => m.Password)
+
        @foreach (var item in Enum.GetValues(typeof(Projet2_EasyFid.Data.Enums.RoleTypeEnum)))
        {
            <div>
@@ -21,21 +24,7 @@
            </div>
        }
 
-       @*<div>
-           <input type="checkbox" id=1 name="RoleType" value="@(Projet2_EasyFid.Data.Enums.RoleTypeEnum.ADMIN.ToString())" />
-           <label>Admin</label>
-       </div>
-       <div>
-           <input type="checkbox" id=2 name="RoleType" value="@(Projet2_EasyFid.Data.Enums.RoleTypeEnum.SALARIE.ToString())" />
-           <label>Salarié</label>
-       </div>
-       <div>
-           <input type="checkbox" id=3 name="RoleType" value="@(Projet2_EasyFid.Data.Enums.RoleTypeEnum.MANAGER.ToString())" />
-           <label>Manager</label>
-       </div>*@
-
-
-
+     
        <input type="submit" value="Ajouter" />
    </fieldset>
 }

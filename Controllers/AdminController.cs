@@ -86,12 +86,7 @@ namespace Projet2_EasyFid.Controllers
 
         public IActionResult CreateUser()
         {
-            using (Dal dal = new Dal())
-            {
-                //List<Role> roles = dal.GetAllRoles();
-               
-                    return View();
-            }
+            return View();
         }
 
         [HttpPost]
@@ -100,13 +95,21 @@ namespace Projet2_EasyFid.Controllers
         {
             using (Dal dal = new Dal())
             {
-                UserData newUserData = new UserData { Firstname = user.UserData.Firstname, Lastname = user.UserData.Lastname, Birthday = user.UserData.Birthday };
+                // On crée les UserData en premier (aucune clé étrangère dans la table)
+                UserData newUserData = new UserData { Firstname = user.UserData.Firstname, Lastname = user.UserData.Lastname, Birthday = user.UserData.Birthday, Email= user.UserData.Email };
+                // On récupère l'ID du UserData fraichement créé pour l'utiliser dans la création du User (clé étrangère)
                 int UserDataId = dal.CreateUserData(newUserData);
-                // !!!! \\ Ajouter un champ Password, choix de Company, choix de Manager , attribution de roles pour ce formulaire
-                User newUser = new User { Login = user.Login, Password = "test", CompanyId = 1, CreationDate = DateTime.Now, UserDataId = UserDataId };
+                // On créé un User
+                User newUser = new User { Login = user.Login, Password = Dal.EncodeMD5(user.Password), CompanyId = 1, CreationDate = DateTime.Now, UserDataId = UserDataId };
                 int UserId = dal.CreateUser(newUser);
 
                 // boucler sur RoleType pour instancier des roleType en fonction du nombre de role coché
+                foreach(RoleTypeEnum item in roleType)
+                {
+                    // On le fait après avoir créé un User car on a besoin de son ID pour lier les tables User et RoleUser
+                    RoleUser roleUser = new RoleUser { UserId = UserId, RoleType = item };
+                    dal.CreateRoleUser(roleUser);
+                }
 
                 // Une fois que c'est réalisé, on redirige vers la vue UserDetail avec un id en paramètre.
                 // On va donc sur la page des détails de l'utilisateur qu'on vient de créer

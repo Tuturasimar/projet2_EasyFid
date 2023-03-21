@@ -115,6 +115,11 @@ namespace Projet2_EasyFid.Data
         {
             return UserServices.GetAllRolesById(_bddContext,id);
         }
+
+        public void CreateRoleUser (RoleUser roleUser)
+        {
+            UserServices.CreateRoleUser(_bddContext, roleUser);
+        }
     }
 }
 

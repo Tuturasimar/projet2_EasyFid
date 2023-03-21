@@ -4,28 +4,30 @@
 *@
 
 
-    @Html.HiddenFor(m => Model.Id)
-    @Html.Label("Login", "Login : ")
-    @Html.TextBoxFor(mn => Model.Login)
-    <br />
-    @Html.Label("FirstName", "Prénom : ")
-    @Html.TextBoxFor(m => Model.UserData.Firstname)
-    <br />
-    @Html.Label("LastName", "Nom : ")
-    @Html.TextBoxFor(m => Model.UserData.Lastname)
-    <br />
-    @Html.Label("BirthDay", "Date de naissance : ")
-    @Html.EditorFor(m => Model.UserData.Birthday)
-    <br />
-    
+@Html.HiddenFor(m => Model.Id)
+@Html.Label("Login", "Login : ")
+@Html.TextBoxFor(mn => Model.Login)
+<br />
+@Html.Label("FirstName", "Prénom : ")
+@Html.TextBoxFor(m => Model.UserData.Firstname)
+<br />
+@Html.Label("LastName", "Nom : ")
+@Html.TextBoxFor(m => Model.UserData.Lastname)
+<br />
+@Html.Label("BirthDay", "Date de naissance : ")
+@Html.EditorFor(m => Model.UserData.Birthday)
+<br />
+@Html.Label("Email", "Email : ")
+@Html.EditorFor(m => Model.UserData.Email)
 
-   
 
-    @*Possibilité de rajouter des champs en fonction du role (mot de passe, roles)
-        Condition qui rajoute les champs souhaités (avoir un seul formulaire pour le salarié/admin ?)
-    *@
 
-    
+
+@*Possibilité de rajouter des champs en fonction du role (mot de passe, roles)
+    Condition qui rajoute les champs souhaités (avoir un seul formulaire pour le salarié/admin ?)
+*@
+
+
 
 
 
