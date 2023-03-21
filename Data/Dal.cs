@@ -46,23 +46,25 @@ namespace Projet2_EasyFid.Data
 			}
 		}
     
-            public int LoginUser(string login, string password)
-        {
-            string encryptedPassword = EncodeMD5(password);
-            User user = new User() { Login = login, Password = encryptedPassword };
-            this._bddContext.Users.Add(user);
-            this._bddContext.SaveChanges();
-            return user.Id;
-        }
-        
-                public User Authentifier(string login, string password)
+        //public int LoginUser(string login, string password)
+        //{
+        //    string encryptedPassword = EncodeMD5(password);
+        //    User user = new User() { Login = login, Password = encryptedPassword };
+        //    this._bddContext.Users.Add(user);
+        //    this._bddContext.SaveChanges();
+        //    return user.Id;
+        //}
+
+        // Méthode pour authentifier un utilisateur (vérification du login et du mdp)
+        public User Authentifier(string login, string password)
         {
             string encryptedPassword = EncodeMD5(password);
             User user = this._bddContext.Users.FirstOrDefault(u => u.Login == login && u.Password == encryptedPassword);
             return user;
         }
-        
-            public User GetUser(string idStr)
+
+        // Récupère l'utilisateur actuellement authentifié
+        public User GetUser(string idStr)
         {
             int id;
             if (int.TryParse(idStr, out id))
@@ -71,8 +73,9 @@ namespace Projet2_EasyFid.Data
             }
             return null;
         }
-        
-               public static string EncodeMD5(string encryptedPassword)
+
+        // Méthode pour encrypter un mot de passe
+        public static string EncodeMD5(string encryptedPassword)
         {
             string encryptedPasswordSel = "Choix" + encryptedPassword + "ASP.NET MVC";
             return BitConverter.ToString(new MD5CryptoServiceProvider().ComputeHash(ASCIIEncoding.Default.GetBytes(encryptedPasswordSel)));
@@ -93,6 +96,11 @@ namespace Projet2_EasyFid.Data
             return UserServices.GetUserById(_bddContext, id);
         }
 
+        public User GetUserByUserDataId (int id)
+        {
+            return UserServices.GetUserByUserDataId(_bddContext, id);
+        }
+
         public void ModifyUser(User user)
         {
             UserServices.ModifyUser(_bddContext, user);
@@ -106,6 +114,31 @@ namespace Projet2_EasyFid.Data
         public int CreateUserData(UserData userData)
         {
             return UserServices.CreateUserData(_bddContext, userData);
+        }
+
+        public List<RoleUser> GetAllRolesById(int id)
+        {
+            return UserServices.GetAllRolesById(_bddContext,id);
+        }
+
+        public void CreateRoleUser (RoleUser roleUser)
+        {
+            UserServices.CreateRoleUser(_bddContext, roleUser);
+        }
+
+        public List<Company> GetAllCompanies()
+        {
+            return UserServices.GetAllCompanies(_bddContext);
+        }
+
+        public List<UserData> GetAllUserDatas()
+        {
+            return UserServices.GetAllUserDatas(_bddContext);
+        }
+
+        public List<UserData> GetAllManagerUserDatas()
+        {
+            return UserServices.GetAllManagerUserDatas(_bddContext);
         }
     }
 }

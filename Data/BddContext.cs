@@ -18,7 +18,7 @@ namespace Projet2_EasyFid.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             // Les paramètres du serveur changent en fonction des configurations personnelles
-            //optionsBuilder.UseMySql("server=localhost;port=8889;user id=root;password=root;database=easyFid"); // connexion trévor
+            optionsBuilder.UseMySql("server=localhost;port=8889;user id=root;password=root;database=easyFid"); // connexion trévor
             //optionsBuilder.UseMySql("server=localhost;user id=root;password=rrrrr;database=projet2"); //connexion Laura
 
             //optionsBuilder.UseMySql("server=localhost;user id=root;password=rrrrrrrr;database=UserData"); //connexion Louis
@@ -40,16 +40,19 @@ namespace Projet2_EasyFid.Data
 
             // Dans la table UserDatas
             this.UserDatas.AddRange(
+
                 new UserData { Id = 1, Lastname = "Xuxu", Firstname = "Xaxa", Birthday = new DateTime(2018, 12, 4), Email = "xaxa@isika.com"},
                 new UserData { Id = 2, Lastname = "Watson", Firstname = "Bobby", Birthday = new DateTime(2015, 5, 28), Email = "bobby@isika.com" },
-                new UserData { Id = 3, Lastname = "Multipass", Firstname = "Lilou", Birthday = new DateTime(2019, 6, 18), Email = "lilou@isika.com" }
+                new UserData { Id = 3, Lastname = "Multipass", Firstname = "Lilou", Birthday = new DateTime(2019, 6, 18), Email = "lilou@isika.com" },
+                new UserData { Id = 4, Lastname = "JeSuisManager", Firstname = "Henry", Birthday = new DateTime(2011, 6, 18), Email = "manager@gmail.com" }
                 );
 
             // Dans la table Users
             this.Users.AddRange(
                 new User { Id = 1, Login = "xxxxx", Password = Dal.EncodeMD5("ppppp"), CreationDate = DateTime.Now, CompanyId = 1, UserDataId = 1, JobEnum = JobEnum.Developpeur },
                 new User { Id = 2, Login = "Bob", Password = Dal.EncodeMD5("ppppp"), CreationDate = DateTime.Now, CompanyId = 1, UserDataId = 2, ManagerId = 1, JobEnum = JobEnum.ChefDeProjet },
-                new User { Id = 3, Login = "Lilou", Password = Dal.EncodeMD5("ppppp"), CreationDate = DateTime.Now, CompanyId = 1, UserDataId = 3, JobEnum = JobEnum.Administrateur }
+                new User { Id = 3, Login = "Lilou", Password = Dal.EncodeMD5("ppppp"), CreationDate = DateTime.Now, CompanyId = 1, UserDataId = 3, JobEnum = JobEnum.Administrateur },
+                new User { Id = 4, Login = "test", Password = Dal.EncodeMD5("ppppp"), CreationDate = DateTime.Now, CompanyId = 1, UserDataId = 4, JobEnum = JobEnum.Commercial }
                 );
                 
                  //Ajout de cras dans la table Cra de la base de données 
@@ -59,14 +62,13 @@ namespace Projet2_EasyFid.Data
                 new Cra { CreatedAt = DateTime.Now, UpdatedAt = new DateTime(2021, 03, 01), StateCra = StateEnum.CREATED, UserId = 1 }
                 );
 
-       
-
             // Ajout de liens entre des clés étrangères (user et role) dans la table RoleUsers
             this.RoleUsers.AddRange(
                 new RoleUser { UserId = 1, RoleType= RoleTypeEnum.SALARIE},
                 new RoleUser { UserId = 1, RoleType = RoleTypeEnum.MANAGER },
                 new RoleUser { UserId = 2, RoleType = RoleTypeEnum.SALARIE },
-                new RoleUser { UserId = 3, RoleType = RoleTypeEnum.ADMIN }
+                new RoleUser { UserId = 3, RoleType = RoleTypeEnum.ADMIN },
+                new RoleUser { UserId = 4, RoleType = RoleTypeEnum.MANAGER}
                 );
 
             // Dans la table Notifications
