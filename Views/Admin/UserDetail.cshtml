@@ -14,10 +14,10 @@
     
     <li>Poste : @Model.User.JobEnum</li>
 </ul>
-
-@foreach (var role in Model.RolesUser)
-{
-        <ul>
-            <li>Accréditation :  @role.RoleType</li>
-        </ul>
-}
+<p>Accréditation : </p>
+<ul>
+    @foreach (var role in Model.RolesUser)
+    {
+        <li>@role.RoleType</li>
+    }
+</ul>

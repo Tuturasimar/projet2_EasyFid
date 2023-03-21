@@ -53,9 +53,15 @@ namespace Projet2_EasyFid.Controllers
                     User user = dal.GetUserById(id);
                     if (user != null)
                     {
-                  //  List<RoleUser> rolesUser = dal.GetAllRolesById(id);
-                    UserRoleViewModel urvm = new UserRoleViewModel { User = user };
-                    return View(urvm);
+                    List<Company> companies = dal.GetAllCompanies();
+                    List<UserData> userDatas = new List<UserData>();
+                    List<RoleUser> rolesUser = dal.GetAllRolesById(id);
+                    UserRoleViewModel urvm = new UserRoleViewModel { User = user, RolesUser = rolesUser };
+                    userDatas.Add(new UserData { Lastname = "Aucun manager" });
+                    userDatas.AddRange(dal.GetAllManagerUserDatas());
+                    ViewBag.companies = companies;
+                    ViewBag.userDatas = userDatas;
+                    return View(user);
                     }
                 
                 return RedirectToAction("Index");
@@ -75,7 +81,11 @@ namespace Projet2_EasyFid.Controllers
                 oldUser.UserData.Firstname = user.UserData.Firstname;
                 oldUser.UserData.Lastname = user.UserData.Lastname;
                 oldUser.UserData.Birthday = user.UserData.Birthday;
-                //oldUser.UserData.Email = user.UserData.Email;
+                oldUser.UserData.Email = user.UserData.Email;
+                if(user.Password != null)
+                {
+                    oldUser.Password = Dal.EncodeMD5(user.Password);
+                }
                 // On envoie l'ancien user maintenant modifié à la méthode pour confirmer les changements dans la BDD
                 dal.ModifyUser(oldUser);
             }
