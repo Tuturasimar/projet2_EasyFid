@@ -120,6 +120,11 @@ namespace Projet2_EasyFid.Data
         {
             UserServices.CreateRoleUser(_bddContext, roleUser);
         }
+
+        public List<Company> GetAllCompanies()
+        {
+            return UserServices.GetAllCompanies(_bddContext);
+        }
     }
 }
 

@@ -24,6 +24,8 @@
            </div>
        }
 
+       @Html.DropDownList("company", new SelectList(ViewBag.companies, "Id", "Name"))
+
      
        <input type="submit" value="Ajouter" />
    </fieldset>

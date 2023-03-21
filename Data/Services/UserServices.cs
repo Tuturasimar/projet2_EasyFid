@@ -55,7 +55,10 @@ namespace Projet2_EasyFid.Data.Services
             _bddContext.SaveChanges();
         }
        
-
+        public static List<Company> GetAllCompanies(BddContext _bddContext)
+        {
+            return _bddContext.Companies.ToList();
+        }
         
     }
 }

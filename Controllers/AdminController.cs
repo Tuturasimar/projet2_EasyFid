@@ -86,12 +86,17 @@ namespace Projet2_EasyFid.Controllers
 
         public IActionResult CreateUser()
         {
+            using(Dal dal = new Dal())
+            {
+                List<Company> companies = dal.GetAllCompanies();
+                ViewBag.companies = companies;
+            }
             return View();
         }
 
         [HttpPost]
         // Une fois qu'on appuie sur le bouton du formulaire, cette méthode récupère un objet user
-        public IActionResult CreateUser(User user, List<RoleTypeEnum> roleType)
+        public IActionResult CreateUser(User user, List<RoleTypeEnum> roleType, int company)
         {
             using (Dal dal = new Dal())
             {
@@ -100,7 +105,7 @@ namespace Projet2_EasyFid.Controllers
                 // On récupère l'ID du UserData fraichement créé pour l'utiliser dans la création du User (clé étrangère)
                 int UserDataId = dal.CreateUserData(newUserData);
                 // On créé un User
-                User newUser = new User { Login = user.Login, Password = Dal.EncodeMD5(user.Password), CompanyId = 1, CreationDate = DateTime.Now, UserDataId = UserDataId };
+                User newUser = new User { Login = user.Login, Password = Dal.EncodeMD5(user.Password), CompanyId = company, CreationDate = DateTime.Now, UserDataId = UserDataId };
                 int UserId = dal.CreateUser(newUser);
 
                 // boucler sur RoleType pour instancier des roleType en fonction du nombre de role coché
