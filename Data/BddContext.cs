@@ -20,6 +20,7 @@ namespace Projet2_EasyFid.Data
         public DbSet<Mission> Missions { get; set; }
         public DbSet<Formation> Formations { get; set; }
         public DbSet<Absence> Absences { get; set; }
+        public DbSet<ActivityDate> ActivityDates { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -97,6 +98,13 @@ namespace Projet2_EasyFid.Data
                 new Activity { Id = 5, LabelActivity = "", MissionId = null, AbsenceId = null, FormationId = 1 },
                 new Activity { Id = 6, LabelActivity = "", MissionId = null, AbsenceId = null, FormationId = 2 }
                 );
+
+            //Dans la table ActivityDate
+            this.ActivityDates.AddRange(
+                new ActivityDate { Id = 1, BeginDate = new DateTime(2022, 04, 05), EndDate = new DateTime (2022, 06, 04), ActivityId = 1},
+                new ActivityDate { Id = 2, BeginDate = new DateTime(2023, 03, 21), ActivityId = 2 }
+                );
+
 
             //Ajout des liens entre des cles etrangeres (cra et activity) dans la table CraActivity
             this.CraActivities.AddRange(
