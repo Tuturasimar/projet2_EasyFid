@@ -13,13 +13,17 @@ namespace Projet2_EasyFid.Data
         public DbSet<Company> Companies { get; set; }
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<RoleUser> RoleUsers { get; set; }
-        	public DbSet<Cra> Cras { get; set; }
+        public DbSet<Cra> Cras { get; set; }
+
+        public DbSet<Activity> Activities { get; set; }
+        public DbSet<CraActivity> CraActivities { get; set; }
+        public DbSet<Mission> Missions { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             // Les paramètres du serveur changent en fonction des configurations personnelles
             //optionsBuilder.UseMySql("server=localhost;port=8889;user id=root;password=root;database=easyFid"); // connexion trévor
-            //optionsBuilder.UseMySql("server=localhost;user id=root;password=rrrrr;database=projet2"); //connexion Laura
+            optionsBuilder.UseMySql("server=localhost;user id=root;password=rrrrr;database=projet2"); //connexion Laura
 
             //optionsBuilder.UseMySql("server=localhost;user id=root;password=rrrrrrrr;database=UserData"); //connexion Louis
             //optionsBuilder.UseMySql("server=localhost;user id=root;password=root;database=easyFid"); //connexion Seb
@@ -40,9 +44,9 @@ namespace Projet2_EasyFid.Data
 
             // Dans la table UserDatas
             this.UserDatas.AddRange(
-                new UserData { Id = 1, Lastname = "Xuxu", Firstname = "Xaxa", Birthday = new DateTime(2018, 12, 4) },
-                new UserData { Id = 2, Lastname = "Watson", Firstname = "Bobby", Birthday = new DateTime(2015, 5, 28) },
-                new UserData { Id = 3, Lastname = "Multipass", Firstname = "Lilou", Birthday = new DateTime(2019, 6, 18) }
+                new UserData { Id = 1, Lastname = "Xuxu", Firstname = "Xaxa", Birthday = new DateTime(2018, 12, 4), Email = "xaxa.xuxu@gmail.com" },
+                new UserData { Id = 2, Lastname = "Watson", Firstname = "Bobby", Birthday = new DateTime(2015, 5, 28), Email = "bobby.watson@gmail.com"  },
+                new UserData { Id = 3, Lastname = "Multipass", Firstname = "Lilou", Birthday = new DateTime(2019, 6, 18), Email = "lilou.multipass@gmail.com" }
                 );
 
             // Dans la table Users
@@ -52,13 +56,31 @@ namespace Projet2_EasyFid.Data
                 new User { Id = 3, Login = "Lilou", Password = Dal.EncodeMD5("ppppp"), CreationDate = DateTime.Now, CompanyId = 1, UserDataId = 3, JobEnum = JobEnum.Administrateur }
                 );
                 
-                 //Ajout de cras dans la table Cra de la base de données 
+            //Dans la tables cras
             this.Cras.AddRange(
-                new Cra { CreatedAt = DateTime.Now, UpdatedAt = new DateTime(2022, 03, 01), StateCra = StateEnum.CREATED, UserId = 1},
-                new Cra { CreatedAt = DateTime.Now, StateCra = StateEnum.VALIDATED, UserId = 2},
-                new Cra { CreatedAt = DateTime.Now, UpdatedAt = new DateTime(2021, 03, 01), StateCra = StateEnum.CREATED, UserId = 1 }
+                new Cra { Id = 1, CreatedAt = DateTime.Now, UpdatedAt = new DateTime(2022, 03, 01), StateCra = StateEnum.CREATED, UserId = 1},
+                new Cra { Id = 2, CreatedAt = DateTime.Now, StateCra = StateEnum.VALIDATED, UserId = 2},
+                new Cra { Id = 3, CreatedAt = DateTime.Now, UpdatedAt = new DateTime(2021, 03, 01), StateCra = StateEnum.CREATED, UserId = 1 }
                 );
 
+            //Dans la table Missions
+            this.Missions.AddRange(
+                new Mission {Id = 1, Name = "Sanofi", MissionStart = new DateTime(2020, 06, 10), MissionEnd = new DateTime(2021, 12, 12), Tjm = 630 , MissionType = MissionTypeEnum.FORFAIT},
+                new Mission {Id = 2, Name = "Firmenich", MissionStart = new DateTime(2020, 02, 01), MissionEnd = new DateTime(2021, 01, 01), Tjm = 670, MissionType = MissionTypeEnum.FORFAIT},
+                new Mission { Id = 3, Name = "RechercheContrat", MissionStart = new DateTime(2022, 09, 01), Tjm = 450, MissionType = MissionTypeEnum.INTERCONTRAT }
+                );
+
+            //Dans la table Activities
+            this.Activities.AddRange(
+                new Activity { Id = 1, LabelActivity = "", MissionId = 1 },
+                new Activity {Id = 2,  LabelActivity = "", MissionId = 2 }
+                );
+
+            //Ajout des liens entre des cles etrangeres (cra et activity) dans la table CraActivity
+            this.CraActivities.AddRange(
+                new CraActivity { CraId = 1, ActivityId =  1 },
+                new CraActivity { CraId = 2, ActivityId = 2}
+                );
        
 
             // Ajout de liens entre des clés étrangères (user et role) dans la table RoleUsers

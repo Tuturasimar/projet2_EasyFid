@@ -1,7 +1,7 @@
 ﻿using System;
 namespace Projet2_EasyFid.Data.Enums
 {
-    public enum MissionType
+    public enum MissionTypeEnum
     {
         FORFAIT, INTERCONTRAT, REGIE
     }
