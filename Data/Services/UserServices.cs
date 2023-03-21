@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using Projet2_EasyFid.Data.Enums;
 using Projet2_EasyFid.Models;
 
 namespace Projet2_EasyFid.Data.Services
@@ -43,6 +44,10 @@ namespace Projet2_EasyFid.Data.Services
             return userData.Id;
         }
 
+        public static List<RoleUser> GetAllRolesById(BddContext _bddContext,int id)
+        {
+          return _bddContext.RoleUsers.Where(u => u.UserId == id).ToList();
+        }
        
 
         

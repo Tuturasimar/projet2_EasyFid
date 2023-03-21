@@ -18,7 +18,7 @@ namespace Projet2_EasyFid.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             // Les paramètres du serveur changent en fonction des configurations personnelles
-            //optionsBuilder.UseMySql("server=localhost;port=8889;user id=root;password=root;database=easyFid"); // connexion trévor
+            optionsBuilder.UseMySql("server=localhost;port=8889;user id=root;password=root;database=easyFid"); // connexion trévor
             //optionsBuilder.UseMySql("server=localhost;user id=root;password=rrrrr;database=projet2"); //connexion Laura
 
             //optionsBuilder.UseMySql("server=localhost;user id=root;password=rrrrrrrr;database=UserData"); //connexion Louis
@@ -40,9 +40,9 @@ namespace Projet2_EasyFid.Data
 
             // Dans la table UserDatas
             this.UserDatas.AddRange(
-                new UserData { Id = 1, Lastname = "Xuxu", Firstname = "Xaxa", Birthday = new DateTime(2018, 12, 4) },
-                new UserData { Id = 2, Lastname = "Watson", Firstname = "Bobby", Birthday = new DateTime(2015, 5, 28) },
-                new UserData { Id = 3, Lastname = "Multipass", Firstname = "Lilou", Birthday = new DateTime(2019, 6, 18) }
+                new UserData { Id = 1, Lastname = "Xuxu", Firstname = "Xaxa", Birthday = new DateTime(2018, 12, 4), Email="test@gmail.com" },
+                new UserData { Id = 2, Lastname = "Watson", Firstname = "Bobby", Birthday = new DateTime(2015, 5, 28), Email="bob@gmail.com" },
+                new UserData { Id = 3, Lastname = "Multipass", Firstname = "Lilou", Birthday = new DateTime(2019, 6, 18), Email="bill@gmail.com" }
                 );
 
             // Dans la table Users
@@ -58,8 +58,6 @@ namespace Projet2_EasyFid.Data
                 new Cra { CreatedAt = DateTime.Now, StateCra = StateEnum.VALIDATED, UserId = 2},
                 new Cra { CreatedAt = DateTime.Now, UpdatedAt = new DateTime(2021, 03, 01), StateCra = StateEnum.CREATED, UserId = 1 }
                 );
-
-       
 
             // Ajout de liens entre des clés étrangères (user et role) dans la table RoleUsers
             this.RoleUsers.AddRange(
