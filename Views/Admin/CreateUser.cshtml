@@ -13,6 +13,9 @@
        <legend>Ajout</legend>
        @Html.Partial("UserPartialForm", Model)
 
+       @Html.Label("Password", "Mot de passe : ")
+       @Html.PasswordFor(m => m.Password)
+
        @foreach (var item in Enum.GetValues(typeof(Projet2_EasyFid.Data.Enums.RoleTypeEnum)))
        {
            <div>
@@ -21,19 +24,18 @@
            </div>
        }
 
-       @*<div>
-           <input type="checkbox" id=1 name="RoleType" value="@(Projet2_EasyFid.Data.Enums.RoleTypeEnum.ADMIN.ToString())" />
-           <label>Admin</label>
-       </div>
-       <div>
-           <input type="checkbox" id=2 name="RoleType" value="@(Projet2_EasyFid.Data.Enums.RoleTypeEnum.SALARIE.ToString())" />
-           <label>Salarié</label>
-       </div>
-       <div>
-           <input type="checkbox" id=3 name="RoleType" value="@(Projet2_EasyFid.Data.Enums.RoleTypeEnum.MANAGER.ToString())" />
-           <label>Manager</label>
-       </div>*@
+       @Html.Label("JobEnum", "Intitulé du poste : ")
+       <select name="JobEnum">
+           @foreach (var item in Enum.GetValues(typeof(Projet2_EasyFid.Data.Enums.JobEnum)))
+           {
+               <option name="JobEnum" value=@item>@item</option>
+           }
+       </select>
 
+       @Html.Label("company", "Entreprise : ")
+       @Html.DropDownList("company", new SelectList(ViewBag.companies, "Id", "Name"))
+       @Html.Label("manager", "Manager : ")
+       @Html.DropDownList("manager", new SelectList(ViewBag.userDatas, "Id", "Lastname"))
 
 
        <input type="submit" value="Ajouter" />

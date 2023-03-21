@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using Projet2_EasyFid.Data.Enums;
 using Projet2_EasyFid.Models;
 
 namespace Projet2_EasyFid.Data.Services
@@ -11,7 +12,7 @@ namespace Projet2_EasyFid.Data.Services
 
 		public static List<User> GetAllUsers(BddContext _bddContext)
 		{
-            return _bddContext.Users.ToList();
+            return _bddContext.Users.Include(u => u.UserData).ToList();
         }
 
 		public static User GetUserById(BddContext _bddContext, int id)
@@ -43,9 +44,41 @@ namespace Projet2_EasyFid.Data.Services
             return userData.Id;
         }
 
-       
+        public static List<RoleUser> GetAllRolesById(BddContext _bddContext,int id)
+        {
+          return _bddContext.RoleUsers.Where(u => u.UserId == id).ToList();
+        }
 
-        
+        public static void CreateRoleUser(BddContext _bddContext, RoleUser roleUser)
+        {
+            _bddContext.RoleUsers.Add(roleUser);
+            _bddContext.SaveChanges();
+        }
+       
+        public static List<Company> GetAllCompanies(BddContext _bddContext)
+        {
+            return _bddContext.Companies.ToList();
+        }
+
+        public static List<UserData> GetAllUserDatas(BddContext _bddContext)
+        {
+            return _bddContext.UserDatas.ToList();
+        }
+
+        public static User GetUserByUserDataId(BddContext _bddContext, int id)
+        {
+            return _bddContext.Users.SingleOrDefault(u => u.UserDataId == id);
+        }
+
+        public static List<UserData> GetAllManagerUserDatas(BddContext _bddContext)
+        {
+            var query = from u in _bddContext.Users
+                        join uD in _bddContext.UserDatas on u.UserDataId equals uD.Id
+                        join r in _bddContext.RoleUsers on u.Id equals r.UserId
+                        where r.RoleType == RoleTypeEnum.MANAGER
+                        select uD;
+            return query.ToList();
+        }
     }
 }
 

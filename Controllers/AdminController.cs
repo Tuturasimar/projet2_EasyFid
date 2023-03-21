@@ -36,8 +36,8 @@ namespace Projet2_EasyFid.Controllers
                 // Si l'utilisateur existe en BDD
                 if(user != null)
                 {
-                //    List<RoleUser> rolesUser = dal.GetAllRolesById(id);
-                    UserRoleViewModel urvm = new UserRoleViewModel { User = user};
+                    List<RoleUser> rolesUser = dal.GetAllRolesById(id);
+                    UserRoleViewModel urvm = new UserRoleViewModel { User = user, RolesUser= rolesUser};
                     // Envoi en paramètre à la vue UserDetail
                     return View(urvm);
                 }
@@ -53,9 +53,15 @@ namespace Projet2_EasyFid.Controllers
                     User user = dal.GetUserById(id);
                     if (user != null)
                     {
-                  //  List<RoleUser> rolesUser = dal.GetAllRolesById(id);
-                    UserRoleViewModel urvm = new UserRoleViewModel { User = user };
-                    return View(urvm);
+                    List<Company> companies = dal.GetAllCompanies();
+                    List<UserData> userDatas = new List<UserData>();
+                    List<RoleUser> rolesUser = dal.GetAllRolesById(id);
+                    UserRoleViewModel urvm = new UserRoleViewModel { User = user, RolesUser = rolesUser };
+                    userDatas.Add(new UserData { Lastname = "Aucun manager" });
+                    userDatas.AddRange(dal.GetAllManagerUserDatas());
+                    ViewBag.companies = companies;
+                    ViewBag.userDatas = userDatas;
+                    return View(user);
                     }
                 
                 return RedirectToAction("Index");
@@ -75,7 +81,11 @@ namespace Projet2_EasyFid.Controllers
                 oldUser.UserData.Firstname = user.UserData.Firstname;
                 oldUser.UserData.Lastname = user.UserData.Lastname;
                 oldUser.UserData.Birthday = user.UserData.Birthday;
-                //oldUser.UserData.Email = user.UserData.Email;
+                oldUser.UserData.Email = user.UserData.Email;
+                if(user.Password != null)
+                {
+                    oldUser.Password = Dal.EncodeMD5(user.Password);
+                }
                 // On envoie l'ancien user maintenant modifié à la méthode pour confirmer les changements dans la BDD
                 dal.ModifyUser(oldUser);
             }
@@ -86,27 +96,59 @@ namespace Projet2_EasyFid.Controllers
 
         public IActionResult CreateUser()
         {
-            using (Dal dal = new Dal())
+            using(Dal dal = new Dal())
             {
-                //List<Role> roles = dal.GetAllRoles();
-               
-                    return View();
+                List<Company> companies = dal.GetAllCompanies();
+                List<UserData> userDatas = new List<UserData>();
+                userDatas.Add(new UserData { Lastname="Aucun manager"});
+                userDatas.AddRange(dal.GetAllManagerUserDatas());
+                ViewBag.companies = companies;
+                ViewBag.userDatas = userDatas;
             }
+            return View();
         }
 
         [HttpPost]
         // Une fois qu'on appuie sur le bouton du formulaire, cette méthode récupère un objet user
-        public IActionResult CreateUser(User user, List<RoleTypeEnum> roleType)
+        public IActionResult CreateUser(User user, List<RoleTypeEnum> roleType, int company, int manager, JobEnum jobEnum)
         {
             using (Dal dal = new Dal())
-            {
-                UserData newUserData = new UserData { Firstname = user.UserData.Firstname, Lastname = user.UserData.Lastname, Birthday = user.UserData.Birthday };
+            {                
+                // On crée les UserData en premier (aucune clé étrangère dans la table)
+                UserData newUserData = new UserData {
+                    Firstname = user.UserData.Firstname,
+                    Lastname = user.UserData.Lastname,
+                    Birthday = user.UserData.Birthday,
+                    Email= user.UserData.Email };
+
+                // On récupère l'ID du UserData fraichement créé pour l'utiliser dans la création du User (clé étrangère)
                 int UserDataId = dal.CreateUserData(newUserData);
-                // !!!! \\ Ajouter un champ Password, choix de Company, choix de Manager , attribution de roles pour ce formulaire
-                User newUser = new User { Login = user.Login, Password = "test", CompanyId = 1, CreationDate = DateTime.Now, UserDataId = UserDataId };
+
+                // On créé un User
+                User newUser = new User {
+                    Login = user.Login,
+                    Password = Dal.EncodeMD5(user.Password),
+                    JobEnum = jobEnum,
+                    CompanyId = company,
+                    CreationDate = DateTime.Now,
+                    UserDataId = UserDataId};
+
+                if(manager != 0)
+                {
+                    // On récupère l'ID du User manager gràce à l'ID de son UserData
+                    int managerId = dal.GetUserByUserDataId(manager).Id;
+                    newUser.ManagerId = managerId;
+                }
+
                 int UserId = dal.CreateUser(newUser);
 
                 // boucler sur RoleType pour instancier des roleType en fonction du nombre de role coché
+                foreach(RoleTypeEnum item in roleType)
+                {
+                    // On le fait après avoir créé un User car on a besoin de son ID pour lier les tables User et RoleUser
+                    RoleUser roleUser = new RoleUser { UserId = UserId, RoleType = item };
+                    dal.CreateRoleUser(roleUser);
+                }
 
                 // Une fois que c'est réalisé, on redirige vers la vue UserDetail avec un id en paramètre.
                 // On va donc sur la page des détails de l'utilisateur qu'on vient de créer
