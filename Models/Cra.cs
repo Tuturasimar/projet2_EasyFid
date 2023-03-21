@@ -17,7 +17,7 @@ namespace Projet2_EasyFid.Models
         public DateTime? UpdatedAt { get; set; }
 
 
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
         public virtual User User { get; set; }
 
         public StateEnum StateCra { get; set; }

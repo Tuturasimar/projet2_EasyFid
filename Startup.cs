@@ -57,9 +57,9 @@ namespace Projet2_EasyFid
                 endpoints.MapControllerRoute(
                     name: "default",
 
-                    //pattern: "{controller=Salarie}/{action=IndexSalarie}/{id?}");
+                    pattern: "{controller=Salarie}/{action=IndexSalarie}/{id?}");
 
-                    pattern: "{controller=Login}/{action=Index}/{id?}");
+                   // pattern: "{controller=Login}/{action=Index}/{id?}");
 
                 // Route de la partie Admin (/admin)
                 endpoints.MapControllerRoute(
