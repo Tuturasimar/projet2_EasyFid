@@ -89,7 +89,9 @@ namespace Projet2_EasyFid.Controllers
             using(Dal dal = new Dal())
             {
                 List<Company> companies = dal.GetAllCompanies();
-                List<UserData> userDatas = dal.GetAllManagerUserDatas();
+                List<UserData> userDatas = new List<UserData>();
+                userDatas.Add(new UserData { Lastname="Aucun manager"});
+                userDatas.AddRange(dal.GetAllManagerUserDatas());
                 ViewBag.companies = companies;
                 ViewBag.userDatas = userDatas;
             }
@@ -101,10 +103,7 @@ namespace Projet2_EasyFid.Controllers
         public IActionResult CreateUser(User user, List<RoleTypeEnum> roleType, int company, int manager, JobEnum jobEnum)
         {
             using (Dal dal = new Dal())
-            {
-                // On récupère l'ID du User manager gràce à l'ID de son UserData
-                int managerId = dal.GetUserByUserDataId(manager).Id;
-
+            {                
                 // On crée les UserData en premier (aucune clé étrangère dans la table)
                 UserData newUserData = new UserData {
                     Firstname = user.UserData.Firstname,
@@ -122,8 +121,14 @@ namespace Projet2_EasyFid.Controllers
                     JobEnum = jobEnum,
                     CompanyId = company,
                     CreationDate = DateTime.Now,
-                    UserDataId = UserDataId,
-                    ManagerId = managerId };
+                    UserDataId = UserDataId};
+
+                if(manager != 0)
+                {
+                    // On récupère l'ID du User manager gràce à l'ID de son UserData
+                    int managerId = dal.GetUserByUserDataId(manager).Id;
+                    newUser.ManagerId = managerId;
+                }
 
                 int UserId = dal.CreateUser(newUser);
 
