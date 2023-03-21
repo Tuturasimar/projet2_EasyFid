@@ -18,6 +18,8 @@ namespace Projet2_EasyFid.Data
         public DbSet<Activity> Activities { get; set; }
         public DbSet<CraActivity> CraActivities { get; set; }
         public DbSet<Mission> Missions { get; set; }
+        public DbSet<Formation> Formations { get; set; }
+        public DbSet<Absence> Absences { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -70,10 +72,26 @@ namespace Projet2_EasyFid.Data
                 new Mission { Id = 3, Name = "RechercheContrat", MissionStart = new DateTime(2022, 09, 01), Tjm = 450, MissionType = MissionTypeEnum.INTERCONTRAT }
                 );
 
+            //Dans la table Formation
+            this.Formations.AddRange(
+                new Formation { Id = 1, FormationStatus = FormationStatusEnum.GIVEN, LocationFormation = LocationFormationEnum.EXTERN},
+                new Formation { Id = 2, FormationStatus = FormationStatusEnum.FOLLOWED, LocationFormation = LocationFormationEnum.INTERN }
+                );
+
+            //Dans la table Absence
+            this.Absences.AddRange(
+                new Absence { Id = 1, AbsenceType = AbsenceTypeEnum.DISEASE},
+                new Absence { Id = 2, AbsenceType = AbsenceTypeEnum.HOLIDAY }
+                );
+
             //Dans la table Activities
             this.Activities.AddRange(
-                new Activity { Id = 1, LabelActivity = "", MissionId = 1 },
-                new Activity {Id = 2,  LabelActivity = "", MissionId = 2 }
+                new Activity { Id = 1, LabelActivity = "", MissionId = 1, AbsenceId = null, FormationId = null},
+                new Activity {Id = 2,  LabelActivity = "", MissionId = 2, AbsenceId = null, FormationId = null},
+                new Activity { Id = 3, LabelActivity = "", MissionId = null, AbsenceId = 1, FormationId = null },
+                new Activity { Id = 4, LabelActivity = "", MissionId = null, AbsenceId = 2, FormationId = null },
+                new Activity { Id = 5, LabelActivity = "", MissionId = null, AbsenceId = null, FormationId = 1 },
+                new Activity { Id = 6, LabelActivity = "", MissionId = null, AbsenceId = null, FormationId = 2 }
                 );
 
             //Ajout des liens entre des cles etrangeres (cra et activity) dans la table CraActivity

@@ -3,6 +3,7 @@ namespace Projet2_EasyFid.Data.Enums
 {
 	public enum FormationStatusEnum
 	{
+		GIVEN, FOLLOWED
 	}
 }
 
