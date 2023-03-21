@@ -32,7 +32,6 @@
     <Folder Include="Views\Admin\" />
 
     <Folder Include="Views\Salarie\" />
-    <Folder Include="ViewModels\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\" />
