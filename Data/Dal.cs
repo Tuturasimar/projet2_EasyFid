@@ -45,16 +45,7 @@ namespace Projet2_EasyFid.Data
 				_bddContext.SaveChanges();
 			}
 		}
-    
-        //public int LoginUser(string login, string password)
-        //{
-        //    string encryptedPassword = EncodeMD5(password);
-        //    User user = new User() { Login = login, Password = encryptedPassword };
-        //    this._bddContext.Users.Add(user);
-        //    this._bddContext.SaveChanges();
-        //    return user.Id;
-        //}
-
+   
         // Méthode pour authentifier un utilisateur (vérification du login et du mdp)
         public User Authentifier(string login, string password)
         {
@@ -136,9 +127,14 @@ namespace Projet2_EasyFid.Data
             return UserServices.GetAllUserDatas(_bddContext);
         }
 
-        public List<UserData> GetAllManagerUserDatas()
+        public List<UserData> GetAllManagerUserDatas(int? idUser)
         {
-            return UserServices.GetAllManagerUserDatas(_bddContext);
+            return UserServices.GetAllManagerUserDatas(_bddContext, idUser);
+        }
+
+        public void DeleteAllRoleUsersByUserId(int idUser)
+        {
+            UserServices.DeleteAllRoleUsersByUserId(_bddContext, idUser);
         }
     }
 }

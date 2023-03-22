@@ -14,7 +14,6 @@ namespace Projet2_EasyFid.Data
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<RoleUser> RoleUsers { get; set; }
         public DbSet<Cra> Cras { get; set; }
-
         public DbSet<Activity> Activities { get; set; }
         public DbSet<CraActivity> CraActivities { get; set; }
         public DbSet<Mission> Missions { get; set; }
@@ -26,14 +25,11 @@ namespace Projet2_EasyFid.Data
         {
             // Les paramètres du serveur changent en fonction des configurations personnelles
 
-            //optionsBuilder.UseMySql("server=localhost;port=8889;user id=root;password=root;database=easyFid"); // connexion trévor
-            optionsBuilder.UseMySql("server=localhost;user id=root;password=rrrrr;database=projet2"); //connexion Laura
+            optionsBuilder.UseMySql("server=localhost;port=8889;user id=root;password=root;database=easyFid"); // connexion trévor
+            //optionsBuilder.UseMySql("server=localhost;user id=root;password=rrrrr;database=projet2"); //connexion Laura
             //optionsBuilder.UseMySql("server=localhost;user id=root;password=rrrrrrrr;database=UserData"); //connexion Louis
             //optionsBuilder.UseMySql("server=localhost;user id=root;password=root;database=easyFid"); //connexion Seb
-
-
         }
-
 
         public void InitialiseDb()
         {
@@ -92,7 +88,7 @@ namespace Projet2_EasyFid.Data
             //Dans la table Activities
             this.Activities.AddRange(
                 new Activity { Id = 1, LabelActivity = "", MissionId = 1, AbsenceId = null, FormationId = null},
-                new Activity {Id = 2,  LabelActivity = "", MissionId = 2, AbsenceId = null, FormationId = null},
+                new Activity { Id = 2,  LabelActivity = "", MissionId = 2, AbsenceId = null, FormationId = null},
                 new Activity { Id = 3, LabelActivity = "", MissionId = null, AbsenceId = 1, FormationId = null },
                 new Activity { Id = 4, LabelActivity = "", MissionId = null, AbsenceId = 2, FormationId = null },
                 new Activity { Id = 5, LabelActivity = "", MissionId = null, AbsenceId = null, FormationId = 1 },
@@ -104,7 +100,6 @@ namespace Projet2_EasyFid.Data
                 new ActivityDate { Id = 1, BeginDate = new DateTime(2022, 04, 05), EndDate = new DateTime (2022, 06, 04), ActivityId = 1},
                 new ActivityDate { Id = 2, BeginDate = new DateTime(2023, 03, 21), ActivityId = 2 }
                 );
-
 
             //Ajout des liens entre des cles etrangeres (cra et activity) dans la table CraActivity
             this.CraActivities.AddRange(

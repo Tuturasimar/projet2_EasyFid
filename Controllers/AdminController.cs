@@ -51,43 +51,75 @@ namespace Projet2_EasyFid.Controllers
             using (Dal dal = new Dal())
             {
                     User user = dal.GetUserById(id);
+                // Si on récupère un utilisateur existant dans la BDD
                     if (user != null)
                     {
+                    // On obtient la liste des entreprises
                     List<Company> companies = dal.GetAllCompanies();
+                    // On instancie une liste qui contiendra des UserData que l'on va utiliser pour la liste déroulante des managers
                     List<UserData> userDatas = new List<UserData>();
+                    // On obtient la liste des roles de l'utilisateur
                     List<RoleUser> rolesUser = dal.GetAllRolesById(id);
-                    UserRoleViewModel urvm = new UserRoleViewModel { User = user, RolesUser = rolesUser };
+                    // On rajoute à la liste des UserData un nouveau qui permet d'avoir l'option "Aucun manager"
                     userDatas.Add(new UserData { Lastname = "Aucun manager" });
-                    userDatas.AddRange(dal.GetAllManagerUserDatas());
+                    userDatas.AddRange(dal.GetAllManagerUserDatas(user.Id));
                     ViewBag.companies = companies;
                     ViewBag.userDatas = userDatas;
+                    ViewBag.rolesUser = rolesUser;
                     return View(user);
                     }
-                
+                // Sinon, on est redirigé vers l'index
                 return RedirectToAction("Index");
             }
         }
 
         [HttpPost]
         // Une fois qu'on appuie sur le bouton du formulaire, cette méthode récupère un objet user
-        public IActionResult ModifyUser(User user)
+        public IActionResult ModifyUser(User user, List<RoleTypeEnum> roleType, int company, int manager, JobEnum jobEnum)
         {
             using (Dal dal = new Dal())
             {
                 // On récupère l'ensemble des données renseignées pour cet utilisateur en BDD grâce à une requête
                 User oldUser = dal.GetUserById(user.Id);
+
                 // On remplace un par un l'ensemble des champs du formulaire
                 oldUser.Login = user.Login;
                 oldUser.UserData.Firstname = user.UserData.Firstname;
                 oldUser.UserData.Lastname = user.UserData.Lastname;
                 oldUser.UserData.Birthday = user.UserData.Birthday;
                 oldUser.UserData.Email = user.UserData.Email;
+                oldUser.CompanyId = company;
+                oldUser.JobEnum = jobEnum;
+
+                // Si on a choisi un manager
+                if(manager != 0)
+                {
+                    oldUser.ManagerId = manager;
+                } else
+                // Si on a choisi "Aucun manager"
+                {
+                    oldUser.ManagerId = null;
+                }
+                // Si le mot de passe a été modifié
                 if(user.Password != null)
                 {
                     oldUser.Password = Dal.EncodeMD5(user.Password);
                 }
                 // On envoie l'ancien user maintenant modifié à la méthode pour confirmer les changements dans la BDD
                 dal.ModifyUser(oldUser);
+
+                // Partie changement des accréditations \\
+
+                // On supprime les anciens
+                dal.DeleteAllRoleUsersByUserId(user.Id);
+
+                // On ajoute les nouveaux
+                foreach (RoleTypeEnum item in roleType)
+                {
+                 RoleUser roleUser = new RoleUser { UserId = user.Id, RoleType = item };
+                 dal.CreateRoleUser(roleUser);
+                }
+
             }
             // Une fois que c'est réalisé, on redirige vers la vue UserDetail avec un id en paramètre.
             // On va donc sur la page des détails de l'utilisateur qu'on vient de modifier.
@@ -98,10 +130,14 @@ namespace Projet2_EasyFid.Controllers
         {
             using(Dal dal = new Dal())
             {
+                // On obtient la liste des entreprises
                 List<Company> companies = dal.GetAllCompanies();
+                // On instancie une liste de UserData pour ajouter au début un UserData factice "Aucun manager"
                 List<UserData> userDatas = new List<UserData>();
                 userDatas.Add(new UserData { Lastname="Aucun manager"});
-                userDatas.AddRange(dal.GetAllManagerUserDatas());
+                // On rajoute à la liste des UserData tous ceux des manager
+                // On envoie 0 en argument car cette méthode attend une ID, mais l'utilisateur n'existe pas encore
+                userDatas.AddRange(dal.GetAllManagerUserDatas(0));
                 ViewBag.companies = companies;
                 ViewBag.userDatas = userDatas;
             }
@@ -133,6 +169,7 @@ namespace Projet2_EasyFid.Controllers
                     CreationDate = DateTime.Now,
                     UserDataId = UserDataId};
 
+                // Si un manager a été choisi dans la liste
                 if(manager != 0)
                 {
                     // On récupère l'ID du User manager gràce à l'ID de son UserData
