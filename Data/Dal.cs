@@ -50,7 +50,14 @@ namespace Projet2_EasyFid.Data
 				_bddContext.SaveChanges();
 			}
 		}
-    
+        //Methode pour modifier une mission
+        public void UpdateMission(Mission mission)
+        {
+            this._bddContext.Missions.Update(mission);
+            this._bddContext.SaveChanges();
+        }
+        
+
         //public int LoginUser(string login, string password)
         //{
         //    string encryptedPassword = EncodeMD5(password);

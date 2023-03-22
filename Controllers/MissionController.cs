@@ -40,6 +40,30 @@ namespace Projet2_EasyFid.Controllers
             }
             return View("Error");
         }
+
+        [HttpPost]
+        public IActionResult UpdateMission(Mission mission)
+        {
+
+            if (!ModelState.IsValid)
+                return View(mission);
+
+
+            if (mission.Id != 0)
+            {
+                using (Dal dal = new Dal())
+                {
+                    dal.UpdateMission(mission);
+                    return RedirectToAction("UpdateMission", new { @id = mission.Id });
+                }
+            }
+            else
+            {
+                return View("Error");
+            }
+        }
+
+
     }
 }
 
