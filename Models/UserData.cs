@@ -20,6 +20,9 @@ namespace Projet2_EasyFid.Models
         [Required(ErrorMessage = "Ce champ doit être rempli.")]
         public string Email { get; set; }
 
+        //creation d'une relation one one entre la table User et la table UserData
+        public User user { get; set; }
+
     }
 }
 

@@ -56,11 +56,11 @@ namespace Projet2_EasyFid.Controllers
                     List<Company> companies = dal.GetAllCompanies();
                     List<UserData> userDatas = new List<UserData>();
                     List<RoleUser> rolesUser = dal.GetAllRolesById(id);
-                    UserRoleViewModel urvm = new UserRoleViewModel { User = user, RolesUser = rolesUser };
                     userDatas.Add(new UserData { Lastname = "Aucun manager" });
                     userDatas.AddRange(dal.GetAllManagerUserDatas());
                     ViewBag.companies = companies;
                     ViewBag.userDatas = userDatas;
+                    ViewBag.rolesUser = rolesUser;
                     return View(user);
                     }
                 
