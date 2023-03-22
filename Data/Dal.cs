@@ -22,6 +22,11 @@ namespace Projet2_EasyFid.Data
 		{
 			return _bddContext.Cras.ToList();
 		}
+        //Je retourne la liste des missions
+        public List<Mission> GetAllMissions() 
+        {
+            return _bddContext.Missions.ToList();
+        }
 
 		//Methode pour creer un cra et qui nous retourne son Id
 		public int CreateCra(int id, DateTime createdAt, StateEnum stateCra, int userId)
@@ -34,6 +39,14 @@ namespace Projet2_EasyFid.Data
 			_bddContext.SaveChanges();
 			return cra.Id;
 		}
+        public int CreateMission(int id,string name,DateTime missionStart,DateTime missionEnd,float tjm,MissionTypeEnum missionType)
+        {
+            //Instanciation dela nouvelle mission
+            Mission mission = new Mission() { Name = name, MissionStart = missionStart, MissionEnd = missionEnd, Tjm = tjm, MissionType = missionType };
+            _bddContext.Missions.Add(mission);
+            _bddContext.SaveChanges();
+            return mission.Id;
+        }
 
 		//Methode pour modifier un cra
 		public void UpdateCra(int id, StateEnum stateCra) {
@@ -45,7 +58,16 @@ namespace Projet2_EasyFid.Data
 				_bddContext.SaveChanges();
 			}
 		}
-   
+
+        //Methode pour modifier une mission
+        public void UpdateMission(Mission mission)
+        {
+            this._bddContext.Missions.Update(mission);
+            this._bddContext.SaveChanges();
+        }
+        
+
+        
         // Méthode pour authentifier un utilisateur (vérification du login et du mdp)
         public User Authentifier(string login, string password)
         {
