@@ -8,27 +8,31 @@
 {
     <fieldset>
         <legend>Formulaire d'ajout</legend>
-        <table id="cra" border="0">
-            @*Liste déroulante pour choisir la mission effectuee*@
-            <tr>
-                <td>@Html.Label("missions", "Mission : ")</td>
-                <td>@Html.DropDownList("missions", new SelectList(ViewBag.missions, "Id", "Name"))</td>
-            </tr>
+        @*Liste déroulante pour choisir la mission effectuee*@
+        @Html.Label("missions", "Mission : ")
+        @Html.DropDownList("missions", new SelectList(ViewBag.missions, "Id", "Name"))
+        <br />
 
-            @*Calendrier pour choisir la periode de temps*@
-            @Html.Partial("SalariePartialForm", Model)
-            <tr>
-                 <td>@Html.HiddenFor(m=> Model.Cra.Id)</td>
-            </tr>
+        @*Calendrier pour choisir la periode de temps*@
+        @Html.Partial("SalariePartialForm", Model)
+            
+        @Html.HiddenFor(m=> Model.Cra.Id)
+        <br />
 
-            @*Liste déroulante pour choisir la formation*@
-            <tr>
-                <td>@Html.Label("formations", "Formation : ")</td>
-                <td>@Html.DropDownList("formations", new SelectList(ViewBag.formations, "Id", "Name"))</td>
-            </tr>
-           
+        @*Liste déroulante pour choisir la formation*@
+        @Html.Label("formations", "Formation : ")
+        @Html.DropDownList("formations", new SelectList(ViewBag.formations, "Id", "Name"))
+        <br />
 
-        </table><br>
+        @*Liste déroulante pour choisir la raison de l'absence*@
+        @Html.Label("AbsenceTypeEnum", "Raison de l'absence : ")
+        <select name="AbsenceTypeEnum">
+            @foreach (var item in Enum.GetValues(typeof(Projet2_EasyFid.Data.Enums.AbsenceTypeEnum)))
+            {
+                <option name="AbsenceTypeEnum" value=@item>@item</option>
+            }
+        </select>
+        <br />
 
         <input type="submit" value="Valider" />
     </fieldset>
