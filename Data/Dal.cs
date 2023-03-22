@@ -22,6 +22,11 @@ namespace Projet2_EasyFid.Data
 		{
 			return _bddContext.Cras.ToList();
 		}
+        //Je retourne la liste des missions
+        public List<Mission> GetAllMissions() 
+        {
+            return _bddContext.Missions.ToList();
+        }
 
 		//Methode pour creer un cra et qui nous retourne son Id
 		public int CreateCra(int id, DateTime createdAt, StateEnum stateCra, int userId)
