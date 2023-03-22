@@ -100,7 +100,7 @@ namespace Projet2_EasyFid.Controllers
             {
                 List<Company> companies = dal.GetAllCompanies();
                 List<UserData> userDatas = new List<UserData>();
-                userDatas.Add(new UserData { Lastname="Aucun manager"});
+                userDatas.Add(new UserData { Lastname="Aucun manager", Id= 0});
                 userDatas.AddRange(dal.GetAllManagerUserDatas());
                 ViewBag.companies = companies;
                 ViewBag.userDatas = userDatas;

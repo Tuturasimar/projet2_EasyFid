@@ -12,14 +12,14 @@ namespace Projet2_EasyFid.Data.Services
 
 		public static List<User> GetAllUsers(BddContext _bddContext)
 		{
-            return _bddContext.Users.Include(u => u.UserData).ToList();
+            return _bddContext.Users.Include(u => u.UserData).Include(u => u.Company).ToList();
         }
 
 		public static User GetUserById(BddContext _bddContext, int id)
 		{
             // Le Include permet ici de récupérer les données du UserData (qui est lié à User par une clé étrangère)
             // Sans Include, impossible de récupérer certaines données en faisant User.Userdata.FirstName, par exemple.
-            User user = _bddContext.Users.Include(u => u.UserData).SingleOrDefault(u => u.Id == id);
+            User user = _bddContext.Users.Include(u => u.UserData).Include(u=>u.Company).Include(u=>u.Manager).SingleOrDefault(u => u.Id == id);
             return user;
         }
 

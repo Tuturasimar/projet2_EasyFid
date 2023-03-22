@@ -9,7 +9,7 @@
 
 @*On crée le début du formulaire ici pour que le même formulaire puisse être utilisé dans le controller Salarie*@
 @using (Html.BeginForm("ModifyUser", "Admin", FormMethod.Post))
-{
+    {
     <fieldset>
         <legend>Modification </legend>
         @Html.Partial("UserPartialForm", Model)
@@ -32,17 +32,24 @@
                 <input type="checkbox" name="RoleType" id="@item" value=@item checked=@isChecked />
                 <label>@item</label>
             </div>
-        }
+            }
 
         @Html.Label("JobEnum", "Intitulé du poste : ")
         <select name="JobEnum">
             @foreach (Projet2_EasyFid.Data.Enums.JobEnum item in Enum.GetValues(typeof(Projet2_EasyFid.Data.Enums.JobEnum)))
-            {
-                bool isSelected = false;
-                if (item == Model.JobEnum) { isSelected = true; }
+                {
+                    bool isSelected = false;
+                    if (item == Model.JobEnum) { isSelected = true; }
                 <option name="JobEnum" value=@item selected=@isSelected>@item</option>
-            }
+                }
         </select>
+
+        @Html.Label("company", "Entreprise : ")
+        @Html.DropDownList("company", new SelectList(ViewBag.companies, "Id", "Name", @Model.Company))
+        @Html.Label("manager", "Manager : ")
+        
+        @Html.DropDownList("manager", new SelectList(ViewBag.userDatas, "Id", "Lastname", (Model.ManagerId != null) ? Model.Manager.UserData.Id : 0))
+
         <input type="submit" value="Modifier" />
     </fieldset>
-}
+    }
