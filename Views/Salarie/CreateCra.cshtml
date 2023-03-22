@@ -4,7 +4,7 @@
     ViewBag.Title = "Formulaire création d'un Cra";
 }
 <h2>Formulaire de création du Cra</h2>
-@using (Html.BeginForm("CreateCra", "Salarie"))
+@using (Html.BeginForm("CreateCra", "Salarie", FormMethod.Post))
 {
     <fieldset>
         <legend>Formulaire d'ajout</legend>

@@ -13,7 +13,7 @@ namespace Projet2_EasyFid.Data
 
 		List<Cra> GetAllCras();
 
-		int CreateCra (int id, DateTime createdAt, StateEnum stateCra, int userId);
+		int CreateCra (Cra cra);
 
 		void UpdateCra(int id, StateEnum stateCra);
 

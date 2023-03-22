@@ -24,6 +24,7 @@ namespace Projet2_EasyFid.Data
 		}
 
 		//Methode pour creer un cra et qui nous retourne son Id
+        /*
 		public int CreateCra(int id, DateTime createdAt, StateEnum stateCra, int userId)
 		{
 			//On instancie un nouveau Cra
@@ -34,6 +35,12 @@ namespace Projet2_EasyFid.Data
 			_bddContext.SaveChanges();
 			return cra.Id;
 		}
+        */
+
+        public int CreateCra ( Cra cra )
+        {
+            return CraServices.CreateCra( _bddContext, cra );   
+        }
 
 		//Methode pour modifier un cra
 		public void UpdateCra(int id, StateEnum stateCra) {
@@ -155,6 +162,13 @@ namespace Projet2_EasyFid.Data
         {
             return CraServices.GetAllActivities(_bddContext);
         }
+
+        /*
+        public Mission GetMissionById(int id)
+        {
+            return CraServices.GetMissionById(_bddContext, id);
+        }
+        */
     }
 }
 
