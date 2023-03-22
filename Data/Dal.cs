@@ -136,9 +136,9 @@ namespace Projet2_EasyFid.Data
             return UserServices.GetAllUserDatas(_bddContext);
         }
 
-        public List<UserData> GetAllManagerUserDatas()
+        public List<UserData> GetAllManagerUserDatas(int? idUser)
         {
-            return UserServices.GetAllManagerUserDatas(_bddContext);
+            return UserServices.GetAllManagerUserDatas(_bddContext, idUser);
         }
     }
 }

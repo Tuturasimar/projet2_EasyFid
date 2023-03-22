@@ -57,7 +57,7 @@ namespace Projet2_EasyFid.Controllers
                     List<UserData> userDatas = new List<UserData>();
                     List<RoleUser> rolesUser = dal.GetAllRolesById(id);
                     userDatas.Add(new UserData { Lastname = "Aucun manager" });
-                    userDatas.AddRange(dal.GetAllManagerUserDatas());
+                    userDatas.AddRange(dal.GetAllManagerUserDatas(user.Id));
                     ViewBag.companies = companies;
                     ViewBag.userDatas = userDatas;
                     ViewBag.rolesUser = rolesUser;
@@ -70,7 +70,7 @@ namespace Projet2_EasyFid.Controllers
 
         [HttpPost]
         // Une fois qu'on appuie sur le bouton du formulaire, cette méthode récupère un objet user
-        public IActionResult ModifyUser(User user)
+        public IActionResult ModifyUser(User user, List<RoleTypeEnum> roleType, int company, int manager, JobEnum jobEnum)
         {
             using (Dal dal = new Dal())
             {
@@ -101,7 +101,7 @@ namespace Projet2_EasyFid.Controllers
                 List<Company> companies = dal.GetAllCompanies();
                 List<UserData> userDatas = new List<UserData>();
                 userDatas.Add(new UserData { Lastname="Aucun manager", Id= 0});
-                userDatas.AddRange(dal.GetAllManagerUserDatas());
+                userDatas.AddRange(dal.GetAllManagerUserDatas(0));
                 ViewBag.companies = companies;
                 ViewBag.userDatas = userDatas;
             }

@@ -70,12 +70,13 @@ namespace Projet2_EasyFid.Data.Services
             return _bddContext.Users.SingleOrDefault(u => u.UserDataId == id);
         }
 
-        public static List<UserData> GetAllManagerUserDatas(BddContext _bddContext)
+        public static List<UserData> GetAllManagerUserDatas(BddContext _bddContext, int? idUser)
         {
             var query = from u in _bddContext.Users
                         join uD in _bddContext.UserDatas on u.UserDataId equals uD.Id
                         join r in _bddContext.RoleUsers on u.Id equals r.UserId
                         where r.RoleType == RoleTypeEnum.MANAGER
+                        where u.Id != idUser
                         select uD;
             return query.ToList();
         }
