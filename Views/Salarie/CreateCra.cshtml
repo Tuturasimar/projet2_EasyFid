@@ -1,9 +1,10 @@
 ﻿@model Projet2_EasyFid.Models.Cra
 @{
     Layout = "_Layout";
+    ViewBag.Title = "Formulaire création d'un Cra";
 }
 <h2>Formulaire de création du Cra</h2>
-@using (Html.BeginForm())
+@using (Html.BeginForm("CreateCra", "Salarie"))
 {
     <fieldset>
         <legend>Formulaire d'ajout</legend>
@@ -13,7 +14,11 @@
             <td>@Html.Label("CreatedAt")</td>
             <td>@Html.EditorFor(mcreated => Model.CreatedAt)</td>
             </tr>
-        
+            @*Liste déroulante pour choisir la mission effectuee*@
+            <tr>
+                <td>@Html.Label("missions", "Mission : ")</td>
+                <td>@Html.DropDownList("missions", new SelectList(ViewBag.missions, "Id", "Name"))</td>
+            </tr>
 
         </table><br>
 

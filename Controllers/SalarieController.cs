@@ -70,6 +70,12 @@ namespace Projet2_EasyFid.Controllers
 
         public IActionResult CreateCra(Cra cra)
         {
+            using (Dal dal = new Dal()) 
+            {
+                List<Mission> missions = dal.GetAllMissions();
+                ViewBag.missions = missions;
+
+            }
             return View();
         }
 

@@ -140,6 +140,11 @@ namespace Projet2_EasyFid.Data
         {
             return UserServices.GetAllManagerUserDatas(_bddContext);
         }
+
+        public List<Mission> GetAllMissions()
+        {
+            return CraServices.GetAllMissions(_bddContext);
+        }
     }
 }
 
