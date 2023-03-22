@@ -51,11 +51,16 @@ namespace Projet2_EasyFid.Controllers
             using (Dal dal = new Dal())
             {
                     User user = dal.GetUserById(id);
+                // Si on récupère un utilisateur existant dans la BDD
                     if (user != null)
                     {
+                    // On obtient la liste des entreprises
                     List<Company> companies = dal.GetAllCompanies();
+                    // On instancie une liste qui contiendra des UserData que l'on va utiliser pour la liste déroulante des managers
                     List<UserData> userDatas = new List<UserData>();
+                    // On obtient la liste des roles de l'utilisateur
                     List<RoleUser> rolesUser = dal.GetAllRolesById(id);
+                    // On rajoute à la liste des UserData un nouveau qui permet d'avoir l'option "Aucun manager"
                     userDatas.Add(new UserData { Lastname = "Aucun manager" });
                     userDatas.AddRange(dal.GetAllManagerUserDatas(user.Id));
                     ViewBag.companies = companies;
@@ -63,7 +68,7 @@ namespace Projet2_EasyFid.Controllers
                     ViewBag.rolesUser = rolesUser;
                     return View(user);
                     }
-                
+                // Sinon, on est redirigé vers l'index
                 return RedirectToAction("Index");
             }
         }
@@ -76,6 +81,7 @@ namespace Projet2_EasyFid.Controllers
             {
                 // On récupère l'ensemble des données renseignées pour cet utilisateur en BDD grâce à une requête
                 User oldUser = dal.GetUserById(user.Id);
+
                 // On remplace un par un l'ensemble des champs du formulaire
                 oldUser.Login = user.Login;
                 oldUser.UserData.Firstname = user.UserData.Firstname;
@@ -84,7 +90,16 @@ namespace Projet2_EasyFid.Controllers
                 oldUser.UserData.Email = user.UserData.Email;
                 oldUser.CompanyId = company;
                 oldUser.JobEnum = jobEnum;
-                oldUser.ManagerId = manager;
+
+                // Si on a choisi un manager
+                if(manager != 0)
+                {
+                    oldUser.ManagerId = manager;
+                } else
+                // Si on a choisi "Aucun manager"
+                {
+                    oldUser.ManagerId = null;
+                }
                 // Si le mot de passe a été modifié
                 if(user.Password != null)
                 {
@@ -93,9 +108,11 @@ namespace Projet2_EasyFid.Controllers
                 // On envoie l'ancien user maintenant modifié à la méthode pour confirmer les changements dans la BDD
                 dal.ModifyUser(oldUser);
 
-                // Partie changement des accréditations
+                // Partie changement des accréditations \\
+
                 // On supprime les anciens
                 dal.DeleteAllRoleUsersByUserId(user.Id);
+
                 // On ajoute les nouveaux
                 foreach (RoleTypeEnum item in roleType)
                 {
@@ -113,9 +130,13 @@ namespace Projet2_EasyFid.Controllers
         {
             using(Dal dal = new Dal())
             {
+                // On obtient la liste des entreprises
                 List<Company> companies = dal.GetAllCompanies();
+                // On instancie une liste de UserData pour ajouter au début un UserData factice "Aucun manager"
                 List<UserData> userDatas = new List<UserData>();
-                userDatas.Add(new UserData { Lastname="Aucun manager", Id= 0});
+                userDatas.Add(new UserData { Lastname="Aucun manager"});
+                // On rajoute à la liste des UserData tous ceux des manager
+                // On envoie 0 en argument car cette méthode attend une ID, mais l'utilisateur n'existe pas encore
                 userDatas.AddRange(dal.GetAllManagerUserDatas(0));
                 ViewBag.companies = companies;
                 ViewBag.userDatas = userDatas;
@@ -148,6 +169,7 @@ namespace Projet2_EasyFid.Controllers
                     CreationDate = DateTime.Now,
                     UserDataId = UserDataId};
 
+                // Si un manager a été choisi dans la liste
                 if(manager != 0)
                 {
                     // On récupère l'ID du User manager gràce à l'ID de son UserData
