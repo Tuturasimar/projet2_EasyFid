@@ -1,4 +1,4 @@
-﻿@model Projet2_EasyFid.Models.Cra
+﻿@model Projet2_EasyFid.Models.CraActivity
 @{
     Layout = "_Layout";
     ViewBag.Title = "Formulaire création d'un Cra";
@@ -9,10 +9,10 @@
     <fieldset>
         <legend>Formulaire d'ajout</legend>
         <table id="cra" border="0">
+            @*Calendrier pour choisir la periode de temps*@
+            @Html.Partial("SalariePartialForm", Model)
             <tr>
-            <td>@Html.HiddenFor(m=> Model.Id)</td>
-            <td>@Html.Label("CreatedAt")</td>
-            <td>@Html.EditorFor(mcreated => Model.CreatedAt)</td>
+            <td>@Html.HiddenFor(m=> Model.Cra.Id)</td>
             </tr>
             @*Liste déroulante pour choisir la mission effectuee*@
             <tr>
