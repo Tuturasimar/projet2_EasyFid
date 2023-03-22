@@ -81,8 +81,8 @@ namespace Projet2_EasyFid.Data
 
             //Dans la table Formation
             this.Formations.AddRange(
-                new Formation { Id = 1, FormationStatus = FormationStatusEnum.GIVEN, LocationFormation = LocationFormationEnum.EXTERN},
-                new Formation { Id = 2, FormationStatus = FormationStatusEnum.FOLLOWED, LocationFormation = LocationFormationEnum.INTERN }
+                new Formation { Id = 1, Name ="Formation Incendie", FormationStatus = FormationStatusEnum.GIVEN, LocationFormation = LocationFormationEnum.EXTERN},
+                new Formation { Id = 2, Name = "Formation nouveau logiciel", FormationStatus = FormationStatusEnum.FOLLOWED, LocationFormation = LocationFormationEnum.INTERN }
                 );
 
             //Dans la table Absence
@@ -93,12 +93,12 @@ namespace Projet2_EasyFid.Data
 
             //Dans la table Activities
             this.Activities.AddRange(
-                new Activity { Id = 1, LabelActivity = "", MissionId = 1, AbsenceId = null, FormationId = null},
-                new Activity { Id = 2,  LabelActivity = "", MissionId = 2, AbsenceId = null, FormationId = null},
-                new Activity { Id = 3, LabelActivity = "", MissionId = null, AbsenceId = 1, FormationId = null },
-                new Activity { Id = 4, LabelActivity = "", MissionId = null, AbsenceId = 2, FormationId = null },
-                new Activity { Id = 5, LabelActivity = "", MissionId = null, AbsenceId = null, FormationId = 1 },
-                new Activity { Id = 6, LabelActivity = "", MissionId = null, AbsenceId = null, FormationId = 2 }
+                new Activity { Id = 1, LabelActivity = "Mission 1", MissionId = 1},
+                new Activity {Id = 2,  LabelActivity = "Mission 2", MissionId = 2},
+                new Activity { Id = 3, LabelActivity = "Absence 1", AbsenceId = 1},
+                new Activity { Id = 4, LabelActivity = "Absence 2", AbsenceId = 2},
+                new Activity { Id = 5, LabelActivity = "Formation 1", FormationId = 1 },
+                new Activity { Id = 6, LabelActivity = "Formation 2",  FormationId = 2 }
                 );
 
             //Dans la table ActivityDate

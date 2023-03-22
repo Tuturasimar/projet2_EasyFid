@@ -1,0 +1,15 @@
+﻿@model Projet2_EasyFid.Models.ActivityDate
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@*Calendrier pour choisir la date de debut*@
+@Html.HiddenFor(m => Model.Id)
+@Html.Label("BeginDate", "Date de début : ")
+@Html.EditorFor(m => Model.BeginDate)
+<br />
+
+@*Calendrier pour choisir la date de fin*@
+@Html.Label("EndDate", "Date de fin : ")
+@Html.EditorFor(m => Model.EndDate)
+<br />

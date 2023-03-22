@@ -28,17 +28,12 @@ namespace Projet2_EasyFid.Data
             return _bddContext.Missions.ToList();
         }
 
-		//Methode pour creer un cra et qui nous retourne son Id
-		public int CreateCra(int id, DateTime createdAt, StateEnum stateCra, int userId)
-		{
-			//On instancie un nouveau Cra
-			Cra cra = new Cra() { CreatedAt = createdAt, StateCra = stateCra, UserId = userId };
-			//On l'ajoute à la liste des cras
-			_bddContext.Cras.Add(cra);
-			//On sauvegarde les changements 
-			_bddContext.SaveChanges();
-			return cra.Id;
-		}
+
+        public int CreateCra ( Cra cra )
+        {
+            return CraServices.CreateCra( _bddContext, cra );  
+            }
+
         public int CreateMission(int id,string name,DateTime missionStart,DateTime missionEnd,float tjm,MissionTypeEnum missionType)
         {
             //Instanciation dela nouvelle mission
@@ -158,6 +153,28 @@ namespace Projet2_EasyFid.Data
         {
             UserServices.DeleteAllRoleUsersByUserId(_bddContext, idUser);
         }
+
+        public List<Mission> GetAllMissions()
+        {
+            return CraServices.GetAllMissions(_bddContext);
+        }
+
+        public List<Formation> GetAllFormations()
+        {
+            return CraServices.GetAllFormations(_bddContext);
+        }
+
+        public List <Activity> GetAllActivities()
+        {
+            return CraServices.GetAllActivities(_bddContext);
+        }
+
+        /*
+        public Mission GetMissionById(int id)
+        {
+            return CraServices.GetMissionById(_bddContext, id);
+        }
+        */
     }
 }
 
