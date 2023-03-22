@@ -80,6 +80,16 @@ namespace Projet2_EasyFid.Data.Services
                         select uD;
             return query.ToList();
         }
+
+        public static void DeleteAllRoleUsersByUserId(BddContext _bddContext, int userId)
+        {
+            List<RoleUser> rolesToDelete = UserServices.GetAllRolesById(_bddContext,userId);
+            foreach (RoleUser role in rolesToDelete)
+            {
+                _bddContext.RoleUsers.Remove(role);
+                _bddContext.SaveChanges();
+            }
+        }
     }
 }
 

@@ -140,6 +140,11 @@ namespace Projet2_EasyFid.Data
         {
             return UserServices.GetAllManagerUserDatas(_bddContext, idUser);
         }
+
+        public void DeleteAllRoleUsersByUserId(int idUser)
+        {
+            UserServices.DeleteAllRoleUsersByUserId(_bddContext, idUser);
+        }
     }
 }
 

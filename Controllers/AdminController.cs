@@ -82,12 +82,27 @@ namespace Projet2_EasyFid.Controllers
                 oldUser.UserData.Lastname = user.UserData.Lastname;
                 oldUser.UserData.Birthday = user.UserData.Birthday;
                 oldUser.UserData.Email = user.UserData.Email;
+                oldUser.CompanyId = company;
+                oldUser.JobEnum = jobEnum;
+                oldUser.ManagerId = manager;
+                // Si le mot de passe a été modifié
                 if(user.Password != null)
                 {
                     oldUser.Password = Dal.EncodeMD5(user.Password);
                 }
                 // On envoie l'ancien user maintenant modifié à la méthode pour confirmer les changements dans la BDD
                 dal.ModifyUser(oldUser);
+
+                // Partie changement des accréditations
+                // On supprime les anciens
+                dal.DeleteAllRoleUsersByUserId(user.Id);
+                // On ajoute les nouveaux
+                foreach (RoleTypeEnum item in roleType)
+                {
+                 RoleUser roleUser = new RoleUser { UserId = user.Id, RoleType = item };
+                 dal.CreateRoleUser(roleUser);
+                }
+
             }
             // Une fois que c'est réalisé, on redirige vers la vue UserDetail avec un id en paramètre.
             // On va donc sur la page des détails de l'utilisateur qu'on vient de modifier.
