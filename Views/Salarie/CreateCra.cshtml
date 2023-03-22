@@ -19,6 +19,11 @@
         @Html.HiddenFor(m=> Model.Cra.Id)
         <br />
 
+        @*Liste deroulante pour le choix de l'activité (mission, formation ou absence)*@
+        @Html.Label("activities", "Activité : ")
+        @Html.DropDownList("activities", new SelectList(ViewBag.activities, "Id", "LabelActivity" ))
+        <br />
+
         @*Liste déroulante pour choisir la formation*@
         @Html.Label("formations", "Formation : ")
         @Html.DropDownList("formations", new SelectList(ViewBag.formations, "Id", "Name"))

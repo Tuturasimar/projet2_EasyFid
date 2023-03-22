@@ -18,6 +18,11 @@ namespace Projet2_EasyFid.Data.Services
 		{
 			return _bddContext.Formations.ToList();
 		}
+
+		public static List <Activity> GetAllActivities (BddContext _bddContext)
+		{
+			return _bddContext.Activities.ToList();
+		}
 	}
 }
 

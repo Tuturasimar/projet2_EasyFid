@@ -74,8 +74,10 @@ namespace Projet2_EasyFid.Controllers
             {
                 List<Mission> missions = dal.GetAllMissions();
                 List<Formation> formations = dal.GetAllFormations();
+                List<Activity> activities = dal.GetAllActivities();
                 ViewBag.missions = missions;
                 ViewBag.formations = formations;    
+                ViewBag.activities = activities;
 
             }
             return View();
