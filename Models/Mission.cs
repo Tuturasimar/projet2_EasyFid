@@ -10,6 +10,7 @@ namespace Projet2_EasyFid.Models
 
         [MaxLength(20)]
 		[Display (Name="Nom de mission")]
+        [Required(ErrorMessage = "Veuillez indiquer le nom de la Mission")]
         public string Name { get; set; }
         // public string Adress;
 

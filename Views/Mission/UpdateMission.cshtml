@@ -17,23 +17,26 @@
         <legend>Modifier une mission</legend>
         @Html.LabelFor(m => Model.Name)
         @Html.TextBoxFor(m => Model.Name)
-        @*@Html.ValidationMessage(m => Model.Name)*@
+        @Html.ValidationMessageFor(m => Model.Name)
         <br/>
         @Html.LabelFor(m => Model.MissionStart)
         @Html.TextBoxFor(m => Model.MissionStart)
-        @*@Html.ValidationMessage(m => Model.MissionStart)*@
+        @Html.ValidationMessageFor(m => Model.MissionStart)
         <br/>
         @Html.LabelFor(m => Model.MissionEnd)
         @Html.TextBoxFor(m => Model.MissionEnd)
-        @*@Html.ValidationMessage(m => Model.MissionEnd)*@
+        @Html.ValidationMessageFor(m => Model.MissionEnd)
         <br />
         @Html.LabelFor(m => Model.MissionType)
         @Html.TextBoxFor(m => Model.MissionType)
-        @*@Html.ValidationMessage(m => Model.MissionType)*@
+        @Html.ValidationMessageFor(m => Model.MissionType)
         <br />
         <input type="submit" value="Modifier" />
     </fieldset>
 }
+    <script type="text/javascript" src="~/Scripts/jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery.validate-vsdoc.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery.validate.unobtrusive.js"></script>
    
 </body>
 </html>
