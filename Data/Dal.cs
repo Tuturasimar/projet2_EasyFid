@@ -145,6 +145,11 @@ namespace Projet2_EasyFid.Data
         {
             return CraServices.GetAllMissions(_bddContext);
         }
+
+        public List<Formation> GetAllFormations()
+        {
+            return CraServices.GetAllFormations(_bddContext);
+        }
     }
 }
 

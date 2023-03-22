@@ -9,16 +9,24 @@
     <fieldset>
         <legend>Formulaire d'ajout</legend>
         <table id="cra" border="0">
-            @*Calendrier pour choisir la periode de temps*@
-            @Html.Partial("SalariePartialForm", Model)
-            <tr>
-            <td>@Html.HiddenFor(m=> Model.Cra.Id)</td>
-            </tr>
             @*Liste déroulante pour choisir la mission effectuee*@
             <tr>
                 <td>@Html.Label("missions", "Mission : ")</td>
                 <td>@Html.DropDownList("missions", new SelectList(ViewBag.missions, "Id", "Name"))</td>
             </tr>
+
+            @*Calendrier pour choisir la periode de temps*@
+            @Html.Partial("SalariePartialForm", Model)
+            <tr>
+                 <td>@Html.HiddenFor(m=> Model.Cra.Id)</td>
+            </tr>
+
+            @*Liste déroulante pour choisir la formation*@
+            <tr>
+                <td>@Html.Label("formations", "Formation : ")</td>
+                <td>@Html.DropDownList("formations", new SelectList(ViewBag.formations, "Id", "Name"))</td>
+            </tr>
+           
 
         </table><br>
 

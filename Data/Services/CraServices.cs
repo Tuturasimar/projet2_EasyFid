@@ -14,6 +14,10 @@ namespace Projet2_EasyFid.Data.Services
 				return _bddContext.Missions.ToList();
 			}
 
+		public static List <Formation> GetAllFormations (BddContext _bddContext )
+		{
+			return _bddContext.Formations.ToList();
+		}
 	}
 }
 

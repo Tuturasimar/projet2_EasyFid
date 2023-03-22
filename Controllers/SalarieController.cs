@@ -73,7 +73,9 @@ namespace Projet2_EasyFid.Controllers
             using (Dal dal = new Dal()) 
             {
                 List<Mission> missions = dal.GetAllMissions();
+                List<Formation> formations = dal.GetAllFormations();
                 ViewBag.missions = missions;
+                ViewBag.formations = formations;    
 
             }
             return View();

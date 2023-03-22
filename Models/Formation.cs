@@ -5,6 +5,7 @@ namespace Projet2_EasyFid.Models
     public class Formation
     {
         public int Id { get; set; } 
+        public string Name { get; set; }
         public FormationStatusEnum FormationStatus { get; set; }
         public LocationFormationEnum LocationFormation { get; set; }
 
