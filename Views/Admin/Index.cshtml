@@ -11,6 +11,7 @@
         <th>Créé le</th>
         <th>Détails</th>
         <th>Modifier</th>
+        <th>Supprimer</th>
     </tr>
     @foreach (var user in @Model.Users)
     {
@@ -19,6 +20,7 @@
             <td>@user.CreationDate.ToString("dd/MM/yyyy")</td>
             <td>@Html.ActionLink("Détails", "UserDetail", "Admin", new { id = user.Id })</td>
             <td>@Html.ActionLink("Modifier", "ModifyUser", "Admin", new { id = user.Id })</td>
+            <td>@Html.ActionLink("Supprimer","DeleteUser","Admin", new { id = user.Id })</td>
         </tr>
     }
 </table>
