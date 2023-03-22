@@ -12,7 +12,7 @@ using Projet2_EasyFid.ViewModels;
 namespace Projet2_EasyFid.Controllers
 {
     // Controller qui va gérer les méthodes Manager (require authentification Manager)
-    public class ManagerController : Controller
+    public class MissionController : Controller
     {
         // GET: /<controller>/
 
@@ -31,14 +31,14 @@ namespace Projet2_EasyFid.Controllers
                 {
                     //je recherche l'ID qui est egal au parametre que m'a transmis l'utilisateur
                 Mission mission = dal.GetAllMissions().Where(m=>m.Id ==id).FirstOrDefault();
-                    if(mission != null)
+                    if(mission == null)
                     {
                         return View("Error");
                     }
                     return View(mission);
                 }
             }
-            return View();
+            return View("Error");
         }
     }
 }

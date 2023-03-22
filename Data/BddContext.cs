@@ -74,8 +74,8 @@ namespace Projet2_EasyFid.Data
                 new Mission {Id = 2, Name = "Firmenich", MissionStart = new DateTime(2020, 02, 01), MissionEnd = new DateTime(2021, 01, 01), Tjm = 670, MissionType = MissionTypeEnum.FORFAIT},
                 new Mission { Id = 3, Name = "RechercheContrat", MissionStart = new DateTime(2022, 09, 01), Tjm = 450, MissionType = MissionTypeEnum.INTERCONTRAT},
                 new Mission { Id = 4, Name = "Total", MissionStart = new DateTime(2022, 10, 01), Tjm = 500, MissionType = MissionTypeEnum.FORFAIT },
-                new Mission { Id = 5, Name = "Vivendi", MissionStart = new DateTime(2022, 07, 05), Tjm = 500, MissionType = MissionTypeEnum.FORFAIT },
-                new Mission { Id = 6, Name = "Renault", MissionStart = new DateTime(2022, 06, 15), Tjm = 490, MissionType = MissionTypeEnum.FORFAIT }
+                new Mission { Id = 5, Name = "Vivendi", MissionStart = new DateTime(2022, 07, 05), MissionEnd = new DateTime(2021, 08, 12), Tjm = 500, MissionType = MissionTypeEnum.FORFAIT },
+                new Mission { Id = 6, Name = "Renault", MissionStart = new DateTime(2022, 06, 15), MissionEnd = new DateTime(2021, 06, 15),Tjm = 490, MissionType = MissionTypeEnum.FORFAIT }
                 );
 
             //Dans la table Formation
