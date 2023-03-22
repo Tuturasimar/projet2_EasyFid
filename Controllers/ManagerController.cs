@@ -12,7 +12,7 @@ using Projet2_EasyFid.ViewModels;
 namespace Projet2_EasyFid.Controllers
 {
     // Controller qui va gérer les méthodes Manager (require authentification Manager)
-    public class MissionController : Controller
+    public class ManagerController : Controller
     {
         // GET: /<controller>/
 
