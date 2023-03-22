@@ -21,6 +21,8 @@ namespace Projet2_EasyFid.Models
 		public MissionTypeEnum MissionType { get; set; }
 
 		//pour creer une relation one one entre Mission et Activity
+		//Fonctionne ==> Si on ajoute dans la table Activity une nouvelle Activité avec le meme MissionId, le premier MissionId devient null
+		//Sans cette ligne on peut avoir deux Activity avec le meme MissionId
 		public Activity Activity { get; set; }
 	}
 }
