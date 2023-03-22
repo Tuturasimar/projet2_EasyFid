@@ -39,6 +39,14 @@ namespace Projet2_EasyFid.Data
 			_bddContext.SaveChanges();
 			return cra.Id;
 		}
+        public int CreateMission(int id,string name,DateTime missionStart,DateTime missionEnd,float tjm,MissionTypeEnum missionType)
+        {
+            //Instanciation dela nouvelle mission
+            Mission mission = new Mission() { Name = name, MissionStart = missionStart, MissionEnd = missionEnd, Tjm = tjm, MissionType = missionType };
+            _bddContext.Missions.Add(mission);
+            _bddContext.SaveChanges();
+            return mission.Id;
+        }
 
 		//Methode pour modifier un cra
 		public void UpdateCra(int id, StateEnum stateCra) {

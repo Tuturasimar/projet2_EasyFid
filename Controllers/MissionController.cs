@@ -16,8 +16,15 @@ namespace Projet2_EasyFid.Controllers
     {
         // GET: /<controller>/
 
-        public IActionResult Index()
+        //Affichage de l'ensemble des missions
+        public IActionResult IndexMission()
         {
+            using Dal dal =new Dal();
+            {
+                List<Mission>missions=dal.GetAllMissions();
+                ManagerViewModel managerViewModel = new ManagerViewModel { Missions=missions};
+                return View(managerViewModel);
+            }
             return View();
         }
         //ma methode de modification d'une mission
@@ -40,6 +47,8 @@ namespace Projet2_EasyFid.Controllers
             }
             return View("Error");
         }
+
+
 
         [HttpPost]
         public IActionResult UpdateMission(Mission mission)
