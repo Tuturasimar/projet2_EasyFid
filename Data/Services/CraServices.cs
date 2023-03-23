@@ -56,6 +56,11 @@ namespace Projet2_EasyFid.Data.Services
 			_bddContext.SaveChanges();
 			return cra.Id;
 		}
+
+		public static Activity GetActivityById (BddContext _bddContext,  int id)
+		{
+			return _bddContext.Activities.SingleOrDefault(a => a.Id == id);
+		}
 	}
 }
 
