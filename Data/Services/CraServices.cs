@@ -28,22 +28,6 @@ namespace Projet2_EasyFid.Data.Services
 			return _bddContext.Activities.ToList();
 		}
 
-		
-		/*
-		public static Mission GetMissionById(BddContext _bddContext, int id)
-		{
-			//On va réaliser ici une jointure entre 4 tables 
-			//Pour récuperer les données de la table mission, depuis la table Cra
-            var query = from c in _bddContext.Cras
-                        join ca in _bddContext.CraActivities on c.Id equals ca.CraId //jointure entre CraActivity et Cra
-                        join a in _bddContext.Activities on ca.ActivityId equals a.Id //jointure entre CraActivity et Activity
-						join m in _bddContext.Missions on a.MissionId equals m.Id //jointure entre Activity et Mission
-                        select m;
-			var MissionId = query.ToList();
-			return MissionId.FirstOrDefault();
-        }
-		*/
-
 		public static Mission GetMissionById (BddContext _bddcontext, int id)
 		{
 			return _bddcontext.Missions.SingleOrDefault(m => m.Id == id);
@@ -75,6 +59,8 @@ namespace Projet2_EasyFid.Data.Services
 			return activityDate.Id;
 		}
 
+		//Methode qui creee une nouvelle CraActivity dans la BDD et qui nous retourne son Id
+		//Cette table permet de relier l'Activity et le Cra grace a des clefs etrangeres 
 		public static int CreateCraActivity(BddContext _bddContext, CraActivity craActivity)
 		{
 			_bddContext.CraActivities.Add(craActivity);
