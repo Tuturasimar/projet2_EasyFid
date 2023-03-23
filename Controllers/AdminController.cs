@@ -72,7 +72,7 @@ namespace Projet2_EasyFid.Controllers
                 return RedirectToAction("Index");
             }
         }
-
+  
         [HttpPost]
         // Une fois qu'on appuie sur le bouton du formulaire, cette méthode récupère un objet user
         public IActionResult ModifyUser(User user, List<RoleTypeEnum> roleType, int company, int manager, JobEnum jobEnum)
@@ -194,6 +194,59 @@ namespace Projet2_EasyFid.Controllers
             
         }
 
+        public IActionResult DeleteUser(int id)
+        {
+            using (Dal dal = new Dal())
+            {
+                // On récupère l'utilisateur en fonction de son id
+                User user = dal.GetUserById(id);
+                // Si l'utilisateur existe en BDD
+                if (user != null)
+                {
+                    List<RoleUser> rolesUser = dal.GetAllRolesById(id);
+                    UserRoleViewModel urvm = new UserRoleViewModel { User = user, RolesUser = rolesUser };
+                    // Envoi en paramètre à la vue UserDelete
+                    return View(urvm);
+                }
+                // Si l'utilisateur n'existe pas, redirection vers l'Index Admin
+                return RedirectToAction("Index");
+            }
+        }
+
+        public IActionResult ConfirmDeleteUser(int id)
+        {
+            using(Dal dal = new Dal())
+            {
+                // On récupère le user à supprimer
+                User userToDelete = dal.GetUserById(id);
+                // On récupère l'ensemble de ses CRA
+                List<Cra> crasFromUser = dal.GetAllCrasByUserId(id);
+
+                // On boucle sur chacun d'entre eux
+                foreach(Cra cra in crasFromUser)
+                {
+                    // On change l'IdUser de chaque CRA en null
+                    dal.SetUserIdNullOnDelete(cra);
+                }
+
+                // On récupère la liste des User qui avaient pour Manager la personne à supprimer
+                List<User> usersManaged = dal.GetAllUsersByManagerId(id);
+                // On boucle sur chacun d'entre eux
+                foreach(User user in usersManaged)
+                {
+                    // On change l'IdManager de chaque User en null
+                    dal.SetManagerIdNullOnDelete(user);
+                }
+
+                // On supprime les accréditations liées à l'utilisateur
+                dal.DeleteAllRoleUsersByUserId(id);
+                // On supprime le UserData de l'utilisateur à supprimer. Cela déclenche aussi la suppression du User
+                dal.DeleteUserDataById(userToDelete.UserDataId);
+
+            }
+
+            return RedirectToAction("Index");
+        }
     }
 }
 

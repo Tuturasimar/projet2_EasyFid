@@ -22,6 +22,16 @@ namespace Projet2_EasyFid.Data
 		{
 			return _bddContext.Cras.ToList();
 		}
+
+        public List<Cra> GetAllCrasByUserId(int id)
+        {
+            return CraServices.GetAllCrasByUserId(_bddContext, id);
+        }
+
+        public void SetUserIdNullOnDelete (Cra cra)
+        {
+            CraServices.SetUserIdNullOnDelete(_bddContext, cra);
+        }
         
         public int CreateCra ( Cra cra )
         {
@@ -93,6 +103,11 @@ namespace Projet2_EasyFid.Data
             return UserServices.GetAllUsers(_bddContext);
         }
 
+        public List<User> GetAllUsersByManagerId(int id)
+        {
+            return UserServices.GetAllUsersByManagerId(_bddContext, id);
+        }
+
         public User GetUserById(int id)
         {
             return UserServices.GetUserById(_bddContext, id);
@@ -143,9 +158,24 @@ namespace Projet2_EasyFid.Data
             return UserServices.GetAllManagerUserDatas(_bddContext, idUser);
         }
 
+        public void SetManagerIdNullOnDelete (User user)
+        {
+            UserServices.SetManagerIdNullOnDelete(_bddContext, user);
+        }
+
         public void DeleteAllRoleUsersByUserId(int idUser)
         {
             UserServices.DeleteAllRoleUsersByUserId(_bddContext, idUser);
+        }
+
+        public void DeleteUserById(int id)
+        {
+            UserServices.DeleteUserById(_bddContext, id);
+        }
+
+        public void DeleteUserDataById(int id)
+        {
+            UserServices.DeleteUserDataById(_bddContext, id);
         }
 
         public List<Mission> GetAllMissions()
