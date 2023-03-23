@@ -45,6 +45,19 @@ namespace Projet2_EasyFid.Data.Services
 			_bddContext.SaveChanges();
 			return cra.Id;
 		}
-	}
+
+		public static List<Cra> GetAllCrasByUserId(BddContext _bddContext, int id)
+		{
+			List<Cra> cras = _bddContext.Cras.Where(c => c.UserId == id).ToList();
+			return cras;
+		}
+
+		public static void SetUserIdNullOnDelete(BddContext _bddContext, Cra cra)
+		{
+			_bddContext.Cras.Update(cra);
+			_bddContext.SaveChanges();
+		}
+
+    }
 }
 

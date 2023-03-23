@@ -29,7 +29,7 @@ namespace Projet2_EasyFid.Controllers
                 ManagerViewModel managerViewModel  = new ManagerViewModel { Missions = missions };
                 return View(managerViewModel);
             }
-            
+
         }
         //ma methode de modification d'une mission
         public IActionResult UpdateMission(int id)
