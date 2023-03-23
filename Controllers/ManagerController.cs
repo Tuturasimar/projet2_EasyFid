@@ -31,6 +31,30 @@ namespace Projet2_EasyFid.Controllers
             }
             
         }
+        //public IActionResult MissionDetail(int id)
+        //{
+        //    using (Dal dal = new Dal())
+        //    {
+        //        // On récupère la mission en fonction de son id
+        //        Mission mission = dal.GetMissionById(id);
+        //        // Si l'utilisateur existe en BDD
+        //        if (user != null)
+        //        {
+        //            List<RoleUser> rolesUser = dal.GetAllRolesById(id);
+        //            UserRoleViewModel urvm = new UserRoleViewModel { User = user, RolesUser = rolesUser };
+        //            // Envoi en paramètre à la vue UserDetail
+        //            return View(urvm);
+        //        }
+        //        // Si l'utilisateur n'existe pas, redirection vers l'Index Admin
+        //        return RedirectToAction("Index");
+        //    }
+        //}
+
+
+
+
+
+
         //ma methode de modification d'une mission
         public IActionResult UpdateMission(int id)
         {
