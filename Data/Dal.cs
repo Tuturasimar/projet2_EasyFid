@@ -65,10 +65,10 @@ namespace Projet2_EasyFid.Data
             this._bddContext.SaveChanges();
         }
 
-        public User GetMissionById(int id)
-        {
-            return MissionServices.GetMissionById(_bddContext, id);
-        }
+        //public User GetMissionById(int id)
+        //{
+        //    return MissionServices.GetMissionById(_bddContext, id);
+        //}
 
         // Méthode pour authentifier un utilisateur (vérification du login et du mdp)
         public User Authentifier(string login, string password)
