@@ -64,15 +64,22 @@ namespace Projet2_EasyFid.Data
             this._bddContext.Missions.Update(mission);
             this._bddContext.SaveChanges();
         }
-        
 
-        
+        public User GetMissionById(int id)
+        {
+            return MissionServices.GetMissionById(_bddContext, id);
+        }
+
         // Méthode pour authentifier un utilisateur (vérification du login et du mdp)
         public User Authentifier(string login, string password)
         {
             string encryptedPassword = EncodeMD5(password);
             User user = this._bddContext.Users.FirstOrDefault(u => u.Login == login && u.Password == encryptedPassword);
             return user;
+        }
+        public List<Mission> GetAllMissions()
+        {
+            return CraServices.GetAllMissions(_bddContext);
         }
 
         // Récupère l'utilisateur actuellement authentifié
@@ -107,7 +114,7 @@ namespace Projet2_EasyFid.Data
         {
             return UserServices.GetUserById(_bddContext, id);
         }
-
+        
         public User GetUserByUserDataId (int id)
         {
             return UserServices.GetUserByUserDataId(_bddContext, id);
@@ -158,10 +165,7 @@ namespace Projet2_EasyFid.Data
             UserServices.DeleteAllRoleUsersByUserId(_bddContext, idUser);
         }
 
-        public List<Mission> GetAllMissions()
-        {
-            return CraServices.GetAllMissions(_bddContext);
-        }
+        
 
         public List<Formation> GetAllFormations()
         {

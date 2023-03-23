@@ -20,10 +20,11 @@ namespace Projet2_EasyFid.Controllers
 
         // GET: /<controller>/
         //Affichage de l'ensemble des missions
-        public IActionResult IndexManager()
+        public IActionResult Index()
         {
             using Dal dal =new Dal();
             {
+                //Récupération des missions que l'on stocke dans une liste
                 List<Mission>missions=dal.GetAllMissions();
                 ManagerViewModel managerViewModel  = new ManagerViewModel { Missions = missions };
                 return View(managerViewModel);
@@ -76,11 +77,17 @@ namespace Projet2_EasyFid.Controllers
                     Tjm = tjm,
                     MissionType = missionType
                 };
-                return View();
-              
-            //Pour retourner sur la page d'affichade des cras
-            return RedirectToAction("CreateMission", new { @id = mission.Id });
+                
+                //Recuperation de l'id de la mission que nous venons de creer
+                int missionId = mission.Id;
+
+
+               
             }
+              
+            //Pour retourner sur la page d'affichage des mission
+            return RedirectToAction("IndexManager");
+            
         }
 
 
