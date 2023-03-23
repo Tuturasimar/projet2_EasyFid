@@ -74,6 +74,13 @@ namespace Projet2_EasyFid.Data.Services
 			_bddContext.SaveChanges();
 			return activityDate.Id;
 		}
+
+		public static int CreateCraActivity(BddContext _bddContext, CraActivity craActivity)
+		{
+			_bddContext.CraActivities.Add(craActivity);
+			_bddContext.SaveChanges();
+			return craActivity.Id;
+		}
 	}
 }
 

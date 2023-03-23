@@ -93,31 +93,41 @@ namespace Projet2_EasyFid.Controllers
         {
             using (Dal dal = new Dal())
             {
-
                 //On recupere l'id de l'Activity
                 int activityId = dal.GetActivityById(activities).Id;
+
+                //On cree un nouveau Cra qui recupere la date de creation et de modification, ainsi que le status du Cra
+                Cra newCra = new Cra
+                {
+                    CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now,
+                    StateCra = stateEnum
+                };
+                //On recupere l'id du nouveau Cra grace à la méthode CreateCra
+                int craId = dal.CreateCra(newCra);
+
+                //On cree le CraActivity qui relie l'Activity et le Cra
+                CraActivity newCraActivity = new CraActivity
+                {
+                    CraId = craId,
+                    ActivityId = activityId
+                };
+
+                //On recupere l'id de la nouvelle CraActivity creee
+                int craActivity = dal.CreateCraActivity(newCraActivity);
 
                 //On cree l'ActivityDate 
                 ActivityDate newActivityDate = new ActivityDate
                 {
                     BeginDate = activityDate.BeginDate,
                     EndDate = activityDate.EndDate,
-                    //CraActivityId =1 pour l'instant, juste pour tester
-                    CraActivityId = 1
+                    CraActivityId = craActivity
                 };
 
                 //On recupere l'id de la nouvelle ActivityDate creee
                int activityDateId = dal.CreateActivityDate(newActivityDate);
 
-            //On cree un nouveau Cra qui recupere la date de creation et de modification, ainsi que le status du Cra
-            Cra newCra = new Cra
-            {
-                CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now,
-                StateCra = stateEnum
-            };
-                //On recupere l'id du nouveau Cra grace à la méthode CreateCra
-                int CraId = dal.CreateCra(newCra);
+           
                 
             }
 
