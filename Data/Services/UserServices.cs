@@ -15,12 +15,22 @@ namespace Projet2_EasyFid.Data.Services
             return _bddContext.Users.Include(u => u.UserData).Include(u => u.Company).ToList();
         }
 
+        public static List<User> GetAllUsersByManagerId (BddContext _bddContext, int id)
+        {
+            return _bddContext.Users.Where(u => u.ManagerId == id).ToList();
+        }
+
 		public static User GetUserById(BddContext _bddContext, int id)
 		{
             // Le Include permet ici de récupérer les données du UserData (qui est lié à User par une clé étrangère)
             // Sans Include, impossible de récupérer certaines données en faisant User.Userdata.FirstName, par exemple.
             User user = _bddContext.Users.Include(u => u.UserData).Include(u=>u.Company).Include(u=>u.Manager).SingleOrDefault(u => u.Id == id);
             return user;
+        }
+
+        public static UserData GetUserDataById(BddContext _bddContext, int id)
+        {
+            return _bddContext.UserDatas.SingleOrDefault(u => u.Id == id);
         }
 
         public static void ModifyUser(BddContext _bddContext, User user)
@@ -93,6 +103,25 @@ namespace Projet2_EasyFid.Data.Services
                 _bddContext.RoleUsers.Remove(role);
                 _bddContext.SaveChanges();
             }
+        }
+
+        public static void DeleteUserById(BddContext _bddContext, int id)
+        {
+            User userToDelete = UserServices.GetUserById(_bddContext,id);
+            _bddContext.Users.Remove(userToDelete);
+            _bddContext.SaveChanges();
+        }
+
+        public static void DeleteUserDataById(BddContext _bddContext, int id)
+        {
+            UserData userDataToDelete = UserServices.GetUserDataById(_bddContext,id);
+            _bddContext.UserDatas.Remove(userDataToDelete);
+            _bddContext.SaveChanges();
+        }
+
+        public static void SetManagerIdNullOnDelete(BddContext _bddContext, User user)
+        {
+
         }
     }
 }
