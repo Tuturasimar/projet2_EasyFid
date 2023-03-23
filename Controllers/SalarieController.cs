@@ -100,8 +100,14 @@ namespace Projet2_EasyFid.Controllers
                 //On cree l'ActivityDate 
                 ActivityDate newActivityDate = new ActivityDate
                 {
-                    
+                    BeginDate = activityDate.BeginDate,
+                    EndDate = activityDate.EndDate,
+                    //CraActivityId =1 pour l'instant, juste pour tester
+                    CraActivityId = 1
                 };
+
+                //On recupere l'id de la nouvelle ActivityDate creee
+               int activityDateId = dal.CreateActivityDate(newActivityDate);
 
             //On cree un nouveau Cra qui recupere la date de creation et de modification, ainsi que le status du Cra
             Cra newCra = new Cra
@@ -109,7 +115,6 @@ namespace Projet2_EasyFid.Controllers
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
                 StateCra = stateEnum
-
             };
                 //On recupere l'id du nouveau Cra grace à la méthode CreateCra
                 int CraId = dal.CreateCra(newCra);

@@ -173,6 +173,16 @@ namespace Projet2_EasyFid.Data
         {
             return CraServices.GetActivityById(_bddContext, id);
         }
+
+        public ActivityDate GetActivityDateById (int id)
+        {
+            return CraServices.GetActivityDateById(_bddContext, id);
+        }
+
+        public int CreateActivityDate (ActivityDate activityDate)
+        {
+            return CraServices.CreateActivityDate(_bddContext, activityDate);
+        }
     }
 }
 

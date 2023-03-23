@@ -61,6 +61,19 @@ namespace Projet2_EasyFid.Data.Services
 		{
 			return _bddContext.Activities.SingleOrDefault(a => a.Id == id);
 		}
+
+		public static ActivityDate GetActivityDateById (BddContext _bddContext, int id)
+		{
+			return _bddContext.ActivityDates.SingleOrDefault(ad => ad.Id == id);
+		}
+
+		//Methode qui creee une nouvelle activité dans la BDD et qui nous retourne son Id
+		public static int CreateActivityDate(BddContext _bddContext, ActivityDate activityDate)
+		{
+			_bddContext.ActivityDates.Add(activityDate);
+			_bddContext.SaveChanges();
+			return activityDate.Id;
+		}
 	}
 }
 
