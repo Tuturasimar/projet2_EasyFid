@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Projet2_EasyFid.Data;
+using Projet2_EasyFid.Data.Enums;
 using Projet2_EasyFid.Models;
 using Projet2_EasyFid.ViewModels;
 
@@ -40,9 +41,9 @@ namespace Projet2_EasyFid.Controllers
                 if (user != null)
                 {
                     var userClaims = new List<Claim>()
-                    {
-                        new Claim(ClaimTypes.Name, user.Id.ToString())
-                    };
+            {
+                new Claim(ClaimTypes.Name, user.Id.ToString())
+            };
 
                     var ClaimIdentity = new ClaimsIdentity(userClaims, "User Identity");
 
@@ -50,20 +51,31 @@ namespace Projet2_EasyFid.Controllers
 
                     HttpContext.SignInAsync(userPrincipal);
 
+                    switch (viewModel.UserRoleViewModel.SelectedRole)
+                    {
+                        case RoleTypeEnum.ADMIN:
+                            return RedirectToAction("Index", "Admin");
+                        case RoleTypeEnum.SALARIE:
+                            return RedirectToAction("IndexSalarie", "Salarie");
+                        case RoleTypeEnum.MANAGER:
+                            return RedirectToAction("index", "Manager");
+                    }
+
                     if (!string.IsNullOrWhiteSpace(returnUrl) && Url.IsLocalUrl(returnUrl))
                         return Redirect(returnUrl);
 
-                    return Redirect("/");
+                    return RedirectToAction("Index", "Login");
                 }
                 ModelState.AddModelError("User.Login", "Login et/ou mot de passe incorrect(s)");
             }
             return View(viewModel);
         }
 
+
         public ActionResult Logout()
         {
             HttpContext.SignOutAsync();
-            return Redirect("/");
+            return RedirectToAction("Index", "Login");
         }
     }
 }

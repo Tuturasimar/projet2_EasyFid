@@ -22,7 +22,6 @@
     <Folder Include="wwwroot\css\" />
     <Folder Include="wwwroot\assets\" />
     <Folder Include="wwwroot\assets\image\" />
-    <Folder Include="Data\Services\" />
     <Folder Include="Views\Shared\" />
     <Folder Include="Views\Login\" />
     <Folder Include="Views\Admin\" />

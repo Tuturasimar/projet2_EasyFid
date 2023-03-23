@@ -11,6 +11,8 @@ namespace Projet2_EasyFid.Models
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Ce champ doit être rempli.")]
+        [MinLength(3, ErrorMessage ="Le login doit avoir plus de 3 caractères.")]
+        [MaxLength(20 , ErrorMessage ="Le login ne peut excéder 20 caractères.")]
         public string Login { get; set; }
         [Required(ErrorMessage = "Ce champ doit être rempli.")]
         [MaxLength(50)]
@@ -26,7 +28,6 @@ namespace Projet2_EasyFid.Models
 
         public int? ManagerId { get; set; }
         public User Manager { get; set; }
-
     }
 }
 

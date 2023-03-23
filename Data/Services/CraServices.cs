@@ -41,6 +41,7 @@ namespace Projet2_EasyFid.Data.Services
 			return cra.Id;
 		}
 
+
 		public static Activity GetActivityById (BddContext _bddContext,  int id)
 		{
 			return _bddContext.Activities.SingleOrDefault(a => a.Id == id);
@@ -68,5 +69,20 @@ namespace Projet2_EasyFid.Data.Services
 			return craActivity.Id;
 		}
 	}
+
+		public static List<Cra> GetAllCrasByUserId(BddContext _bddContext, int id)
+		{
+			List<Cra> cras = _bddContext.Cras.Where(c => c.UserId == id).ToList();
+			return cras;
+		}
+
+		public static void SetUserIdNullOnDelete(BddContext _bddContext, Cra cra)
+		{
+			_bddContext.Cras.Update(cra);
+			_bddContext.SaveChanges();
+		}
+
+    }
+
 }
 
