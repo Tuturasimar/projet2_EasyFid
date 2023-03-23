@@ -33,6 +33,10 @@ namespace Projet2_EasyFid.Data
         {
             return CraServices.CreateCra( _bddContext, cra );  
             }
+        public int CreateMission(Mission mission)
+        {
+            return MissionServices.CreateMission(_bddContext,mission);
+        }
 
         public int CreateMission(int id,string name,DateTime missionStart,DateTime missionEnd,float tjm,MissionTypeEnum missionType)
         {

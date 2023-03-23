@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Projet2_EasyFid.Data;
+using Projet2_EasyFid.Data.Enums;
 using Projet2_EasyFid.Models;
 using Projet2_EasyFid.ViewModels;
 
@@ -17,7 +19,6 @@ namespace Projet2_EasyFid.Controllers
         
 
         // GET: /<controller>/
-
         //Affichage de l'ensemble des missions
         public IActionResult IndexManager()
         {
@@ -50,7 +51,37 @@ namespace Projet2_EasyFid.Controllers
             return View("Error");
         }
 
+        //Affiche le formulaire de creation d'une mission
+        public IActionResult CreateMission()
+        {
+            using (Dal dal = new Dal())
+            {   List<Mission> missions = dal.GetAllMissions() ?? new List<Mission>();
+                ViewBag.missions = missions;
+            }
+            return View();
+        }
 
+        [HttpPost]
+        //Une fois qu'on appuie sur le bouton du formulaire, cette methode recupere un objet Mission
+        public IActionResult CreateMission(int id, string name, DateTime missionStart, DateTime missionEnd, float tjm, MissionTypeEnum missionType)
+        {
+            using (Dal dal = new Dal())
+            {
+
+                Mission mission = new Mission
+                {
+                    Name = name,
+                    MissionStart = missionStart,
+                    MissionEnd = missionEnd,
+                    Tjm = tjm,
+                    MissionType = missionType
+                };
+                return View();
+              
+            //Pour retourner sur la page d'affichade des cras
+            return RedirectToAction("CreateMission", new { @id = mission.Id });
+            }
+        }
 
 
         [HttpPost]
