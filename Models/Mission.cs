@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Projet2_EasyFid.Data.Enums;
 
@@ -30,6 +31,7 @@ namespace Projet2_EasyFid.Models
 		//Fonctionne ==> Si on ajoute dans la table Activity une nouvelle Activité avec le meme MissionId, le premier MissionId devient null
 		//Sans cette ligne on peut avoir deux Activity avec le meme MissionId
 		public Activity Activity { get; set; }
-	}
+        
+    }
 }
 

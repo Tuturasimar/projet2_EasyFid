@@ -19,6 +19,7 @@ namespace Projet2_EasyFid.Data
 
 		List<Mission> GetAllMissions();
 		int CreateMission(int id,string name,DateTime missionStart,DateTime missionEnd,float tjm,MissionTypeEnum missionType);
+		//int DeleteMission(int id);
 		void UpdateMission(Mission mission);
 	}
 }

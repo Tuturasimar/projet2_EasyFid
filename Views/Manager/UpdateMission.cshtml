@@ -11,7 +11,7 @@
     </head>
 <body>
     @*on pourra passer des parametres dans begin form par la suite*@
-@using (Html.BeginForm())
+    @using (Html.BeginForm("UpdateMission", "Manager", FormMethod.Post))
 {
     <fieldset>
         <legend>Modifier une mission</legend>
