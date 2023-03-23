@@ -148,8 +148,20 @@ namespace Projet2_EasyFid.Controllers
         // Une fois qu'on appuie sur le bouton du formulaire, cette méthode récupère un objet user
         public IActionResult CreateUser(User user, List<RoleTypeEnum> roleType, int company, int manager, JobEnum jobEnum)
         {
+            
             using (Dal dal = new Dal())
-            {                
+            {
+                if (!ModelState.IsValid)
+                {
+                    List<Company> companies = dal.GetAllCompanies();
+                    List<UserData> userDatas = new List<UserData>();
+                    userDatas.Add(new UserData { Lastname = "Aucun manager" });
+                    userDatas.AddRange(dal.GetAllManagerUserDatas(0));
+                    ViewBag.companies = companies;
+                    ViewBag.userDatas = userDatas;
+
+                    return View(user);
+                }
                 // On crée les UserData en premier (aucune clé étrangère dans la table)
                 UserData newUserData = new UserData {
                     Firstname = user.UserData.Firstname,
