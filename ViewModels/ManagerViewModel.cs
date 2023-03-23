@@ -5,6 +5,6 @@ namespace Projet2_EasyFid.ViewModels
 {
     public class ManagerViewModel
     {
-        public List<Mission> Missions { get; set; }
+        public ICollection<Mission> Missions { get; set; }
     }
 }

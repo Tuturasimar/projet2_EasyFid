@@ -14,18 +14,20 @@ namespace Projet2_EasyFid.Controllers
     // Controller qui va gérer les méthodes Manager (require authentification Manager)
     public class ManagerController : Controller
     {
+        
+
         // GET: /<controller>/
 
         //Affichage de l'ensemble des missions
-        public IActionResult IndexMission()
+        public IActionResult IndexManager()
         {
             using Dal dal =new Dal();
             {
                 List<Mission>missions=dal.GetAllMissions();
-                ManagerViewModel managerViewModel = new ManagerViewModel { Missions=missions};
+                ManagerViewModel managerViewModel  = new ManagerViewModel { Missions = missions };
                 return View(managerViewModel);
             }
-            return View();
+            
         }
         //ma methode de modification d'une mission
         public IActionResult UpdateMission(int id)
@@ -47,6 +49,7 @@ namespace Projet2_EasyFid.Controllers
             }
             return View("Error");
         }
+
 
 
 
