@@ -64,14 +64,14 @@ namespace Projet2_EasyFid.Data
                 
             //Dans la tables cras
             this.Cras.AddRange(
-                new Cra { Id = 1, CreatedAt = DateTime.Now, UpdatedAt = new DateTime(2022, 03, 01), StateCra = StateEnum.CREATED, UserId = 1},
+                new Cra { Id = 1, CreatedAt = new DateTime(2020, 06, 20), UpdatedAt = new DateTime(2020, 06, 27), StateCra = StateEnum.VALIDATED, UserId = 1},
                 new Cra { Id = 2, CreatedAt = DateTime.Now, StateCra = StateEnum.VALIDATED, UserId = 2},
                 new Cra { Id = 3, CreatedAt = DateTime.Now, UpdatedAt = new DateTime(2021, 03, 01), StateCra = StateEnum.CREATED, UserId = 1 }
                 );
 
             //Dans la table Missions
             this.Missions.AddRange(
-                new Mission {Id = 1, Name = "Sanofi", MissionStart = new DateTime(2020, 06, 10), MissionEnd = new DateTime(2021, 12, 12), Tjm = 630 , MissionType = MissionTypeEnum.FORFAIT},
+                new Mission {Id = 1, Name = "Sanofi", MissionStart = new DateTime(2020, 06, 10), MissionEnd = new DateTime(2020, 06, 24), Tjm = 630 , MissionType = MissionTypeEnum.FORFAIT},
                 new Mission {Id = 2, Name = "Firmenich", MissionStart = new DateTime(2020, 02, 01), MissionEnd = new DateTime(2021, 01, 01), Tjm = 670, MissionType = MissionTypeEnum.FORFAIT},
                 new Mission { Id = 3, Name = "RechercheContrat", MissionStart = new DateTime(2022, 09, 01), Tjm = 450, MissionType = MissionTypeEnum.INTERCONTRAT},
                 new Mission { Id = 4, Name = "Total", MissionStart = new DateTime(2022, 10, 01), Tjm = 500, MissionType = MissionTypeEnum.FORFAIT },
@@ -93,12 +93,16 @@ namespace Projet2_EasyFid.Data
 
             //Dans la table Activities
             this.Activities.AddRange(
-                new Activity { Id = 1, LabelActivity = "Sanofi", MissionId = 1},
+                new Activity {Id = 1, LabelActivity = "Sanofi", MissionId = 1},
                 new Activity {Id = 2,  LabelActivity = "Firmenich", MissionId = 2},
                 new Activity { Id = 3, LabelActivity = "Maladie", AbsenceId = 1},
                 new Activity { Id = 4, LabelActivity = "Congé", AbsenceId = 2},
                 new Activity { Id = 5, LabelActivity = "Formation Incendie", FormationId = 1 },
-                new Activity { Id = 6, LabelActivity = "Formation nouveau logiciel",  FormationId = 2 }
+                new Activity { Id = 6, LabelActivity = "Formation nouveau logiciel",  FormationId = 2 },
+                new Activity { Id = 7, LabelActivity = "Recherche Contrat", MissionId = 3 },
+                new Activity { Id = 8, LabelActivity = "Total", MissionId = 4 },
+                new Activity { Id = 9, LabelActivity = "Vivendi", MissionId = 5 },
+                new Activity { Id = 10, LabelActivity = "Renault", MissionId = 6 }
                 );
 
 
