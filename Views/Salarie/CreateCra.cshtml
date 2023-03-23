@@ -1,5 +1,4 @@
-﻿@model Projet2_EasyFid.Models.CraActivity
-@{
+﻿@{
     Layout = "_Layout";
     ViewBag.Title = "Formulaire création d'un Cra";
 }
@@ -14,9 +13,8 @@
         <br />
 
         @*Calendrier pour choisir la periode de temps*@
-        @Html.Partial("SalariePartialForm", Model)
+        @Html.Partial("SalariePartialForm")
             
-        @Html.HiddenFor(m=> Model.Cra.Id)
         <br />
 
         @*Liste deroulante pour le choix de l'activité (mission, formation ou absence)*@

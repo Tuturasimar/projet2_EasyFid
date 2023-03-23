@@ -163,12 +163,12 @@ namespace Projet2_EasyFid.Data
             return CraServices.GetAllActivities(_bddContext);
         }
 
-        /*
+        
         public Mission GetMissionById(int id)
         {
             return CraServices.GetMissionById(_bddContext, id);
         }
-        */
+        
     }
 }
 

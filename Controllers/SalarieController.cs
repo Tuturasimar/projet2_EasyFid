@@ -88,17 +88,18 @@ namespace Projet2_EasyFid.Controllers
 
         [HttpPost]
         //Une fois qu'on appuie sur le bouton du formulaire, cette methode recupere un objet Cra
-        public IActionResult CreateCra(Cra cra, int user, int mission)
+        public IActionResult CreateCra(int user, int missions, int formations, int activities)
         {
             using (Dal dal = new Dal())
             {
+               
                 //On recupere l'id de la mission
-                //int missionId = dal.GetMissionById(mission).Id;
+                int missionId = dal.GetMissionById(missions).Id;
                
                 //On cree l'ActivityDate 
                 ActivityDate newActivityDate = new ActivityDate
                 {
-
+                   
                 };
 
             //

@@ -11,8 +11,9 @@ namespace Projet2_EasyFid.Models
         public DateTime? EndDate { get; set; }
         public bool? HalfTime { get; set; }
 
-        //clef etrangere vers la table Activity 
-        public int ActivityId { get; set; }
-        public virtual Activity Activity { get; set; }
+        //clef etrangere vers la table CraActivity
+        public int CraActivityId { get; set; }
+        public virtual CraActivity CraActivity { get; set;}
+
     }
 }
