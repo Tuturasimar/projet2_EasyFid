@@ -68,7 +68,7 @@ namespace Projet2_EasyFid.Data.Services
 			_bddContext.SaveChanges();
 			return craActivity.Id;
 		}
-	}
+	
 
 		public static List<Cra> GetAllCrasByUserId(BddContext _bddContext, int id)
 		{

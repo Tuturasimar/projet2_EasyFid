@@ -191,12 +191,7 @@ namespace Projet2_EasyFid.Data
             UserServices.DeleteUserDataById(_bddContext, id);
         }
 
-        public List<Mission> GetAllMissions()
-        {
-            return CraServices.GetAllMissions(_bddContext);
-        }
-
-
+       
         public List<Formation> GetAllFormations()
         {
             return CraServices.GetAllFormations(_bddContext);
