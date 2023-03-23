@@ -6,19 +6,27 @@
 
 @Html.HiddenFor(m => Model.Id)
 @Html.Label("Login", "Login : ")
-@Html.TextBoxFor(mn => Model.Login)
+@Html.TextBoxFor(m => Model.Login)
+@Html.ValidationMessageFor(m => Model.Login)
 <br />
 @Html.Label("FirstName", "Prénom : ")
 @Html.TextBoxFor(m => Model.UserData.Firstname)
+@Html.ValidationMessageFor(m => Model.UserData.Firstname)
+
 <br />
 @Html.Label("LastName", "Nom : ")
 @Html.TextBoxFor(m => Model.UserData.Lastname)
+@Html.ValidationMessageFor(m => Model.UserData.Lastname)
+
 <br />
 @Html.Label("BirthDay", "Date de naissance : ")
 @Html.EditorFor(m => Model.UserData.Birthday)
+
 <br />
 @Html.Label("Email", "Email : ")
 @Html.EditorFor(m => Model.UserData.Email)
+@Html.ValidationMessageFor(m => Model.UserData.Email)
+
 
 
 

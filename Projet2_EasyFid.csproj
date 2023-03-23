@@ -19,17 +19,12 @@
     <None Remove="ViewModels\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Controllers\" />
-    <Folder Include="wwwroot\" />
     <Folder Include="wwwroot\css\" />
     <Folder Include="wwwroot\assets\" />
     <Folder Include="wwwroot\assets\image\" />
-    <Folder Include="Data\Services\" />
     <Folder Include="Views\Shared\" />
     <Folder Include="Views\Login\" />
     <Folder Include="Views\Admin\" />
-
-    <Folder Include="Views\Salarie\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\" />

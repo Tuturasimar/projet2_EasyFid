@@ -4,19 +4,85 @@
     ViewBag.Title = "Formulaire Utilisateur";
 }
 
-    <h2>Edition du profil de @Model.UserData.Firstname @Model.UserData.Lastname</h2>
+<h2>Edition du profil de @Model.UserData.Firstname @Model.UserData.Lastname</h2>
 
 
 @*On crée le début du formulaire ici pour que le même formulaire puisse être utilisé dans le controller Salarie*@
-@using (@Html.BeginForm("ModifyUser", "Admin", FormMethod.Post))
-{
+@using (Html.BeginForm("ModifyUser", "Admin", FormMethod.Post))
+    {
     <fieldset>
         <legend>Modification </legend>
         @Html.Partial("UserPartialForm", Model)
 
         @Html.Label("Password", "Mot de passe : ")
         @Html.PasswordFor(m => m.Password)
+        @Html.ValidationMessageFor(m => m.Password)
+
+
+        @*Ici, la même boucle que dans la view CreateUser*@
+        @foreach (Projet2_EasyFid.Data.Enums.RoleTypeEnum item in Enum.GetValues(typeof(Projet2_EasyFid.Data.Enums.RoleTypeEnum)))
+        {
+            @*On instancie une variable qui nous permettra de déterminer si le checkbox doit être pré coché ou non*@
+            bool isChecked = false;
+            @*On boucle parmi les roles de l'utilisateur actuel qui est modifié*@
+            @foreach (var role in ViewBag.rolesUser)
+            {
+                @*Si le RoleTypeEnum est le même*@
+                if (role.RoleType == item)
+                {
+                    @*On passe le boolean en true*@
+                    isChecked = true;
+                    @*Dès que l'on sait que le checkbox doit être coché, inutile de vérifier les autres rôles du user, on sort de la boucle*@
+                    break;
+                }
+            }
+            <div>
+                @*Avec la notation suivante checked=@isChecked, il existe deux comportements possibles :
+                    - Si isChecked = true, alors il comprend que checked="checked". La case de ce checkbox sera donc pré-coché
+                    - Si isChecked = false, alors il comprend que checked ne doit pas être écrit tout court
+                En effet, le simple fait que checked soit écrit dans un input fait que le checkbox sera tout le temps coché
+                Le seul moyen pour qu'une checkbox ne soit pas cochée, c'est que checked ne soit pas écrit du tout, peu importe la valeur qu'on lui donne'*@
+                <input type="checkbox" name="RoleType" id="@item" value=@item checked=@isChecked />
+                <label>@item</label>
+            </div>
+        }
+
+        @Html.Label("JobEnum", "Intitulé du poste : ")
+        <select name="JobEnum">
+            @foreach (Projet2_EasyFid.Data.Enums.JobEnum item in Enum.GetValues(typeof(Projet2_EasyFid.Data.Enums.JobEnum)))
+            {
+                @*La logique ici est similaire, mais vu qu'il n'y a qu'un seul JobEnum de possible, on a juste à garder la condition
+                qui permet de déterminer si la valeur du menu déroulant correspond à ce que notre User possède en attribut JobEnum'
+                Dans un <option>, selected permet que ce soit la valeur de cet input qui soit sélectionné dans la liste déroulante, plutôt
+                que le premier élément de la liste*@
+                bool isSelected = false;
+                if (item == Model.JobEnum) { isSelected = true; }
+                <option name="JobEnum" value=@item selected=@isSelected>@item</option>
+            }
+        </select>
+
+        @Html.Label("company", "Entreprise : ")
+        @*Ici, pareil que dans CreateUser, avec cependant un ajout d'un argument dans la SelectList
+        Le dernier argument correspond à la valeur par défaut de notre liste déroulante (ici, la valeur de CompanyId)
+        *@
+        @Html.DropDownList("company", new SelectList(ViewBag.companies, "Id", "Name", Model.CompanyId))
+        @Html.Label("manager", "Manager : ")
+        @*Ici, afin d'éviter une erreur pour les User qui n'ont pas de manager associé, on utilise une expression ternaire
+            - Model.ManagerId != null --> correspond à la condition. Elle est suivie par un ?
+            - Model.Manager.UserData.Id --> correspond à la valeur que l'on va renseigner dans le cas où la condition est true. Elle est suivie par un :
+            - 0 --> correspond à la valeur que l'on va renseigner dans le cas où la condition est false
+        Cette ternaire aurait pu être remplacée par :
+        if(Model.ManagerId != null)
+        {
+            Model.Manager.UserData.Id
+        } else
+        {
+            0
+        }
+        Parfois, c'est plus lisible de réaliser ce genre de condition sous le format ternaire.'
+        *@
+        @Html.DropDownList("manager", new SelectList(ViewBag.userDatas, "Id", "Lastname", (Model.ManagerId != null) ? Model.Manager.UserData.Id : 0))
 
         <input type="submit" value="Modifier" />
     </fieldset>
-        }
+    }

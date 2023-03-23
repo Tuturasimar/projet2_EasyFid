@@ -23,17 +23,34 @@ namespace Projet2_EasyFid.Data
 			return _bddContext.Cras.ToList();
 		}
 
-		//Methode pour creer un cra et qui nous retourne son Id
-		public int CreateCra(int id, DateTime createdAt, StateEnum stateCra, int userId)
-		{
-			//On instancie un nouveau Cra
-			Cra cra = new Cra() { CreatedAt = createdAt, StateCra = stateCra, UserId = userId };
-			//On l'ajoute à la liste des cras
-			_bddContext.Cras.Add(cra);
-			//On sauvegarde les changements 
-			_bddContext.SaveChanges();
-			return cra.Id;
-		}
+        public List<Cra> GetAllCrasByUserId(int id)
+        {
+            return CraServices.GetAllCrasByUserId(_bddContext, id);
+        }
+
+
+        public void SetUserIdNullOnDelete (Cra cra)
+        {
+            CraServices.SetUserIdNullOnDelete(_bddContext, cra);
+        }
+        
+        public int CreateCra ( Cra cra )
+        {
+            return CraServices.CreateCra( _bddContext, cra );  
+            }
+        public int CreateMission(Mission mission)
+        {
+            return MissionServices.CreateMission(_bddContext,mission);
+        }
+
+        public int CreateMission(int id,string name,DateTime missionStart,DateTime missionEnd,float tjm,MissionTypeEnum missionType)
+        {
+            //Instanciation dela nouvelle mission
+            Mission mission = new Mission() { Name = name, MissionStart = missionStart, MissionEnd = missionEnd, Tjm = tjm, MissionType = missionType };
+            _bddContext.Missions.Add(mission);
+            _bddContext.SaveChanges();
+            return mission.Id;
+        }
 
 		//Methode pour modifier un cra
 		public void UpdateCra(int id, StateEnum stateCra) {
@@ -45,14 +62,17 @@ namespace Projet2_EasyFid.Data
 				_bddContext.SaveChanges();
 			}
 		}
-    
-        //public int LoginUser(string login, string password)
+
+        //Methode pour modifier une mission
+        public void UpdateMission(Mission mission)
+        {
+            this._bddContext.Missions.Update(mission);
+            this._bddContext.SaveChanges();
+        }
+
+        //public User GetMissionById(int id)
         //{
-        //    string encryptedPassword = EncodeMD5(password);
-        //    User user = new User() { Login = login, Password = encryptedPassword };
-        //    this._bddContext.Users.Add(user);
-        //    this._bddContext.SaveChanges();
-        //    return user.Id;
+        //    return MissionServices.GetMissionById(_bddContext, id);
         //}
 
         // Méthode pour authentifier un utilisateur (vérification du login et du mdp)
@@ -61,6 +81,10 @@ namespace Projet2_EasyFid.Data
             string encryptedPassword = EncodeMD5(password);
             User user = this._bddContext.Users.FirstOrDefault(u => u.Login == login && u.Password == encryptedPassword);
             return user;
+        }
+        public List<Mission> GetAllMissions()
+        {
+            return CraServices.GetAllMissions(_bddContext);
         }
 
         // Récupère l'utilisateur actuellement authentifié
@@ -91,11 +115,16 @@ namespace Projet2_EasyFid.Data
             return UserServices.GetAllUsers(_bddContext);
         }
 
+        public List<User> GetAllUsersByManagerId(int id)
+        {
+            return UserServices.GetAllUsersByManagerId(_bddContext, id);
+        }
+
         public User GetUserById(int id)
         {
             return UserServices.GetUserById(_bddContext, id);
         }
-
+        
         public User GetUserByUserDataId (int id)
         {
             return UserServices.GetUserByUserDataId(_bddContext, id);
@@ -136,10 +165,54 @@ namespace Projet2_EasyFid.Data
             return UserServices.GetAllUserDatas(_bddContext);
         }
 
-        public List<UserData> GetAllManagerUserDatas()
+        public List<UserData> GetAllManagerUserDatas(int? idUser)
         {
-            return UserServices.GetAllManagerUserDatas(_bddContext);
+            return UserServices.GetAllManagerUserDatas(_bddContext, idUser);
         }
+
+        public void SetManagerIdNullOnDelete (User user)
+        {
+            UserServices.SetManagerIdNullOnDelete(_bddContext, user);
+        }
+
+        public void DeleteAllRoleUsersByUserId(int idUser)
+        {
+            UserServices.DeleteAllRoleUsersByUserId(_bddContext, idUser);
+        }
+
+
+        public void DeleteUserById(int id)
+        {
+            UserServices.DeleteUserById(_bddContext, id);
+        }
+
+        public void DeleteUserDataById(int id)
+        {
+            UserServices.DeleteUserDataById(_bddContext, id);
+        }
+
+        public List<Mission> GetAllMissions()
+        {
+            return CraServices.GetAllMissions(_bddContext);
+        }
+
+
+        public List<Formation> GetAllFormations()
+        {
+            return CraServices.GetAllFormations(_bddContext);
+        }
+
+        public List <Activity> GetAllActivities()
+        {
+            return CraServices.GetAllActivities(_bddContext);
+        }
+
+        /*
+        public Mission GetMissionById(int id)
+        {
+            return CraServices.GetMissionById(_bddContext, id);
+        }
+        */
     }
 }
 

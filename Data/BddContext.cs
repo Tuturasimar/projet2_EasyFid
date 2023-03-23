@@ -14,7 +14,6 @@ namespace Projet2_EasyFid.Data
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<RoleUser> RoleUsers { get; set; }
         public DbSet<Cra> Cras { get; set; }
-
         public DbSet<Activity> Activities { get; set; }
         public DbSet<CraActivity> CraActivities { get; set; }
         public DbSet<Mission> Missions { get; set; }
@@ -26,14 +25,14 @@ namespace Projet2_EasyFid.Data
         {
             // Les paramètres du serveur changent en fonction des configurations personnelles
 
-            //optionsBuilder.UseMySql("server=localhost;port=8889;user id=root;password=root;database=easyFid"); // connexion trévor
+
+            optionsBuilder.UseMySql("server=localhost;port=8889;user id=root;password=root;database=easyFid"); // connexion trévor
             //optionsBuilder.UseMySql("server=localhost;user id=root;password=rrrrr;database=projet2"); //connexion Laura
-            optionsBuilder.UseMySql("server=localhost;user id=root;password=rrrrrrrr;database=UserData"); //connexion Louis
+            //optionsBuilder.UseMySql("server=localhost;user id=root;password=rrrrrrrr;database=UserData"); //connexion Louis
             //optionsBuilder.UseMySql("server=localhost;user id=root;password=root;database=easyFid"); //connexion Seb
 
 
         }
-
 
         public void InitialiseDb()
         {
@@ -74,13 +73,16 @@ namespace Projet2_EasyFid.Data
             this.Missions.AddRange(
                 new Mission {Id = 1, Name = "Sanofi", MissionStart = new DateTime(2020, 06, 10), MissionEnd = new DateTime(2021, 12, 12), Tjm = 630 , MissionType = MissionTypeEnum.FORFAIT},
                 new Mission {Id = 2, Name = "Firmenich", MissionStart = new DateTime(2020, 02, 01), MissionEnd = new DateTime(2021, 01, 01), Tjm = 670, MissionType = MissionTypeEnum.FORFAIT},
-                new Mission { Id = 3, Name = "RechercheContrat", MissionStart = new DateTime(2022, 09, 01), Tjm = 450, MissionType = MissionTypeEnum.INTERCONTRAT }
+                new Mission { Id = 3, Name = "RechercheContrat", MissionStart = new DateTime(2022, 09, 01), Tjm = 450, MissionType = MissionTypeEnum.INTERCONTRAT},
+                new Mission { Id = 4, Name = "Total", MissionStart = new DateTime(2022, 10, 01), Tjm = 500, MissionType = MissionTypeEnum.FORFAIT },
+                new Mission { Id = 5, Name = "Vivendi", MissionStart = new DateTime(2022, 07, 05), MissionEnd = new DateTime(2021, 08, 12), Tjm = 500, MissionType = MissionTypeEnum.FORFAIT },
+                new Mission { Id = 6, Name = "Renault", MissionStart = new DateTime(2022, 06, 15), MissionEnd = new DateTime(2021, 06, 15),Tjm = 490, MissionType = MissionTypeEnum.FORFAIT }
                 );
 
             //Dans la table Formation
             this.Formations.AddRange(
-                new Formation { Id = 1, FormationStatus = FormationStatusEnum.GIVEN, LocationFormation = LocationFormationEnum.EXTERN},
-                new Formation { Id = 2, FormationStatus = FormationStatusEnum.FOLLOWED, LocationFormation = LocationFormationEnum.INTERN }
+                new Formation { Id = 1, Name ="Formation Incendie", FormationStatus = FormationStatusEnum.GIVEN, LocationFormation = LocationFormationEnum.EXTERN},
+                new Formation { Id = 2, Name = "Formation nouveau logiciel", FormationStatus = FormationStatusEnum.FOLLOWED, LocationFormation = LocationFormationEnum.INTERN }
                 );
 
             //Dans la table Absence
@@ -91,12 +93,12 @@ namespace Projet2_EasyFid.Data
 
             //Dans la table Activities
             this.Activities.AddRange(
-                new Activity { Id = 1, LabelActivity = "", MissionId = 1, AbsenceId = null, FormationId = null},
-                new Activity {Id = 2,  LabelActivity = "", MissionId = 2, AbsenceId = null, FormationId = null},
-                new Activity { Id = 3, LabelActivity = "", MissionId = null, AbsenceId = 1, FormationId = null },
-                new Activity { Id = 4, LabelActivity = "", MissionId = null, AbsenceId = 2, FormationId = null },
-                new Activity { Id = 5, LabelActivity = "", MissionId = null, AbsenceId = null, FormationId = 1 },
-                new Activity { Id = 6, LabelActivity = "", MissionId = null, AbsenceId = null, FormationId = 2 }
+                new Activity { Id = 1, LabelActivity = "Mission 1", MissionId = 1},
+                new Activity {Id = 2,  LabelActivity = "Mission 2", MissionId = 2},
+                new Activity { Id = 3, LabelActivity = "Absence 1", AbsenceId = 1},
+                new Activity { Id = 4, LabelActivity = "Absence 2", AbsenceId = 2},
+                new Activity { Id = 5, LabelActivity = "Formation 1", FormationId = 1 },
+                new Activity { Id = 6, LabelActivity = "Formation 2",  FormationId = 2 }
                 );
 
             //Dans la table ActivityDate
@@ -104,7 +106,6 @@ namespace Projet2_EasyFid.Data
                 new ActivityDate { Id = 1, BeginDate = new DateTime(2022, 04, 05), EndDate = new DateTime (2022, 06, 04), ActivityId = 1},
                 new ActivityDate { Id = 2, BeginDate = new DateTime(2023, 03, 21), ActivityId = 2 }
                 );
-
 
             //Ajout des liens entre des cles etrangeres (cra et activity) dans la table CraActivity
             this.CraActivities.AddRange(

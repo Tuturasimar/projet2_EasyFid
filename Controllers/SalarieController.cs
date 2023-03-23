@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Razor.Language.Intermediate;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.Extensions.Configuration.UserSecrets;
 using Projet2_EasyFid.Data;
 using Projet2_EasyFid.Models;
 using Projet2_EasyFid.ViewModels;
@@ -68,9 +70,50 @@ namespace Projet2_EasyFid.Controllers
             }
         }
 
-        public IActionResult CreateCra(Cra cra)
+        //Affiche le formulaire de creation du Cra
+        public IActionResult CreateCra()
         {
+            using (Dal dal = new Dal()) 
+            {
+                List<Mission> missions = dal.GetAllMissions();
+                List<Formation> formations = dal.GetAllFormations();
+                List<Activity> activities = dal.GetAllActivities();
+                ViewBag.missions = missions;
+                ViewBag.formations = formations;    
+                ViewBag.activities = activities;
+
+            }
             return View();
+        }
+
+        [HttpPost]
+        //Une fois qu'on appuie sur le bouton du formulaire, cette methode recupere un objet Cra
+        public IActionResult CreateCra(Cra cra, int user, int mission)
+        {
+            using (Dal dal = new Dal())
+            {
+                //On recupere l'id de la mission
+                //int missionId = dal.GetMissionById(mission).Id;
+               
+                //On cree l'ActivityDate 
+                ActivityDate newActivityDate = new ActivityDate
+                {
+
+                };
+
+            //
+            Cra newCra = new Cra
+            {
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now
+
+            };
+                int CraId = dal.CreateCra(newCra);
+                
+            }
+
+            //Pour retourner sur la page d'affichade des cras
+            return RedirectToAction("IndexSalarie");
         }
 
 

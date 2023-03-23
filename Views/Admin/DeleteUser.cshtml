@@ -1,0 +1,27 @@
+﻿@model Projet2_EasyFid.ViewModels.UserRoleViewModel
+@{
+    Layout = "_Layout";
+    ViewBag.Title = "Détail Utilisateur";
+}
+
+<h2>Je suis la vue supprimer utilisateur</h2>
+<ul>
+    <li>Login : @Model.User.Login</li>
+    <li>Créé le : @Model.User.CreationDate.ToString("dd/MM/yyyy")</li>
+    <li>Prénom : @Model.User.UserData.Firstname</li>
+    <li>Nom : @Model.User.UserData.Lastname</li>
+    <li>Date de naissance : @Model.User.UserData.Birthday.ToString("dd/MM/yyyy")</li>
+
+    <li>Poste : @Model.User.JobEnum</li>
+</ul>
+<p>Accréditation : </p>
+<ul>
+    @foreach (var role in Model.RolesUser)
+    {
+        <li>@role.RoleType</li>
+    }
+</ul>
+<p>Souhaitez-vous vraiment supprimer cet utilisateur ?</p>
+@Html.ActionLink("Confirmer", "ConfirmDeleteUser", "Admin", new { id = Model.User.Id })
+@Html.ActionLink("Retour", "Index", "Admin")
+

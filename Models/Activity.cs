@@ -20,8 +20,5 @@ namespace Projet2_EasyFid.Models
         public int? AbsenceId { get; set; }
         public virtual Absence Absence { get; set; }    
 
-        //creation d'une relation one one entre la table Activity et la table ActivityDate
-        public ActivityDate ActivityDate { get; set; }
-
     }
 }

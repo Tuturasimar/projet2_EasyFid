@@ -13,10 +13,14 @@ namespace Projet2_EasyFid.Data
 
 		List<Cra> GetAllCras();
 
-		int CreateCra (int id, DateTime createdAt, StateEnum stateCra, int userId);
+		int CreateCra (Cra cra);
 
 		void UpdateCra(int id, StateEnum stateCra);
 
+		List<Mission> GetAllMissions();
+		int CreateMission(int id,string name,DateTime missionStart,DateTime missionEnd,float tjm,MissionTypeEnum missionType);
+		//int DeleteMission(int id);
+		void UpdateMission(Mission mission);
 	}
 }
 
