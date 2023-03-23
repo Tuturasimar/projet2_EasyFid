@@ -1,5 +1,4 @@
-﻿@model Projet2_EasyFid.Models.CraActivity
-@{
+﻿@{
     Layout = "_Layout";
     ViewBag.Title = "Formulaire création d'un Cra";
 }
@@ -8,36 +7,18 @@
 {
     <fieldset>
         <legend>Formulaire d'ajout</legend>
-        @*Liste déroulante pour choisir la mission effectuee*@
-        @Html.Label("missions", "Mission : ")
-        @Html.DropDownList("missions", new SelectList(ViewBag.missions, "Id", "Name"))
-        <br />
-
-        @*Calendrier pour choisir la periode de temps*@
-        @Html.Partial("SalariePartialForm", Model)
-            
-        @Html.HiddenFor(m=> Model.Cra.Id)
-        <br />
-
         @*Liste deroulante pour le choix de l'activité (mission, formation ou absence)*@
         @Html.Label("activities", "Activité : ")
         @Html.DropDownList("activities", new SelectList(ViewBag.activities, "Id", "LabelActivity" ))
         <br />
 
-        @*Liste déroulante pour choisir la formation*@
-        @Html.Label("formations", "Formation : ")
-        @Html.DropDownList("formations", new SelectList(ViewBag.formations, "Id", "Name"))
+        
+        @*Calendrier pour choisir la periode de temps*@
+        @Html.Partial("SalariePartialForm")
+            
         <br />
 
-        @*Liste déroulante pour choisir la raison de l'absence*@
-        @Html.Label("AbsenceTypeEnum", "Raison de l'absence : ")
-        <select name="AbsenceTypeEnum">
-            @foreach (var item in Enum.GetValues(typeof(Projet2_EasyFid.Data.Enums.AbsenceTypeEnum)))
-            {
-                <option name="AbsenceTypeEnum" value=@item>@item</option>
-            }
-        </select>
-        <br />
+        
 
         <input type="submit" value="Valider" />
     </fieldset>

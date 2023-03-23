@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Razor.Language.Intermediate;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Configuration.UserSecrets;
 using Projet2_EasyFid.Data;
+using Projet2_EasyFid.Data.Enums;
 using Projet2_EasyFid.Models;
 using Projet2_EasyFid.ViewModels;
 
@@ -88,28 +89,48 @@ namespace Projet2_EasyFid.Controllers
 
         [HttpPost]
         //Une fois qu'on appuie sur le bouton du formulaire, cette methode recupere un objet Cra
-        public IActionResult CreateCra(Cra cra, int user, int mission)
+        public IActionResult CreateCra(ActivityDate activityDate, int activities, StateEnum stateEnum)
         {
             using (Dal dal = new Dal())
             {
-                //On recupere l'id de la mission
-                //int missionId = dal.GetMissionById(mission).Id;
-               
+                //On recupere l'id de l'Activity
+                //Il servira pour la suite, pour creer la CraActivity
+                int activityId = dal.GetActivityById(activities).Id;
+
+                //On cree un nouveau Cra qui recupere la date de creation et de modification, ainsi que le status du Cra
+                Cra newCra = new Cra
+                {
+                    CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now,
+                    StateCra = stateEnum
+                };
+                //On recupere l'id du nouveau Cra grace à la méthode CreateCra
+                //Il servira pour la suite, pour creer la CraActivity
+                int craId = dal.CreateCra(newCra);
+
+                //On cree le CraActivity qui relie l'Activity et le Cra
+                //On cree le Cra avant cette methode car on a besoin de l'id du Cra
+                CraActivity newCraActivity = new CraActivity
+                {
+                    CraId = craId,
+                    ActivityId = activityId
+                };
+
+                //On recupere l'id de la nouvelle CraActivity creee
+                //Il nous servira pour la suite, pour creer l'ActivityDate
+                int craActivity = dal.CreateCraActivity(newCraActivity);
+
                 //On cree l'ActivityDate 
                 ActivityDate newActivityDate = new ActivityDate
                 {
-
+                    BeginDate = activityDate.BeginDate,
+                    EndDate = activityDate.EndDate,
+                    CraActivityId = craActivity
                 };
 
-            //
-            Cra newCra = new Cra
-            {
-                CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now
-
-            };
-                int CraId = dal.CreateCra(newCra);
-                
+                //On recupere l'id de la nouvelle ActivityDate creee
+                //Utile ou non ??
+               int activityDateId = dal.CreateActivityDate(newActivityDate);
             }
 
             //Pour retourner sur la page d'affichade des cras

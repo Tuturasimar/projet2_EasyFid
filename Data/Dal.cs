@@ -207,12 +207,31 @@ namespace Projet2_EasyFid.Data
             return CraServices.GetAllActivities(_bddContext);
         }
 
-        /*
+        
         public Mission GetMissionById(int id)
         {
             return CraServices.GetMissionById(_bddContext, id);
         }
-        */
+        
+        public Activity GetActivityById(int id)
+        {
+            return CraServices.GetActivityById(_bddContext, id);
+        }
+
+        public ActivityDate GetActivityDateById (int id)
+        {
+            return CraServices.GetActivityDateById(_bddContext, id);
+        }
+
+        public int CreateActivityDate (ActivityDate activityDate)
+        {
+            return CraServices.CreateActivityDate(_bddContext, activityDate);
+        }
+
+        public int CreateCraActivity (CraActivity craActivity)
+        {
+            return CraServices.CreateCraActivity(_bddContext, craActivity);
+        }
     }
 }
 
