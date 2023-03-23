@@ -15,9 +15,11 @@
 
        @Html.Label("Password", "Mot de passe : ")
        @Html.PasswordFor(m => m.Password)
+       @Html.ValidationMessageFor(m => m.Password)
 
-@*Cette boucle permet de récupérer l'ensemble des roles disponibles dans l'enum créé au préalable afin de créer autant de checkbox qu'il y a de role
-    L'intéret est qu'en cas de changement dans les enums, le changement se fera automatiquement*@
+
+       @*Cette boucle permet de récupérer l'ensemble des roles disponibles dans l'enum créé au préalable afin de créer autant de checkbox qu'il y a de role
+        L'intéret est qu'en cas de changement dans les enums, le changement se fera automatiquement*@
        @foreach (var item in Enum.GetValues(typeof(Projet2_EasyFid.Data.Enums.RoleTypeEnum)))
        {
            <div>
@@ -28,8 +30,8 @@
 
        @Html.Label("JobEnum", "Intitulé du poste : ")
        @*Même logique ici, où cette fois on boucle à l'intérieur d'un <select>
-           A chaque tour de boucle, on crée un <option> qui contiendra la valeur actuelle de l'enum
-           A la fin, on se retrouve avec autant d'options que de JobEnum, ce qui donnera une liste déroulante*@
+        A chaque tour de boucle, on crée un <option> qui contiendra la valeur actuelle de l'enum
+        A la fin, on se retrouve avec autant d'options que de JobEnum, ce qui donnera une liste déroulante*@
        <select name="JobEnum">
            @foreach (var item in Enum.GetValues(typeof(Projet2_EasyFid.Data.Enums.JobEnum)))
            {
@@ -39,16 +41,15 @@
 
        @Html.Label("company", "Entreprise : ")
        @*Le DropDownList utilisé ici se fait grâce à une liste instanciée dans le controller et envoyé à une ViewBag
-           Le premier argument de la méthode est le nom qu'aura la liste déroulante dans le html (et ce qu'on récuperera
-           dans le controller à la validation du formulaire)
-           Le second est une SelectList qui va attendre 3 arguments :
-                - La liste entreposée dans la ViewBag.nomDonné
-                - La valeur utilisée dans chaque <option> et qui sera récupérée à la validation du formulaire (ici, l'Id)
-                - Le nom de l'attribut qui sera affiché dans la liste déroulante'*@
+        Le premier argument de la méthode est le nom qu'aura la liste déroulante dans le html (et ce qu'on récuperera
+        dans le controller à la validation du formulaire)
+        Le second est une SelectList qui va attendre 3 arguments :
+             - La liste entreposée dans la ViewBag.nomDonné
+             - La valeur utilisée dans chaque <option> et qui sera récupérée à la validation du formulaire (ici, l'Id)
+             - Le nom de l'attribut qui sera affiché dans la liste déroulante'*@
        @Html.DropDownList("company", new SelectList(ViewBag.companies, "Id", "Name"))
        @Html.Label("manager", "Manager : ")
        @Html.DropDownList("manager", new SelectList(ViewBag.userDatas, "Id", "Lastname"))
-
 
        <input type="submit" value="Ajouter" />
    </fieldset>
