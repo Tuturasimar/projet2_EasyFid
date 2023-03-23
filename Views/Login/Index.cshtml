@@ -1,6 +1,7 @@
-﻿@model Projet2_EasyFid.ViewModels.UserViewModel
+﻿@using Projet2_EasyFid.Data.Enums;
+@model Projet2_EasyFid.ViewModels.UserViewModel
 @{
-    Layout = "_Layout";
+    //Layout = "_Layout";
     ViewBag.Title = "Login";
 }
 
@@ -15,7 +16,7 @@
 else
 {
     <p>
-        Veuillez vous authentifier :
+        Veuillez vous connecter :
     </p>
     using (Html.BeginForm())
     {
@@ -28,6 +29,11 @@ else
             @Html.LabelFor(m => m.User.Password)
             @Html.PasswordFor(m => m.User.Password)
             @Html.ValidationMessageFor(m => m.User.Password)
+        </div>
+        <div>
+            @Html.LabelFor(m => m.UserRoleViewModel.SelectedRole)
+            @Html.DropDownListFor(m => m.UserRoleViewModel.SelectedRole, new SelectList(Enum.GetValues(typeof(RoleTypeEnum))), "Sélectionner un rôle")
+            @Html.ValidationMessageFor(m => m.UserRoleViewModel.SelectedRole)
         </div>
         <input type="submit" value="Se connecter" />
         <br />
