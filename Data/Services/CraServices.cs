@@ -49,7 +49,7 @@ namespace Projet2_EasyFid.Data.Services
 			return _bddcontext.Missions.SingleOrDefault(m => m.Id == id);
 		}
 
-
+		//Methode pour créer un Cra et qui retourne son Id 
         public static int CreateCra(BddContext _bddContext, Cra cra ) 
 		{
 			_bddContext.Cras.Add(cra);

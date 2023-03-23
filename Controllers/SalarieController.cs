@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Razor.Language.Intermediate;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Configuration.UserSecrets;
 using Projet2_EasyFid.Data;
+using Projet2_EasyFid.Data.Enums;
 using Projet2_EasyFid.Models;
 using Projet2_EasyFid.ViewModels;
 
@@ -88,27 +89,29 @@ namespace Projet2_EasyFid.Controllers
 
         [HttpPost]
         //Une fois qu'on appuie sur le bouton du formulaire, cette methode recupere un objet Cra
-        public IActionResult CreateCra(ActivityDate activityDate, int activities)
+        public IActionResult CreateCra(ActivityDate activityDate, int activities, StateEnum stateEnum)
         {
             using (Dal dal = new Dal())
             {
 
                 //On recupere l'id de l'Activity
                 int activityId = dal.GetActivityById(activities).Id;
-               
+
                 //On cree l'ActivityDate 
                 ActivityDate newActivityDate = new ActivityDate
                 {
-                   
+                    
                 };
 
-            //
+            //On cree un nouveau Cra qui recupere la date de creation et de modification, ainsi que le status du Cra
             Cra newCra = new Cra
             {
                 CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now
+                UpdatedAt = DateTime.Now,
+                StateCra = stateEnum
 
             };
+                //On recupere l'id du nouveau Cra grace à la méthode CreateCra
                 int CraId = dal.CreateCra(newCra);
                 
             }
