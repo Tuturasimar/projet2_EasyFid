@@ -38,7 +38,7 @@ namespace Projet2_EasyFid.Controllers
             if (id != 0)
             {
 
-                using (IDal dal = new Dal())
+                using (Dal dal = new Dal())
                 {
                     //je recherche l'ID qui est egal au parametre que m'a transmis l'utilisateur
                 Mission mission = dal.GetAllMissions().Where(m=>m.Id ==id).FirstOrDefault();
