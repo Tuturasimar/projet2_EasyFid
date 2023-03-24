@@ -42,12 +42,13 @@ namespace Projet2_EasyFid.Controllers
                 {
                     if (!dal.checkUserRole(user.Id, viewModel.UserRoleViewModel.SelectedRole))
                     {
+                        ModelState.AddModelError("UserRoleViewModel.SelectedRole", "Le rôle sélectionné ne correspond pas au rôle assigné à cet utilisateur.");
                         return View(viewModel);
                     }
                     var userClaims = new List<Claim>()
-                        {
-                            new Claim(ClaimTypes.Name, user.Id.ToString())
-                        };
+                {
+                    new Claim(ClaimTypes.Name, user.Id.ToString())
+                };
 
                     var ClaimIdentity = new ClaimsIdentity(userClaims, "User Identity");
 
@@ -74,6 +75,7 @@ namespace Projet2_EasyFid.Controllers
             }
             return View(viewModel);
         }
+
 
 
         public ActionResult Logout()
