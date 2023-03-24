@@ -26,11 +26,12 @@ namespace Projet2_EasyFid.Controllers
             {
                 //Récupération des missions que l'on stocke dans une liste
                 List<Mission>missions=dal.GetAllMissions();
-                ManagerViewModel managerViewModel  = new ManagerViewModel { Missions = missions };
-                return View(managerViewModel);
+                MissionListViewModel missionList  = new MissionListViewModel { Missions = missions };
+                return View(missionList);
             }
 
         }
+
         //ma methode de modification d'une mission
         public IActionResult UpdateMission(int id)
         {
@@ -51,45 +52,6 @@ namespace Projet2_EasyFid.Controllers
             }
             return View("Error");
         }
-
-        //Affiche le formulaire de creation d'une mission
-        public IActionResult CreateMission()
-        {
-            using (Dal dal = new Dal())
-            {   List<Mission> missions = dal.GetAllMissions() ?? new List<Mission>();
-                ViewBag.missions = missions;
-            }
-            return View();
-        }
-
-        [HttpPost]
-        //Une fois qu'on appuie sur le bouton du formulaire, cette methode recupere un objet Mission
-        public IActionResult CreateMission(int id, string name, DateTime missionStart, DateTime missionEnd, float tjm, MissionTypeEnum missionType)
-        {
-            using (Dal dal = new Dal())
-            {
-
-                Mission mission = new Mission
-                {
-                    Name = name,
-                    MissionStart = missionStart,
-                    MissionEnd = missionEnd,
-                    Tjm = tjm,
-                    MissionType = missionType
-                };
-                
-                //Recuperation de l'id de la mission que nous venons de creer
-                int missionId = mission.Id;
-
-
-               
-            }
-              
-            //Pour retourner sur la page d'affichage des mission
-            return RedirectToAction("IndexManager");
-            
-        }
-
 
         [HttpPost]
         public IActionResult UpdateMission(Mission mission)
@@ -112,6 +74,47 @@ namespace Projet2_EasyFid.Controllers
                 return View("Error");
             }
         }
+
+        //Affiche le formulaire de creation d'une mission
+        public IActionResult CreateMission()
+        {
+            using (Dal dal = new Dal())
+            {   List<Mission> missions = dal.GetAllMissions();
+
+                ViewBag.missions = missions;
+
+            }
+            return View();
+        }
+
+        [HttpPost]
+        //Une fois qu'on appuie sur le bouton du formulaire, cette methode recupere un objet Mission
+        public IActionResult CreateMission(int id, string name, DateTime missionStart, DateTime missionEnd, float tjm, MissionTypeEnum missionType)
+        {
+            using (Dal dal = new Dal())
+            {
+
+                Mission mission = new Mission
+                {
+                    Name = name,
+                    MissionStart = missionStart,
+                    MissionEnd = missionEnd,
+                    Tjm = tjm,
+                    MissionType = missionType
+                };
+
+                //Recuperation de l'id de la mission que nous venons de creer
+                int Id = mission.Id;
+
+            }
+              
+            //Pour retourner sur la page d'affichage des mission
+            return RedirectToAction("Index");
+            
+        }
+
+
+       
 
 
     }

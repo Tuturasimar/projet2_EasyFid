@@ -32,6 +32,8 @@ namespace Projet2_EasyFid.Models
 		//Sans cette ligne on peut avoir deux Activity avec le meme MissionId
 		public Activity Activity { get; set; }
         
+        public int MissionUsersId { get; set; }
+        public UserData MissionUser { get; set; }
     }
 }
 
