@@ -21,18 +21,18 @@ else
     using (Html.BeginForm())
     {
         <div>
-            @Html.LabelFor(m => m.User.Login)
+            @Html.LabelFor(m => m.User.Login, "Login : ")
             @Html.TextBoxFor(m => m.User.Login)
             @Html.ValidationMessageFor(m => m.User.Login)
         </div>
         <div>
-            @Html.LabelFor(m => m.User.Password)
+            @Html.LabelFor(m => m.User.Password, "Mot de passe : ")
             @Html.PasswordFor(m => m.User.Password)
             @Html.ValidationMessageFor(m => m.User.Password)
         </div>
         <div>
-            @Html.LabelFor(m => m.UserRoleViewModel.SelectedRole)
-            @Html.DropDownListFor(m => m.UserRoleViewModel.SelectedRole, new SelectList(Enum.GetValues(typeof(RoleTypeEnum))), "Sélectionner un rôle")
+            @Html.LabelFor(m => m.UserRoleViewModel.SelectedRole, "Sélectionnez votre rôle : ")
+            @Html.DropDownListFor(m => m.UserRoleViewModel.SelectedRole, new SelectList(Enum.GetValues(typeof(RoleTypeEnum))))
             @Html.ValidationMessageFor(m => m.UserRoleViewModel.SelectedRole)
         </div>
         <input type="submit" value="Se connecter" />
