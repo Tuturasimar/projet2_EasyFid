@@ -1,9 +1,11 @@
-﻿@{
+﻿@model Projet2_EasyFid.ViewModels.SalarieViewModel
+@{
     Layout = "_Layout";
     ViewBag.Title = "Détail Cra";
 }
 
 <h2>Détail du Cra</h2>
 <ul>
-    <li></li>
+    <li>Date de création : @Model.Cra.CreatedAt</li>
+    <li>Date de modification : @Model.Cra.UpdatedAt</li>
 </ul>

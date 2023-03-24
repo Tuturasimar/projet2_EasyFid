@@ -22,7 +22,7 @@
             <td>@cra.StateCra</td>
             <td>@Html.ActionLink("Modifier", "UpdateCra", new { id = cra.Id})</td>
             <td>@Html.ActionLink("Supprimer", "IndexSalarie")</td>
-            <td>@Html.ActionLink("Détails", "CraDetail", "Salarie")</td>
+            <td>@Html.ActionLink("Détails", "CraDetail", "Salarie", new { id = cra.Id})</td>
         </tr>
     }
     <div>

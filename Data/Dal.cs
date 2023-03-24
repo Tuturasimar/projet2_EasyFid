@@ -228,6 +228,11 @@ namespace Projet2_EasyFid.Data
         {
             return CraServices.CreateCraActivity(_bddContext, craActivity);
         }
+
+        public Cra GetCraById(int id)
+        {
+            return CraServices.GetCraById(_bddContext, id);
+        }
     }
 }
 
