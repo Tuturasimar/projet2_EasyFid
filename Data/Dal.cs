@@ -28,6 +28,11 @@ namespace Projet2_EasyFid.Data
             return CraServices.GetAllCrasByUserId(_bddContext, id);
         }
 
+        public List<Mission> GetAllMissions()
+        {
+            return MissionServices.GetAllMissions(_bddContext);
+        }
+
 
         public void SetUserIdNullOnDelete (Cra cra)
         {
