@@ -40,10 +40,14 @@ namespace Projet2_EasyFid.Controllers
                 User user = dal.Authentifier(viewModel.User.Login, viewModel.User.Password);
                 if (user != null)
                 {
+                    if (!dal.checkUserRole(user.Id, viewModel.UserRoleViewModel.SelectedRole))
+                    {
+                        return View(viewModel);
+                    }
                     var userClaims = new List<Claim>()
-            {
-                new Claim(ClaimTypes.Name, user.Id.ToString())
-            };
+                        {
+                            new Claim(ClaimTypes.Name, user.Id.ToString())
+                        };
 
                     var ClaimIdentity = new ClaimsIdentity(userClaims, "User Identity");
 
