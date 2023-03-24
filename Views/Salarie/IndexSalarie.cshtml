@@ -16,8 +16,8 @@
     @foreach(var cra in Model.Cras)
     {
         <tr>
-            <td>@cra.CreatedAt</td>
-            <td>@cra.UpdatedAt</td>
+            <td>@cra.CreatedAt.ToString("dd/MM/yyyy")</td>
+            <td>@cra.UpdatedAt.ToString("dd/MM/yyyy")</td>
             <td>@cra.StateCra</td>
             <td>@Html.ActionLink("Modifier", "UpdateCra", new { id = cra.Id})</td>
             <td>@Html.ActionLink("Supprimer", "IndexSalarie")</td>

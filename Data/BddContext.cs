@@ -66,7 +66,7 @@ namespace Projet2_EasyFid.Data
             //Dans la tables cras
             this.Cras.AddRange(
                 new Cra { Id = 1, CreatedAt = new DateTime(2020, 06, 20), UpdatedAt = new DateTime(2020, 06, 27), StateCra = StateEnum.VALIDATED, UserId = 1},
-                new Cra { Id = 2, CreatedAt = DateTime.Now, StateCra = StateEnum.VALIDATED, UserId = 2},
+                new Cra { Id = 2, CreatedAt = DateTime.Now, UpdatedAt=DateTime.Now, StateCra = StateEnum.VALIDATED, UserId = 2},
                 new Cra { Id = 3, CreatedAt = DateTime.Now, UpdatedAt = new DateTime(2021, 03, 01), StateCra = StateEnum.CREATED, UserId = 1 }
                 );
 
@@ -116,13 +116,13 @@ namespace Projet2_EasyFid.Data
 
             //Dans la table ActivityDate
             this.ActivityDates.AddRange(
-                new ActivityDate { Id = 1, BeginDate = new DateTime(2022, 04, 05), EndDate = new DateTime (2022, 04, 10), CraActivityId = 1},
+                new ActivityDate { Id = 1, BeginDate = new DateTime(2022, 04, 05), EndDate = new DateTime(2022, 04, 10), CraActivityId = 1 },
                 new ActivityDate { Id = 2, BeginDate = new DateTime(2023, 03, 21), CraActivityId = 2 },
-                new ActivityDate { Id =3, BeginDate = new DateTime(2022, 04, 11), EndDate = new DateTime(2022, 04, 16), CraActivityId = 1}
+                new ActivityDate { Id = 3, BeginDate = new DateTime(2022, 04, 11), EndDate = new DateTime(2022, 04, 16), CraActivityId = 1 }
                 );
 
-          
-       
+
+
             // Ajout de liens entre des clés étrangères (user et role) dans la table RoleUsers
             this.RoleUsers.AddRange(
                 new RoleUser { UserId = 1, RoleType= RoleTypeEnum.SALARIE},
