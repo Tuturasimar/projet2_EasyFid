@@ -143,11 +143,15 @@ namespace Projet2_EasyFid.Controllers
             {
                 //On recupere le Cra en fonction de son Id
                 Cra cra = dal.GetCraById(id);
+                //On recupere le CraActivity afin de pouvoir recuperer l'Activity reliee au Cra
+                CraActivity craActivity = dal.GetCraActivityByCraId(id);
+                //On recupere l'activité reliee au Cra
+                Activity activity = dal.GetActivityById(id);
 
                 //On vérifie si le Cra existe en bdd
                 if (cra != null)
                 {
-                    SalarieViewModel svm = new SalarieViewModel { Cra = cra };
+                    SalarieViewModel svm = new SalarieViewModel { Cra = cra, CraActivity =  craActivity, Activity = activity };
                     return View(svm);
                 }
             }
@@ -155,7 +159,7 @@ namespace Projet2_EasyFid.Controllers
                 return RedirectToAction("IndexSalarie");
         }
 
-
+        
     }
 }
 

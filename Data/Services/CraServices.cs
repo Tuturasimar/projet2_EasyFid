@@ -84,8 +84,14 @@ namespace Projet2_EasyFid.Data.Services
 
 		public static Cra GetCraById(BddContext _bddContext, int id)
 		{
-			Cra cra = _bddContext.Cras.SingleOrDefault(c => c.Id == id);
+			Cra cra = _bddContext.Cras.Include(c => c.User).SingleOrDefault(c => c.Id == id);
 			return cra;
+		}
+
+		public static CraActivity GetCraActivityByCraId(BddContext _bddContext, int id)
+		{
+			CraActivity craActivity = _bddContext.CraActivities.Include(ca => ca.Activity).Where(c => c.CraId == id).SingleOrDefault(ca => ca.Id == id);
+			return craActivity;
 		}
 
     }
