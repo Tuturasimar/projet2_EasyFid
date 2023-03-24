@@ -137,6 +137,11 @@ namespace Projet2_EasyFid.Controllers
             return RedirectToAction("IndexSalarie");
         }
 
+        public IActionResult CraDetail()
+        {
+            return View();
+        }
+
 
     }
 }

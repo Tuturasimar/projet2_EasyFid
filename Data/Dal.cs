@@ -82,11 +82,7 @@ namespace Projet2_EasyFid.Data
             User user = this._bddContext.Users.FirstOrDefault(u => u.Login == login && u.Password == encryptedPassword);
             return user;
         }
-        public List<Mission> GetAllMissions()
-        {
-            return CraServices.GetAllMissions(_bddContext);
-        }
-
+     
         // Récupère l'utilisateur actuellement authentifié
         public User GetUser(string idStr)
         {

@@ -12,6 +12,7 @@
         <td>Status</td>
         <td>Modification</td>
         <td>Suppression</td>
+        <td>Détails</td>
     </tr>
     @foreach(var cra in Model.Cras)
     {
@@ -21,6 +22,7 @@
             <td>@cra.StateCra</td>
             <td>@Html.ActionLink("Modifier", "UpdateCra", new { id = cra.Id})</td>
             <td>@Html.ActionLink("Supprimer", "IndexSalarie")</td>
+            <td>@Html.ActionLink("Détails", "CraDetail", "Salarie")</td>
         </tr>
     }
     <div>
