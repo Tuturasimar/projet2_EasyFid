@@ -94,6 +94,16 @@ namespace Projet2_EasyFid.Data.Services
 			return craActivity;
 		}
 
+		/*
+		public static List<Activity> GetAllActivityByCraId (BddContext _bddContext, int id)
+		{
+			List<Activity> activities = _bddContext.Activities.Include(a => a.)
+		}
+		*/
+		
+
+   
+
     }
 
 }

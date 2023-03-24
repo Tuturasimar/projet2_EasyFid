@@ -110,7 +110,9 @@ namespace Projet2_EasyFid.Data
              //Ajout des liens entre des cles etrangeres (cra et activity) dans la table CraActivity
              this.CraActivities.AddRange(
                 new CraActivity { Id = 1,  CraId = 1, ActivityId =  1 },
-                new CraActivity { Id =2, CraId = 2, ActivityId = 2}
+                new CraActivity { Id =2, CraId = 2, ActivityId = 2},
+                new CraActivity { Id = 3, CraId = 3, ActivityId = 6},
+                new CraActivity { Id = 4, CraId = 1, ActivityId  = 5 }
                 );
 
 

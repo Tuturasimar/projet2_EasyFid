@@ -234,10 +234,13 @@ namespace Projet2_EasyFid.Data
             return CraServices.GetCraById(_bddContext, id);
         }
 
+        
         public CraActivity GetCraActivityByCraId(int id)
         {
             return CraServices.GetCraActivityByCraId(_bddContext, id);
         }
+        
+    
     }
 }
 
