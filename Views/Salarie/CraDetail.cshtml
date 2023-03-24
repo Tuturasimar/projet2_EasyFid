@@ -1,0 +1,18 @@
+﻿@model Projet2_EasyFid.ViewModels.SalarieViewModel
+@{
+    Layout = "_Layout";
+    ViewBag.Title = "Détail Cra";
+}
+
+<h2>Détail du Cra</h2>
+<ul>
+    <li>Date de création : @Model.Cra.CreatedAt</li>
+    <li>Date de modification : @Model.Cra.UpdatedAt</li>
+    @*pour tester*@
+    <li>CraId : @Model.CraActivity.CraId</li>
+    <li>ActivityId : @Model.CraActivity.ActivityId</li>
+    @*Seulement trois Cras sur la BDD pour l'instant*@
+    <li>Activité : @Model.Activity.LabelActivity</li>
+   
+    
+</ul>

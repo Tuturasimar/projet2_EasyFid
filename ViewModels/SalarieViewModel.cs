@@ -8,5 +8,10 @@ namespace Projet2_EasyFid.ViewModels
         public List<Cra> Cras { get; set; }
         public List<Activity> Activities { get; set; }
 
+        public Cra Cra { get; set; }    
+        public Activity Activity { get; set; }
+        public CraActivity CraActivity { get; set; }
+        
+
     }
 }
