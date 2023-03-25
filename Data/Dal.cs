@@ -239,8 +239,13 @@ namespace Projet2_EasyFid.Data
         {
             return CraServices.GetCraActivityByCraId(_bddContext, id);
         }
-        
-    
+
+        public List<Activity> GetAllActivityByCraId(int id)
+        {
+            return CraServices.GetAllActivityByCraId (_bddContext, id);
+        }
+
+
     }
 }
 

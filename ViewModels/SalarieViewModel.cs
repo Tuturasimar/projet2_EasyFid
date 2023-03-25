@@ -11,6 +11,7 @@ namespace Projet2_EasyFid.ViewModels
         public Cra Cra { get; set; }    
         public Activity Activity { get; set; }
         public CraActivity CraActivity { get; set; }
+        public ActivityDate ActivityDate { get; set; }
         
 
     }

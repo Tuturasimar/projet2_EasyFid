@@ -94,12 +94,17 @@ namespace Projet2_EasyFid.Data.Services
 			return craActivity;
 		}
 
-		/*
+		
 		public static List<Activity> GetAllActivityByCraId (BddContext _bddContext, int id)
 		{
-			List<Activity> activities = _bddContext.Activities.Include(a => a.)
+			//Ici on fait une jointure entre deux tables, la table CraActivity et la table Activity
+			var query = from ca in _bddContext.CraActivities
+						join a in _bddContext.Activities on ca.ActivityId equals a.Id //jointure entre CraActivity et Activity
+						where ca.CraId == id //On recupere les Activity qui ont le meme CraId (donc le même Cra)
+						select a;
+			return query.ToList(); //On recupère une liste d'Activity
 		}
-		*/
+		
 		
 
    

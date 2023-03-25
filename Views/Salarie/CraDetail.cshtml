@@ -12,7 +12,14 @@
     <li>CraId : @Model.CraActivity.CraId</li>
     <li>ActivityId : @Model.CraActivity.ActivityId</li>
     @*Seulement trois Cras sur la BDD pour l'instant*@
-    <li>Activité : @Model.Activity.LabelActivity</li>
+    @*On affiche le labelActivity de chaque Activity reliées au cra*@
+    <p>Activités : </p>
+    <ul>
+        @foreach (var activity in Model.Activities)
+        {
+            <li>@activity.LabelActivity</li>
+        }
+    </ul>
    
     
 </ul>
