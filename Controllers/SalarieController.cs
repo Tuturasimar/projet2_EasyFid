@@ -112,7 +112,7 @@ namespace Projet2_EasyFid.Controllers
                 int craId = dal.CreateCra(newCra);
 
                 // On boucle en fonction du total d'activités récupérées afin de créer 
-                for (int i = 0; i < total - 1; i++)
+                for (int i = 0; i < total; i++)
                 {
                     // On recupere l'id de l'activity actuelle
                     // Il servira pour la suite, pour creer la CraActivity
@@ -138,6 +138,8 @@ namespace Projet2_EasyFid.Controllers
                         EndDate = EndDate[i],
                         CraActivityId = craActivityId
                     };
+
+                    dal.CreateActivityDate(newActivityDate);
                 }
 
                 //On recupere l'id de la nouvelle ActivityDate creee
@@ -156,14 +158,19 @@ namespace Projet2_EasyFid.Controllers
                 //On recupere le Cra en fonction de son Id
                 Cra cra = dal.GetCraById(id);
                 //On recupere le CraActivity afin de pouvoir recuperer l'Activity reliee au Cra
-                CraActivity craActivity = dal.GetCraActivityByCraId(id);
+                //CraActivity craActivity = dal.GetCraActivityByCraId(id);
                 //On recupère les Activity reliees au même Cra 
                 List<Activity> activities = dal.GetAllActivityByCraId(id).ToList();
+                //On recupère les ActivityDate relies au meme Cra
+                List<ActivityDate> activityDates = dal.GetAllActivityDateByCraId(id).ToList();
+                //Pour reucperer tous les BeginDate d'une ActivityDate
+                //Pas utile pour l'instant, à voir pour la suite, je laisse en commentaire pour l'instant
+                //List<DateTime> beginDates = dal.GetBeginDate(id).ToList();
 
                 //On vérifie si le Cra existe en bdd
                 if (cra != null)
                 {
-                    SalarieViewModel svm = new SalarieViewModel { Cra = cra, CraActivity =  craActivity, Activities = activities};
+                    SalarieViewModel svm = new SalarieViewModel { Cra = cra, Activities = activities, ActivityDates = activityDates};
                     return View(svm);
                 }
             }
