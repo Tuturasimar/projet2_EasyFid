@@ -8,7 +8,7 @@ namespace Projet2_EasyFid.Models
     public class Formation
     {
         public int Id { get; set; }
-        [MaxLength(20)]
+        [MaxLength(35)]
         [Display(Name = "Nom de formation")]
         [Required(ErrorMessage = "Veuillez indiquer le nom de la Formation")]
         public string Name { get; set; }

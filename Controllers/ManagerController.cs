@@ -120,10 +120,12 @@ namespace Projet2_EasyFid.Controllers
         //Affiche le formulaire de creation d'une mission
         public IActionResult CreateMission()
         {
-            using (Dal dal = new Dal())
-            {
-              
-            }
+            
+            return View();
+        }
+        public IActionResult CreateFormation()
+        {
+            
             return View();
         }
 

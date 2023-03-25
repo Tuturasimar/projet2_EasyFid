@@ -84,8 +84,8 @@ namespace Projet2_EasyFid.Data
 
             //Dans la table Formation
             this.Formations.AddRange(
-                new Formation { Id = 1, Name ="Formation Incendie", FormationStatus = FormationStatusEnum.GIVEN, LocationFormation = LocationFormationEnum.EXTERN},
-                new Formation { Id = 2, Name = "Formation nouveau logiciel", FormationStatus = FormationStatusEnum.FOLLOWED, LocationFormation = LocationFormationEnum.INTERN }
+                new Formation { Id = 1, Name ="Formation Incendie", FormationStatus = FormationStatusEnum.GIVEN, LocationFormation = LocationFormationEnum.EXTERN,FormationStart=new DateTime(2020,08,15),FormationEnd=new DateTime(2020,08,20)},
+                new Formation { Id = 2, Name = "Formation nouveau logiciel", FormationStatus = FormationStatusEnum.FOLLOWED, LocationFormation = LocationFormationEnum.INTERN, FormationStart = new DateTime(2020, 08, 21), FormationEnd = new DateTime(2020, 08, 25) }
                 );
 
             //Dans la table Absence
