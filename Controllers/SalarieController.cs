@@ -112,7 +112,7 @@ namespace Projet2_EasyFid.Controllers
                 int craId = dal.CreateCra(newCra);
 
                 // On boucle en fonction du total d'activités récupérées afin de créer 
-                for (int i = 0; i < total - 1; i++)
+                for (int i = 0; i < total ; i++)
                 {
                     // On recupere l'id de l'activity actuelle
                     // Il servira pour la suite, pour creer la CraActivity
@@ -138,6 +138,8 @@ namespace Projet2_EasyFid.Controllers
                         EndDate = EndDate[i],
                         CraActivityId = craActivityId
                     };
+
+                    dal.CreateActivityDate(newActivityDate);
                 }
 
                 //On recupere l'id de la nouvelle ActivityDate creee

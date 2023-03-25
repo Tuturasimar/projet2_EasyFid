@@ -8,18 +8,21 @@
 <table id="users">
     <tr>
         <th>Login</th>
+        <th>Nom</th>
+        <th>Prénom</th>
         <th>Créé le</th>
-        <th>Détails</th>
-        <th>Modifier</th>
-        <th>Supprimer</th>
+        <th colspan="4">Actions</th>
     </tr>
     @foreach (var user in @Model.Users)
     {
         <tr>
             <td>@user.Login</td>
+            <td>@user.UserData.Lastname</td>
+            <td>@user.UserData.Firstname</td>
             <td>@user.CreationDate.ToString("dd/MM/yyyy")</td>
             <td>@Html.ActionLink("Détails", "UserDetail", "Admin", new { id = user.Id })</td>
             <td>@Html.ActionLink("Modifier", "ModifyUser", "Admin", new { id = user.Id })</td>
+            <td>@Html.ActionLink("Modifier MDP", "ModifyPassword","Admin", new { id= user.Id })</td>
             <td>@Html.ActionLink("Supprimer","DeleteUser","Admin", new { id = user.Id })</td>
         </tr>
     }
