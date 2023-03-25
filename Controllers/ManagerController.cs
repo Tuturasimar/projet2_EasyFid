@@ -53,6 +53,27 @@ namespace Projet2_EasyFid.Controllers
             return View("Error");
         }
 
+        public IActionResult UpdateFormation(int id)
+        {
+
+            if (id != 0)
+            {
+
+                using (IDal dal = new Dal())
+                {
+                    //je recherche l'ID qui est egal au parametre que m'a transmis l'utilisateur
+                    Formation formation = dal.GetAllFormations().Where(f => f.Id == id).FirstOrDefault();
+                    if (formation == null)
+                    {
+                        return View("Error");
+                    }
+                    return View(formation);
+                }
+            }
+            return View("Error");
+        }
+
+
         [HttpPost]
         public IActionResult UpdateMission(Mission mission)
         {
@@ -75,46 +96,95 @@ namespace Projet2_EasyFid.Controllers
             }
         }
 
+        [HttpPost]
+        public IActionResult UpdateFormation(Formation formation)
+        {
+
+            if (!ModelState.IsValid)
+                return View(formation);
+
+
+            if (formation.Id != 0)
+            {
+                using (Dal dal = new Dal())
+                {
+                    dal.UpdateFormation(formation);
+                    return RedirectToAction("UpdateFormation", new { @id = formation.Id });
+                }
+            }
+            else
+            {
+                return View("Error");
+            }
+        }
         //Affiche le formulaire de creation d'une mission
         public IActionResult CreateMission()
         {
             using (Dal dal = new Dal())
-            {   List<Mission> missions = dal.GetAllMissions();
-
-                ViewBag.missions = missions;
-
+            {
+              
             }
             return View();
         }
 
         [HttpPost]
         //Une fois qu'on appuie sur le bouton du formulaire, cette methode recupere un objet Mission
-        public IActionResult CreateMission(int id, string name, DateTime missionStart, DateTime missionEnd, float tjm, MissionTypeEnum missionType)
+        public IActionResult CreateMission( Mission mission)
         {
             using (Dal dal = new Dal())
             {
 
-                Mission mission = new Mission
+                Mission newMission = new Mission
                 {
-                    Name = name,
-                    MissionStart = missionStart,
-                    MissionEnd = missionEnd,
-                    Tjm = tjm,
-                    MissionType = missionType
+                    Name = mission.Name,
+                    MissionStart = mission.MissionStart,
+                    MissionEnd = mission.MissionEnd,
+                    MissionType = mission.MissionType
                 };
-
+                int missionId = dal.CreateMission(newMission);
                 //Recuperation de l'id de la mission que nous venons de creer
-                int Id = mission.Id;
-
+                Activity activity = new Activity
+                {
+                    LabelActivity = mission.Name,
+                    MissionId = missionId
+                };
+                dal.CreateActivity(activity);
             }
-              
+            
             //Pour retourner sur la page d'affichage des mission
             return RedirectToAction("Index");
             
         }
 
+        [HttpPost]
+        //Une fois qu'on appuie sur le bouton du formulaire, cette methode recupere un objet Mission
+        public IActionResult CreateFormation(Formation formation)
+        {
+            using (Dal dal = new Dal())
+            {
 
-       
+                Formation newFormation = new Formation
+                {
+                    Name = formation.Name,
+                    FormationStatus = formation.FormationStatus,
+                    LocationFormation = formation.LocationFormation,
+                    
+                };
+                int formationId = dal.CreateFormation(newFormation);
+                //Recuperation de l'id de la mission que nous venons de creer
+                Activity activity = new Activity
+                {
+                    LabelActivity = formation.Name,
+                    FormationId = formationId
+                };
+                dal.CreateActivity(activity);
+            }
+
+            //Pour retourner sur la page d'affichage des mission
+            return RedirectToAction("Index");
+
+        }
+
 
 
     }
