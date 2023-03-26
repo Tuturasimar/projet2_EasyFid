@@ -1,5 +1,4 @@
 ﻿$(document).ready(() => {
-    console.log("Test");
     $("#addActivity").click(function () {
         var rowCount = parseInt($("#total").val());
         rowCount++;

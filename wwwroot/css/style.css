@@ -29,3 +29,11 @@ footer {
 button > a {
     text-decoration: none;
 }
+
+.goldStar {
+    color:gold;
+}
+
+.redStar {
+    color: darkred
+}
