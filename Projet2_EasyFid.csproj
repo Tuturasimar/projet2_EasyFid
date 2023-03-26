@@ -19,11 +19,9 @@
     <None Remove="ViewModels\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="wwwroot\css\" />
     <Folder Include="wwwroot\assets\" />
     <Folder Include="wwwroot\assets\image\" />
     <Folder Include="Views\Shared\" />
-    <Folder Include="Views\Login\" />
     <Folder Include="Views\Admin\" />
   </ItemGroup>
   <ItemGroup>

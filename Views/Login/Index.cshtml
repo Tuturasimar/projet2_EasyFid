@@ -1,42 +1,63 @@
 ﻿@using Projet2_EasyFid.Data.Enums;
 @model Projet2_EasyFid.ViewModels.UserViewModel
-@{
-    //Layout = "_Layout";
-    ViewBag.Title = "Login";
-}
 
-@if (Model.Authenticated)
-{
-    <h3>
-        Vous êtes déjà authentifié avec le login :
-        @Model.User.Login
-    </h3>
-    @Html.ActionLink("Souhaitez-vous vous déconnecter ?", "Logout")
-}
-else
-{
-    <p>
-        Veuillez vous connecter :
-    </p>
-    using (Html.BeginForm())
-    {
-        <div>
-            @Html.LabelFor(m => m.User.Login, "Login : ")
-            @Html.TextBoxFor(m => m.User.Login)
-            @Html.ValidationMessageFor(m => m.User.Login)
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <title>Connexion EasyFid</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/login.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+                @if (Model.Authenticated)
+                {
+                    <h4>
+                        Vous êtes déjà authentifié avec le login :
+                        @Model.User.Login
+                    </h4>
+                    @Html.ActionLink("Souhaitez-vous vous déconnecter ?", "Logout")
+                }
+                else
+                {
+                    <div>
+                        <div>
+                            <img src="/assets/image/beMyTech.png" alt="Logo" width="250" height="250" class="logo">
+                        </div>
+                        <form method="post">
+                            <div>
+                                <label for="login">Login :</label>
+                                @Html.TextBoxFor(m => m.User.Login, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.User.Login, "", new { @class = "text-danger" })
+                            </div>
+                            <div>
+                                <label for="password">Mot de passe :</label>
+                                @Html.PasswordFor(m => m.User.Password, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.User.Password, "", new { @class = "text-danger" })
+                            </div>
+                            <div>
+                                <label for="selectedRole">Sélectionnez votre rôle :</label>
+                                @Html.DropDownListFor(m => m.UserRoleViewModel.SelectedRole, new SelectList(Enum.GetValues(typeof(RoleTypeEnum))), new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.UserRoleViewModel.SelectedRole, "", new { @class = "text-danger" })
+                            </div>
+                            <div>
+                                <input type="submit" value="Se connecter" class="btn btn-primary" />
+                                <br />
+                                @Html.ActionLink("Mot de passe oublié", "ResetPassword")
+                            </div>
+                        </form>
+                    </div>
+                }
+            </div>
         </div>
-        <div>
-            @Html.LabelFor(m => m.User.Password, "Mot de passe : ")
-            @Html.PasswordFor(m => m.User.Password)
-            @Html.ValidationMessageFor(m => m.User.Password)
-        </div>
-        <div>
-            @Html.LabelFor(m => m.UserRoleViewModel.SelectedRole, "Sélectionnez votre rôle : ")
-            @Html.DropDownListFor(m => m.UserRoleViewModel.SelectedRole, new SelectList(Enum.GetValues(typeof(RoleTypeEnum))))
-            @Html.ValidationMessageFor(m => m.UserRoleViewModel.SelectedRole)
-        </div>
-        <input type="submit" value="Se connecter" />
-        <br />
-        @Html.ActionLink("Mot de passe oublié", "ForgottenPassword")
-    }
-}
+    </div>
+</body>
+</html>

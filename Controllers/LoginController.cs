@@ -51,15 +51,15 @@ namespace Projet2_EasyFid.Controllers
                     // Vérifie que l'user a le rôle correspondant à celui sélectionné dans le formulaire
                     if (!dal.checkUserRole(user.Id, viewModel.UserRoleViewModel.SelectedRole))
                     {
-                        ModelState.AddModelError("UserRoleViewModel.SelectedRole", "Le rôle sélectionné ne correspond pas au rôle assigné à cet utilisateur.");
+                        ModelState.AddModelError("UserRoleViewModel.SelectedRole", "Le rôle sélectionné ne correspond pas");
                         return View(viewModel);
                     }
 
                     // Crée un cookie pour l'user
                     var userClaims = new List<Claim>()
-                {
-                    new Claim(ClaimTypes.Name, user.Id.ToString())
-                };
+                        {
+                        new Claim(ClaimTypes.Name, user.Id.ToString())
+                        };
 
                     var ClaimIdentity = new ClaimsIdentity(userClaims, "User Identity");
 
@@ -96,6 +96,12 @@ namespace Projet2_EasyFid.Controllers
         {
             HttpContext.SignOutAsync();
             return RedirectToAction("Index", "Login");
+        }
+
+        public ActionResult ResetPassword()
+        {
+            HttpContext.SignOutAsync();
+            return RedirectToAction("ChangePassword", "Login");
         }
     }
 }
