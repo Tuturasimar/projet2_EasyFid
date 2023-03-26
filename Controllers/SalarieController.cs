@@ -184,6 +184,13 @@ namespace Projet2_EasyFid.Controllers
             }
 
         }
+
+        [HttpPost]
+        public IActionResult SeeCurrentUserFeedback(List<MissionUser> missionUsers)
+        {
+
+            return RedirectToAction("Index");
+        }
      
     }
 }
