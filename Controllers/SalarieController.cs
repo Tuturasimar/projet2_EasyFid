@@ -177,7 +177,9 @@ namespace Projet2_EasyFid.Controllers
         {
             using(Dal dal = new Dal())
             {
+                // On récupère l'utilisateur actuellement authentifié
                 User user = dal.GetUser(HttpContext.User.Identity.Name);
+                // On récupère les missions attribuées par son manager en amont
                 List<MissionUser> activeMissions = dal.GetAllActiveMissionsByUserId(user.Id);
                 ViewBag.activeMissions = activeMissions;
                 return View(activeMissions);
@@ -190,21 +192,29 @@ namespace Projet2_EasyFid.Controllers
         {
             using(Dal dal = new Dal())
             {
+                // On boucle sur la liste de MissionUser que l'on reçoit
                 foreach (MissionUser missionUser in missionUsers)
                 {
+                    // Si c'est une modification d'un UserFeedback
                     if (missionUser.UserFeedbackId != null)
                     {
+                        // On récupère celui qui existe déjà
                       UserFeedback oldUserFeedback = dal.GetUserFeedbackById((int)missionUser.UserFeedbackId);
 
+                        // On change les différentes informations
                         oldUserFeedback.GradeClientRelation = missionUser.UserFeedback.GradeClientRelation;
                         oldUserFeedback.GradeManager = missionUser.UserFeedback.GradeManager;
                         oldUserFeedback.GradeMission = missionUser.UserFeedback.GradeMission;
                         oldUserFeedback.GradeUserComfort = missionUser.UserFeedback.GradeUserComfort;
                         oldUserFeedback.Comment = missionUser.UserFeedback.Comment;
 
+                        // On le modifie
                         dal.ModifyUserFeedback(oldUserFeedback);
-                    } else
+                    }
+                    // Si c'est une création d'un UserFeedback
+                    else
                     {
+                        // On instancie un nouveau userFeedback
                         UserFeedback userFeedback = new UserFeedback
                         {
                             Comment = missionUser.UserFeedback.Comment,
@@ -213,12 +223,15 @@ namespace Projet2_EasyFid.Controllers
                             GradeMission = missionUser.UserFeedback.GradeMission,
                             GradeUserComfort = missionUser.UserFeedback.GradeUserComfort
                         };
-
+                        // On récupère l'Id lors de sa création dans la BDD
                         int userFeedbackId = dal.CreateUserFeedback(userFeedback);
 
+                        // On récupère l'ancien MissionUser qui ne disposait pas encore de UserFeedback
                         MissionUser oldMissionUser = dal.GetMissionUserById(missionUser.Id);
+                        // On renseigne la valeur de l'Id du UserFeedback
                         oldMissionUser.UserFeedbackId = userFeedbackId;
 
+                        // On modifie le changement
                         dal.ModifyMissionUser(oldMissionUser);
                         
                     }
