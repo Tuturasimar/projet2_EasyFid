@@ -5,7 +5,6 @@ namespace Projet2_EasyFid.Models
 	public class UserFeedback
 	{
 		public int Id { get; set; }
-
 		public string Comment { get; set; }
 
 		// Rajouter des RegEx pour forcer la note de 0 à 5

@@ -180,7 +180,7 @@ namespace Projet2_EasyFid.Controllers
                 User user = dal.GetUser(HttpContext.User.Identity.Name);
                 List<MissionUser> activeMissions = dal.GetAllActiveMissionsByUserId(user.Id);
                 ViewBag.activeMissions = activeMissions;
-                return View();
+                return View(activeMissions);
             }
 
         }
