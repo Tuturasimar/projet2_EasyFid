@@ -13,9 +13,6 @@ namespace Projet2_EasyFid.Models
 		public int GradeManager { get; set; }
 		public int GradeClientRelation { get; set; }
 		public int GradeUserComfort { get; set; }
-
-		public int MissionUserId { get; set; }
-		public MissionUser MissionUser { get; set; }
 	}
 }
 

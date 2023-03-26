@@ -1,0 +1,12 @@
+﻿@model Projet2_EasyFid.Models.MissionUser
+@{ 
+    Layout = "_Layout";
+    ViewBag.Title = "Création UserFeedback";
+}
+
+<h2>Page des Userfeedback</h2>
+
+@foreach( Projet2_EasyFid.Models.MissionUser activeMission in ViewBag.activeMissions)
+{
+        <h3>@activeMission.Mission.Name</h3>
+}

@@ -28,7 +28,7 @@ namespace Projet2_EasyFid.Data.Services
 
         public static List<MissionUser> GetAllActiveMissionsByUserId(BddContext _bddContext,int id)
         {
-           return _bddContext.MissionUsers.Include(m => m.Mission).Where(m => m.UserId == id && m.MissionState == MissionStateEnum.ACTIVE).ToList();
+           return _bddContext.MissionUsers.Include(m => m.Mission).Include(m => m.UserFeedback).Where(m => m.UserId == id && m.MissionState == MissionStateEnum.ACTIVE).ToList();
         }
 
         

@@ -15,6 +15,9 @@ namespace Projet2_EasyFid.Models
 
 		public int MissionId { get; set; }
 		public Mission Mission { get; set; }
+
+		public int? UserFeedbackId { get; set; }
+		public UserFeedback UserFeedback { get; set; }
 	}
 }
 

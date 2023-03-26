@@ -18,13 +18,11 @@
 
         <nav class="navbar navbar-inverse">
             <div class="container-fluid">
-
-                @*Logo n'apparait pas dans la nav-bar
                 <div class="navbar-header">
                 <a class="navbar-brand" href="#">
-                <img src="/Images/logo.png" width="30" height="30" alt="">
+                <img src="/assets/image/logoEasyFid.png" width="30" height="30" alt="">
                 </a>
-                </div>*@
+                </div>
 
                 <div class="collapse navbar-collapse" id="myNavbar">
                     <ul class="nav navbar-nav">
@@ -42,7 +40,7 @@
             <div class="row content">
                 <div class="col-sm-2 sidenav">
                     <p>DASHBOARD</p>
-                    <p><a href="#">Mood</a></p>
+                    <a href="@Url.Action("SeeCurrentUserFeedback","Salarie")">Retour de missions</a>
                     <br />
                     <br />
                     <p>CRA</p>

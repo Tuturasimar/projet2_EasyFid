@@ -173,16 +173,16 @@ namespace Projet2_EasyFid.Controllers
                 return RedirectToAction("IndexSalarie");
         }
 
-        public IActionResult CreateUserFeedback()
+        public IActionResult SeeCurrentUserFeedback()
         {
             using(Dal dal = new Dal())
             {
                 User user = dal.GetUser(HttpContext.User.Identity.Name);
                 List<MissionUser> activeMissions = dal.GetAllActiveMissionsByUserId(user.Id);
-
+                ViewBag.activeMissions = activeMissions;
+                return View();
             }
 
-            return View();
         }
      
     }
