@@ -7,12 +7,12 @@
     {
         if (j < (int)TempData["intKey"])
         {
-        <i class="fa fa-star" id="@TempData["category"]-@j"></i>
+        <i class="fa fa-star goldStar" id="@TempData["category"]-@j" onclick=testFunction("@TempData["category"]-@j","@TempData["tour"]")></i>
 
-    }
-    else
-    {
-        <i class="fa fa-star-o" id="@TempData["category"]-@j"></i>
-    }
+        }
+        else
+        {
+        <i class="fa fa-star-o" id="@TempData["category"]-@j" onclick=testFunction("@TempData["category"]-@j","@TempData["tour"]")></i>
+        }
 }
 

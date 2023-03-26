@@ -1,5 +1,5 @@
 ﻿@model List<Projet2_EasyFid.Models.MissionUser>
-@{ 
+@{
     Layout = "_Layout";
     ViewBag.Title = "Création UserFeedback";
 }
@@ -7,56 +7,65 @@
 <h2>Page des Userfeedback</h2>
 
 @for (int i = 0; i < Model.Count; i++)
-    {
-        <h3>@Model[i].Mission.Name</h3>
+{
+        <div name=@Model[i].Mission.Name>
+            <h3>@Model[i].Mission.Name</h3>
 
-        @Html.Label("comment-" + i, "Commentaire sur la mission")
-        @Html.TextAreaFor(m => m[i].UserFeedback.Comment, new { @Name = "comment" + i })
+            @Html.Label("comment-" + i, "Commentaire sur la mission")
+            @Html.TextAreaFor(m => m[i].UserFeedback.Comment, new { @Name = "comment" + i })
+            @{
+                TempData["tour"] = i;
 
-        int gradeClientRelation = (Model[i].UserFeedback != null) ? Model[i].UserFeedback.GradeClientRelation : 0;
-        int gradeMission = (Model[i].UserFeedback != null) ? Model[i].UserFeedback.GradeMission : 0;
-        int gradeManager = (Model[i].UserFeedback != null) ? Model[i].UserFeedback.GradeManager : 0;
-        int gradeUserComfort = (Model[i].UserFeedback != null) ? Model[i].UserFeedback.GradeUserComfort: 0;
+                int gradeClientRelation = (Model[i].UserFeedback != null) ? Model[i].UserFeedback.GradeClientRelation : 0;
+                int gradeMission = (Model[i].UserFeedback != null) ? Model[i].UserFeedback.GradeMission : 0;
+                int gradeManager = (Model[i].UserFeedback != null) ? Model[i].UserFeedback.GradeManager : 0;
+                int gradeUserComfort = (Model[i].UserFeedback != null) ? Model[i].UserFeedback.GradeUserComfort : 0;
+            }
+            <div name="missionGrade" id="missionGrade">
+                @Html.Label("gradeMission-" + i, "Note Mission")
+                @{
+                    TempData["intKey"] = gradeMission;
+                    TempData["category"] = "mission";
+                }
 
-<div name="MissionGrade">
-    <input hidden value="@gradeMission" id="mission" />
-    @Html.Label("gradeMission-" + i, "Note Mission")
-    @{
-        TempData["intKey"] = gradeMission;
-        TempData["category"] = "mission";
-    }
-    @Html.Partial("GoldenStars")
-</div>
+                @*Pour le moment difficile de rendre dynamique les étoiles, on peut s'en servir comme une catégorie "Anciennes notes"*@
+                @Html.Partial("GoldenStars")
+                @*Input qui peut se compléter en cliquant sur les étoiles*@
+                @Html.TextBoxFor(m => m[i].UserFeedback.GradeMission, new { id = "mission"+i, @class = "hidden" })
+            </div>
 
-<div name="ManagerGrade">
-    <input hidden value="@gradeManager id="manager" />
-    @Html.Label("gradeManager-" + i, "Note Manager")
-    @{
-        TempData["intKey"] = gradeManager;
-        TempData["category"] = "manager";
+            <div name="managerGrade" id="managerGrade">
+                @Html.Label("gradeManager-" + i, "Note Manager")
+                @{
+                    TempData["intKey"] = gradeManager;
+                    TempData["category"] = "manager";
+                }
+                @Html.Partial("GoldenStars")
+                @Html.TextBoxFor(m => m[i].UserFeedback.GradeMission, new { id = "manager"+i, @class = "hidden" })
+            </div>
 
-    }
-    @Html.Partial("GoldenStars")
-</div>
+            <div name="clientRelationGrade" id="clientRelationGrade">
+                @Html.Label("gradeClientRelation-" + i, "Note Relation Client")
+                @{
+                    TempData["intKey"] = gradeClientRelation;
+                    TempData["category"] = "clientRelation";
+                }
+                @Html.Partial("GoldenStars")
+                @Html.TextBoxFor(m => m[i].UserFeedback.GradeMission, new { id = "clientRelation"+i, @class = "hidden" })
+            </div>
 
-<div name="ClientRelationGrade">
-    <input hidden value="@gradeClientRelation" id="clientRelation" />
-    @Html.Label("gradeClientRelation-"+i, "Note Relation Client")
-    @{
-        TempData["intKey"] = gradeClientRelation;
-        TempData["category"] = "clientRelation";
-    } 
-    @Html.Partial("GoldenStars")
-</div>
+            <div name="userComfortGrade" id="userComfortGrade">
+                @Html.Label("gradeUserComfort-" + i, "Note Confort Utilisateur")
+                @{
+                    TempData["intKey"] = gradeUserComfort;
+                    TempData["category"] = "userComfort";
+                }
+                @Html.Partial("GoldenStars")
+                @Html.TextBoxFor(m => m[i].UserFeedback.GradeMission, new { id = "userComfort"+i, @class = "hidden" })
+            </div>
+        </div>
+}
 
-<div name="UserComfortGrade">
-    <input hidden value="@gradeUserComfort id="userComfort" />
-    @Html.Label("gradeUserComfort-" + i, "Note Confort Utilisateur")
-    @{
-        TempData["intKey"] = gradeUserComfort;
-        TempData["category"] = "userComfort";
-    }
-    @Html.Partial("GoldenStars")
-</div>
-
-        }
+@section Scripts {
+    <script src="/Scripts/GradeScript.js"></script>
+}
