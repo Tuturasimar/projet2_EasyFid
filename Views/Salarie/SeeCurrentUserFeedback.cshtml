@@ -13,6 +13,7 @@
         <div name=@Model[i].Mission.Name>
             <h3>@Model[i].Mission.Name</h3>
             @Html.HiddenFor(m => m[i].UserFeedbackId)
+            @Html.HiddenFor(m => m[i].Id)
             @Html.Label("comment-" + i, "Commentaire sur la mission")
             @Html.TextAreaFor(m => m[i].UserFeedback.Comment, new { @Name = "comment" + i })
             @{

@@ -188,6 +188,44 @@ namespace Projet2_EasyFid.Controllers
         [HttpPost]
         public IActionResult SeeCurrentUserFeedback(List<MissionUser> missionUsers)
         {
+            using(Dal dal = new Dal())
+            {
+                foreach (MissionUser missionUser in missionUsers)
+                {
+                    if (missionUser.UserFeedbackId != null)
+                    {
+                      UserFeedback oldUserFeedback = dal.GetUserFeedbackById((int)missionUser.UserFeedbackId);
+
+                        oldUserFeedback.GradeClientRelation = missionUser.UserFeedback.GradeClientRelation;
+                        oldUserFeedback.GradeManager = missionUser.UserFeedback.GradeManager;
+                        oldUserFeedback.GradeMission = missionUser.UserFeedback.GradeMission;
+                        oldUserFeedback.GradeUserComfort = missionUser.UserFeedback.GradeUserComfort;
+                        oldUserFeedback.Comment = missionUser.UserFeedback.Comment;
+
+                        dal.ModifyUserFeedback(oldUserFeedback);
+                    } else
+                    {
+                        UserFeedback userFeedback = new UserFeedback
+                        {
+                            Comment = missionUser.UserFeedback.Comment,
+                            GradeClientRelation = missionUser.UserFeedback.GradeClientRelation,
+                            GradeManager = missionUser.UserFeedback.GradeManager,
+                            GradeMission = missionUser.UserFeedback.GradeMission,
+                            GradeUserComfort = missionUser.UserFeedback.GradeUserComfort
+                        };
+
+                        int userFeedbackId = dal.CreateUserFeedback(userFeedback);
+
+                        MissionUser oldMissionUser = dal.GetMissionUserById(missionUser.Id);
+                        oldMissionUser.UserFeedbackId = userFeedbackId;
+
+                        dal.ModifyMissionUser(oldMissionUser);
+                        
+                    }
+                }
+            }
+
+           
 
             return RedirectToAction("Index");
         }

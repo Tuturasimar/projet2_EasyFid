@@ -125,6 +125,24 @@ namespace Projet2_EasyFid.Data.Services
             _bddContext.Users.Update(user);
             _bddContext.SaveChanges();
         }
+
+        public static UserFeedback GetUserFeedbackById(BddContext _bddContext,int id)
+        {
+            return _bddContext.UserFeedbacks.SingleOrDefault(u => u.Id == id);
+        }
+
+        public static void ModifyUserFeedback(BddContext _bddContext, UserFeedback userFeedback)
+        {
+            _bddContext.UserFeedbacks.Update(userFeedback);
+            _bddContext.SaveChanges();
+        }
+
+        public static int CreateUserFeedback(BddContext _bddContext, UserFeedback userFeedback)
+        {
+            _bddContext.UserFeedbacks.Add(userFeedback);
+            _bddContext.SaveChanges();
+            return userFeedback.Id;
+        }
     }
 }
 

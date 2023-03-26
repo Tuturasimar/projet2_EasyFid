@@ -139,10 +139,10 @@ namespace Projet2_EasyFid.Data
 
             // Dans la table UserFeedback
             this.UserFeedbacks.AddRange(
-                new UserFeedback { Comment = "C'est un commentaire", GradeClientRelation = 3, GradeManager = 2, GradeMission = 4, GradeUserComfort = 5},
-                new UserFeedback { Comment = "C'est un autre commentaire", GradeClientRelation = 1, GradeManager = 5, GradeMission = 3, GradeUserComfort = 3},
-                new UserFeedback { Comment = "C'est un ultime commentaire", GradeClientRelation = 2, GradeManager = 4, GradeMission = 0, GradeUserComfort = 1},
-                new UserFeedback { Comment = "C'est encore un autre commentaire", GradeClientRelation = 0, GradeManager = 5, GradeMission = 0, GradeUserComfort = 1}
+                new UserFeedback {Id = 1, Comment = "C'est un commentaire", GradeClientRelation = 3, GradeManager = 2, GradeMission = 4, GradeUserComfort = 5},
+                new UserFeedback {Id = 2, Comment = "C'est un autre commentaire", GradeClientRelation = 1, GradeManager = 5, GradeMission = 3, GradeUserComfort = 3},
+                new UserFeedback {Id = 3, Comment = "C'est un ultime commentaire", GradeClientRelation = 2, GradeManager = 4, GradeMission = 0, GradeUserComfort = 1},
+                new UserFeedback {Id = 4, Comment = "C'est encore un autre commentaire", GradeClientRelation = 0, GradeManager = 5, GradeMission = 0, GradeUserComfort = 1}
                 );
 
             // Dans la table MissionUser

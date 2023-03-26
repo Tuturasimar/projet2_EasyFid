@@ -245,8 +245,32 @@ namespace Projet2_EasyFid.Data
         {
             return CraServices.GetCraActivityByCraId(_bddContext, id);
         }
-        
-    
+
+        public UserFeedback GetUserFeedbackById(int id)
+        {
+            return UserServices.GetUserFeedbackById(_bddContext, id);
+        }
+
+        public void ModifyUserFeedback(UserFeedback userFeedback)
+        {
+            UserServices.ModifyUserFeedback(_bddContext,userFeedback);
+        }
+
+        public int CreateUserFeedback(UserFeedback userFeedback)
+        {
+            return UserServices.CreateUserFeedback(_bddContext, userFeedback);
+        }
+
+        public void ModifyMissionUser(MissionUser missionUser)
+        {
+            MissionServices.ModifyMissionUser(_bddContext, missionUser);
+        }
+
+        public MissionUser GetMissionUserById(int id)
+        {
+            return MissionServices.GetMissionUserById(_bddContext, id);
+        }
+
     }
 }
 

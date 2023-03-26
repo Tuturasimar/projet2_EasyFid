@@ -31,6 +31,17 @@ namespace Projet2_EasyFid.Data.Services
            return _bddContext.MissionUsers.Include(m => m.Mission).Include(m => m.UserFeedback).Where(m => m.UserId == id && m.MissionState == MissionStateEnum.ACTIVE).ToList();
         }
 
+        public static void ModifyMissionUser(BddContext _bddContext, MissionUser missionUser)
+        {
+            _bddContext.MissionUsers.Update(missionUser);
+            _bddContext.SaveChanges();
+        }
+
+        public static MissionUser GetMissionUserById(BddContext _bddContext, int id)
+        {
+            return _bddContext.MissionUsers.SingleOrDefault(m => m.Id == id);
+        }
+
         
     }
 }
