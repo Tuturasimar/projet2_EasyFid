@@ -20,6 +20,8 @@ namespace Projet2_EasyFid.Data
         public DbSet<Formation> Formations { get; set; }
         public DbSet<Absence> Absences { get; set; }
         public DbSet<ActivityDate> ActivityDates { get; set; }
+        public DbSet<MissionUser> MissionUsers { get; set; }
+        public DbSet<UserFeedback> UserFeedbacks { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -138,6 +140,20 @@ namespace Projet2_EasyFid.Data
             this.Notifications.AddRange(
                 new Notification { MessageContent = "Cra validé avec succès", ClassContext = "success", UserId = 1 },
                 new Notification { MessageContent = "Cra refusée, il manque des données sur les jours du 12 au 14 février", ClassContext = "danger", UserId = 1 }
+                );
+
+            // Dans la table MissionUser
+            this.MissionUsers.AddRange(
+                new MissionUser { Id = 1, UserId = 1, MissionId = 1 },
+                new MissionUser { Id = 2, UserId = 2, MissionId = 1 },
+                new MissionUser { Id = 3, UserId = 2, MissionId = 2 }
+                );
+
+            // Dans la table UserFeedback
+            this.UserFeedbacks.AddRange(
+                new UserFeedback { Comment = "C'est un commentaire", GradeClientRelation = 3, GradeManager = 2, GradeMission = 4, GradeUserComfort = 5, MissionUserId = 1 },
+                new UserFeedback { Comment = "C'est un autre commentaire", GradeClientRelation = 1, GradeManager = 5, GradeMission = 3, GradeUserComfort = 3, MissionUserId = 2 },
+                new UserFeedback { Comment = "C'est un ultime commentaire", GradeClientRelation = 2, GradeManager = 4, GradeMission = 0, GradeUserComfort = 1, MissionUserId = 3 }
                 );
 
             // Sauvegarde des données dans la BDD
