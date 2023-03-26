@@ -121,7 +121,9 @@ namespace Projet2_EasyFid.Data.Services
 
         public static void SetManagerIdNullOnDelete(BddContext _bddContext, User user)
         {
-
+            user.ManagerId = null;
+            _bddContext.Users.Update(user);
+            _bddContext.SaveChanges();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Projet2_EasyFid.Data.Enums;
 using Projet2_EasyFid.Models;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,13 @@ namespace Projet2_EasyFid.Data.Services
         //    // Sans Include, impossible de récupérer certaines données en faisant User.Userdata.FirstName, par exemple.
         //    //Mission mission = _bddContext.Missions.Include(m => m.Activity).Include(m => m.Name).Include(m => m.Mana).SingleOrDefault(u => u.Id == id);
         //    //return mission;
-        //} 
+        //}
+
+        public static List<MissionUser> GetAllActiveMissionsByUserId(BddContext _bddContext,int id)
+        {
+           return _bddContext.MissionUsers.Include(m => m.Mission).Where(m => m.UserId == id && m.MissionState == MissionStateEnum.ACTIVE).ToList();
+        }
+
+        
     }
 }

@@ -173,7 +173,18 @@ namespace Projet2_EasyFid.Controllers
                 return RedirectToAction("IndexSalarie");
         }
 
-        
+        public IActionResult CreateUserFeedback()
+        {
+            using(Dal dal = new Dal())
+            {
+                User user = dal.GetUser(HttpContext.User.Identity.Name);
+                List<MissionUser> activeMissions = dal.GetAllActiveMissionsByUserId(user.Id);
+
+            }
+
+            return View();
+        }
+     
     }
 }
 

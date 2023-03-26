@@ -208,7 +208,13 @@ namespace Projet2_EasyFid.Data
         {
             return CraServices.GetMissionById(_bddContext, id);
         }
-        
+
+        public List<MissionUser> GetAllActiveMissionsByUserId(int id)
+        {
+            return MissionServices.GetAllActiveMissionsByUserId(_bddContext, id);
+        }
+
+
         public Activity GetActivityById(int id)
         {
             return CraServices.GetActivityById(_bddContext, id);
