@@ -87,10 +87,5 @@ namespace Projet2_EasyFid.Data.Services
             _bddContext.SaveChanges();
         }
 
-     
-        
-
-        
-
     }
 }
