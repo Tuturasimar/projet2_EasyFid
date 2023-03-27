@@ -62,8 +62,23 @@ namespace Projet2_EasyFid.Controllers
         {
             using (Dal dal = new Dal())
             {
-                // On récupère l'ensemble des données renseignées pour cet utilisateur en BDD grâce à une requête
-                User oldUser = dal.GetUserById(user.Id);
+                if (!ModelState.IsValid)
+                {
+                    List<Company> companies = dal.GetAllCompanies();
+                    // On instancie une liste qui contiendra des UserData que l'on va utiliser pour la liste déroulante des managers
+                    List<UserData> userDatas = new List<UserData>();
+                    // On obtient la liste des roles de l'utilisateur
+                    List<RoleUser> rolesUser = dal.GetAllRolesById(user.Id);
+                    // On rajoute à la liste des UserData un nouveau qui permet d'avoir l'option "Aucun manager"
+                    userDatas.Add(new UserData { Lastname = "Aucun manager" });
+                    userDatas.AddRange(dal.GetAllManagerUserDatas(user.Id));
+                    ViewBag.companies = companies;
+                    ViewBag.userDatas = userDatas;
+                    ViewBag.rolesUser = rolesUser;
+                    return View(user);
+                }
+                    // On récupère l'ensemble des données renseignées pour cet utilisateur en BDD grâce à une requête
+                    User oldUser = dal.GetUserById(user.Id);
 
                 // On remplace un par un l'ensemble des champs du formulaire
                 oldUser.Login = user.Login;
@@ -83,11 +98,8 @@ namespace Projet2_EasyFid.Controllers
                 {
                     oldUser.ManagerId = null;
                 }
-                // Si le mot de passe a été modifié
-                if(user.Password != null)
-                {
-                    oldUser.Password = Dal.EncodeMD5(user.Password);
-                }
+               
+                
                 // On envoie l'ancien user maintenant modifié à la méthode pour confirmer les changements dans la BDD
                 dal.ModifyUser(oldUser);
 
@@ -241,6 +253,33 @@ namespace Projet2_EasyFid.Controllers
             }
 
             return RedirectToAction("Index");
+        }
+
+        public IActionResult ModifyPassword(int id)
+        {
+            using(Dal dal = new Dal())
+            {
+                User user = dal.GetUserById(id);
+                if(user != null)
+                {
+                    return View(user);
+                }
+                return RedirectToAction("Index");
+            }
+        }
+
+        [HttpPost]
+        public IActionResult ModifyPassword(User user)
+        {
+            using(Dal dal = new Dal())
+            {
+                User userToChange = dal.GetUserById(user.Id);
+                userToChange.Password = Dal.EncodeMD5(user.Password);
+                dal.ModifyUser(userToChange);
+            }
+
+            return RedirectToAction("Index");
+
         }
     }
 }

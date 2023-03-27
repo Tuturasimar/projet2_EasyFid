@@ -1,0 +1,33 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@*On boucle ici sur 5 tours, car il y a en tout 5 étoiles*@
+
+@for (int j = 0; j < 5; j++)
+    {
+        @*Cette condition permet de déterminer si l'étoile doit être pleine ou non
+          Exemple : On considère que la valeur envoyée dans intKey est 3.
+                - Tour 1 : j = 0 || intKey = 3  --> true donc étoile pleine
+                - Tour 2 : j = 1 || intKey = 3  --> true donc étoile pleine
+                - Tour 3 : j = 2 || intKey = 3  --> true donc étoile pleine
+                - Tour 4 : j = 3 || intKey = 3  --> false donc étoile vide
+                - Tour 5 : j = 4 || intKey = 4  --> false donc étoile vide
+          La valeur envoyée est 3, on a bien 3 étoiles pleines.*@
+        if (j < (int)TempData["intKey"])
+        {
+        @*La balise <i> qui dispose d'une classe "fa fa-star" est une icone importée de FontAwesome.
+          FontAwesome permet d'utiliser des petites icones, comme ici les étoiles
+          onclick est un évènement qui va déclencher une méthode particulière quand l'icone sera cliquée. Ici c'est changeStars()
+          changeStars() est une méthode dans le fichier de script. Elle attend deux arguments :
+                - Le premier est l'id de l'icone cliquée
+                - Le second est le tour actuel de la grande boucle de la vue principale*@
+        <i class="fa fa-star goldStar" id="@TempData["category"]-@j" onclick=changeStars("@TempData["category"]-@j","@TempData["tour"]")></i>
+
+        }
+        else
+        {
+        <i class="fa fa-star-o" id="@TempData["category"]-@j" onclick=changeStars("@TempData["category"]-@j","@TempData["tour"]")></i>
+        }
+}
+

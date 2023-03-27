@@ -54,15 +54,15 @@ namespace Projet2_EasyFid
 
             app.UseEndpoints(endpoints =>
             {
-                //Première route visible avec l'adresse url vide
-                //endpoints.MapControllerRoute(
-                //    name: "default",
-                //    pattern: "{controller=Login}/{action=Index}/{id?}");
+                // Première route visible avec l'adresse url vide
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Login}/{action=Index}/{id?}");
 
-                //// Route de la partie Salarie (/salarie)
-                //endpoints.MapControllerRoute(
-                //    name: "adminHome",
-                //    pattern: "{controller=Salarie}/{action=IndexSalarie}/{id?}");
+                // Route de la partie Salarie (/salarie)
+                endpoints.MapControllerRoute(
+                    name: "adminHome",
+                    pattern: "{controller=Salarie}/{action=IndexSalarie}/{id?}");
 
                 // Route de la partie Admin (/admin)
                 endpoints.MapControllerRoute(

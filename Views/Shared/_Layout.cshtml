@@ -5,48 +5,25 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="/css/style.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <style>
-        /* Remove the navbar's default margin-bottom and rounded borders */
-        .navbar {
-            margin-bottom: 0;
-            border-radius: 0;
-        }
-
-        /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
-        .row.content {
-            height: 450px
-        }
-
-        /* Set gray background color and 100% height */
-        .sidenav {
-            padding-top: 20px;
-            background-color: #f1f1f1;
-            height: 100%;
-        }
-
-        /* Set black background color, white text and some padding */
-        footer {
-            background-color: #555;
-            color: white;
-            padding: 15px;
-        }
     </style>
 </head>
 <body>
     <div>
-        
+
 
         <nav class="navbar navbar-inverse">
             <div class="container-fluid">
-
-                @*Logo n'apparait pas dans la nav-bar
                 <div class="navbar-header">
                 <a class="navbar-brand" href="#">
-                <img src="/Images/logo.png" width="30" height="30" alt="">
+                <img src="/assets/image/logoEasyFid.png" width="30" height="30" alt="">
                 </a>
-                </div>*@
+                </div>
 
                 <div class="collapse navbar-collapse" id="myNavbar">
                     <ul class="nav navbar-nav">
@@ -64,7 +41,7 @@
             <div class="row content">
                 <div class="col-sm-2 sidenav">
                     <p>DASHBOARD</p>
-                    <p><a href="#">Mood</a></p>
+                    <a href="@Url.Action("SeeCurrentUserFeedback","Salarie")">Retour de missions</a>
                     <br />
                     <br />
                     <p>CRA</p>
@@ -95,6 +72,6 @@
     <footer class="container-fluid text-center">
         <p>EasyFid-2023</p>
     </footer>
-
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

@@ -6,10 +6,10 @@
 @*Calendrier pour choisir la date de debut*@
 @Html.HiddenFor(m => Model.Id)
 @Html.Label("BeginDate", "Date de début : ")
-@Html.EditorFor(m => Model.BeginDate)
+@Html.EditorFor(m => Model.BeginDate, "yyyy-MM-dd")
 <br />
 
 @*Calendrier pour choisir la date de fin*@
 @Html.Label("EndDate", "Date de fin : ")
-@Html.EditorFor(m => Model.EndDate)
+@Html.EditorFor(m => Model.EndDate, "yyyy-MM-dd")
 <br />

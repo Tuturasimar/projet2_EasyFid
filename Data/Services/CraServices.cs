@@ -82,6 +82,57 @@ namespace Projet2_EasyFid.Data.Services
 			_bddContext.SaveChanges();
 		}
 
+		public static Cra GetCraById(BddContext _bddContext, int id)
+		{
+			Cra cra = _bddContext.Cras.Include(c => c.User).SingleOrDefault(c => c.Id == id);
+			return cra;
+		}
+
+		public static CraActivity GetCraActivityByCraId(BddContext _bddContext, int id)
+		{
+			CraActivity craActivity = _bddContext.CraActivities.Include(ca => ca.Activity).Where(c => c.CraId == id).SingleOrDefault(ca => ca.Id == id);
+			return craActivity;
+		}
+
+		
+		public static List<Activity> GetAllActivityByCraId (BddContext _bddContext, int id)
+		{
+			//Ici on fait une jointure entre deux tables, la table CraActivity et la table Activity
+			var query = from ca in _bddContext.CraActivities
+						join a in _bddContext.Activities on ca.ActivityId equals a.Id //jointure entre CraActivity et Activity
+						where ca.CraId == id //On recupere les Activity qui ont le meme CraId (donc le même Cra)
+						select a;
+			return query.ToList(); //On recupère une liste d'Activity
+		}
+
+		public static List<ActivityDate> GetAllActivityDateByCraId (BddContext _bddContext, int id)
+		{
+			//Ici on fait une jointure entre 2 tables
+			var query = from ad in _bddContext.ActivityDates
+						join ca in _bddContext.CraActivities on ad.CraActivityId equals ca.Id //jointure entre ActivityDate et CraActivity
+						where ca.CraId == id //On recupere les ActivityDate qui ont le même CraId (donc le même Cra)
+						select ad;
+			return query.ToList();
+		}
+
+        //Pour reucperer tous les BeginDate d'une ActivityDate
+        //Pas utile pour l'instant, à voir pour la suite, je laisse en commentaire pour l'instant
+		/*
+        public static List<DateTime> GetBeginDate (BddContext _bddContext, int id)
+		{
+            //Ici on fait une jointure entre 2 tables
+            var query = from ad in _bddContext.ActivityDates
+                        join ca in _bddContext.CraActivities on ad.CraActivityId equals ca.Id //jointure entre ActivityDate et CraActivity
+                        where ca.CraId == id //On recupere les ActivityDate qui ont le même CraId (donc le même Cra)
+                        select ad.BeginDate;
+            return query.ToList();
+        }
+		*/
+		
+		
+
+   
+
     }
 
 }

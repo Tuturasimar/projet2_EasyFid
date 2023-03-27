@@ -1,0 +1,121 @@
+﻿/* Global Styles */
+* {
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #f8f8f8;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    height: 100vh;
+}
+
+.card {
+    border-top: 7px solid #f76d39;
+    width: 50%;
+    padding: 40px;
+    margin: 0 auto;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+.card-body {
+    display: flex;
+    justify-content: center;
+}
+
+.form-control {
+    width: 120%;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+
+h4 {
+    margin-top: 2rem;
+    font-size: 1.25rem;
+    font-weight: bold;
+    padding-bottom: 1rem;
+}
+
+
+.logo {
+    display: block;
+    border-radius: 20%;
+}
+
+.form-control {
+    width: 100%;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-bottom: 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #f2f2f2;
+}
+
+
+.btn {
+    display: block;
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 0.625rem;
+    border: none;
+    border-radius: 0.3125rem;
+    background-color: #f76d39;
+    color: #fff;
+    font-size: 0.9375rem;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+    .btn:hover {
+        background-color: #ff8557;
+    }
+
+.forgot-password {
+    display: block;
+    text-align: center;
+    font-size: 0.875rem;
+    color: #999;
+    margin-top: 0.625rem;
+}
+
+    .forgot-password:hover {
+        color: #666;
+    }
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .card {
+        width: 100%;
+        padding: 40px;
+        margin: 20px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        border: none;
+        border-top: 7px solid #f76d39;
+        border-radius: 12px;
+    }
+
+    .logo {
+        width: 100%;
+        margin: 0 auto;
+        margin-bottom: 0.625rem;
+    }
+
+    .form-control {
+        width: 100%;
+        margin-bottom: 20px;
+        border-radius: 5px;
+    }
+}

@@ -29,6 +29,11 @@ namespace Projet2_EasyFid.Data
             return CraServices.GetAllCrasByUserId(_bddContext, id);
         }
 
+        public List<Mission> GetAllMissions()
+        {
+            return MissionServices.GetAllMissions(_bddContext);
+        }
+
 
         public void SetUserIdNullOnDelete(Cra cra)
         {
@@ -78,10 +83,6 @@ namespace Projet2_EasyFid.Data
             string encryptedPassword = EncodeMD5(password);
             User user = this._bddContext.Users.FirstOrDefault(u => u.Login == login && u.Password == encryptedPassword);
             return user;
-        }
-        public List<Mission> GetAllMissions()
-        {
-            return CraServices.GetAllMissions(_bddContext);
         }
 
         // Récupère l'utilisateur actuellement authentifié
@@ -147,7 +148,13 @@ namespace Projet2_EasyFid.Data
             return UserServices.GetAllRolesById(_bddContext, id);
         }
 
-        public void CreateRoleUser(RoleUser roleUser)
+
+        public Boolean checkUserRole(int userId, RoleTypeEnum role)
+        {
+            return UserServices.GetAllRolesById(_bddContext, userId).Find(r => r.RoleType == role) != null;
+        }
+    
+        public void CreateRoleUser (RoleUser roleUser)
         {
             UserServices.CreateRoleUser(_bddContext, roleUser);
         }
@@ -212,7 +219,13 @@ namespace Projet2_EasyFid.Data
         {
             return CraServices.GetMissionById(_bddContext, id);
         }
-        
+
+        public List<MissionUser> GetAllActiveMissionsByUserId(int id)
+        {
+            return MissionServices.GetAllActiveMissionsByUserId(_bddContext, id);
+        }
+
+
         public Activity GetActivityById(int id)
         {
             return CraServices.GetActivityById(_bddContext, id);
@@ -232,6 +245,64 @@ namespace Projet2_EasyFid.Data
         {
             return CraServices.CreateCraActivity(_bddContext, craActivity);
         }
+
+        public Cra GetCraById(int id)
+        {
+            return CraServices.GetCraById(_bddContext, id);
+        }
+
+        
+        public CraActivity GetCraActivityByCraId(int id)
+        {
+            return CraServices.GetCraActivityByCraId(_bddContext, id);
+        }
+
+
+        public List<Activity> GetAllActivityByCraId(int id)
+        {
+            return CraServices.GetAllActivityByCraId (_bddContext, id);
+        }
+
+        public List<ActivityDate> GetAllActivityDateByCraId(int id)
+        {
+            return CraServices.GetAllActivityDateByCraId(_bddContext, id);
+        }
+
+        //Pour reucperer tous les BeginDate d'une ActivityDate
+        //Pas utile pour l'instant, à voir pour la suite, je laisse en commentaire pour l'instant
+        /*
+        public List<DateTime> GetBeginDate(int id)
+        {
+            return CraServices.GetBeginDate(_bddContext, id);
+        }
+        */
+
+        public UserFeedback GetUserFeedbackById(int id)
+        {
+            return UserServices.GetUserFeedbackById(_bddContext, id);
+        }
+
+        public void ModifyUserFeedback(UserFeedback userFeedback)
+        {
+            UserServices.ModifyUserFeedback(_bddContext,userFeedback);
+        }
+
+        public int CreateUserFeedback(UserFeedback userFeedback)
+        {
+            return UserServices.CreateUserFeedback(_bddContext, userFeedback);
+        }
+
+        public void ModifyMissionUser(MissionUser missionUser)
+        {
+            MissionServices.ModifyMissionUser(_bddContext, missionUser);
+        }
+
+        public MissionUser GetMissionUserById(int id)
+        {
+            return MissionServices.GetMissionUserById(_bddContext, id);
+        }
+
+
     }
 }
 

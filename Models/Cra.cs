@@ -16,7 +16,7 @@ namespace Projet2_EasyFid.Models
         public DateTime CreatedAt { get; set; }
 
         [Display(Name = "Date de modification du Cra : ")]
-        public DateTime? UpdatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
 
 
         public int? UserId { get; set; }

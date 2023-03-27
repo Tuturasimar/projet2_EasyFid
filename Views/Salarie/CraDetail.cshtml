@@ -1,0 +1,33 @@
+﻿@model Projet2_EasyFid.ViewModels.SalarieViewModel
+@{
+    Layout = "_Layout";
+    ViewBag.Title = "Détail Cra";
+}
+
+<h2>Détail du Cra</h2>
+<ul>
+    <li>Date de création : @Model.Cra.CreatedAt</li>
+    <li>Date de modification : @Model.Cra.UpdatedAt</li>
+    @*pour tester*@
+    @*<li>CraId : @Model.CraActivity.CraId</li>
+    <li>ActivityId : @Model.CraActivity.ActivityId</li>*@
+    @*Seulement trois Cras sur la BDD pour l'instant*@
+    @*On affiche le labelActivity de chaque Activity reliées au cra*@
+    <p>Activités : </p>
+    <ul>
+        @foreach (var activity in Model.Activities)
+        {
+            <li>@activity.LabelActivity</li>
+        }
+    </ul>
+    <p>Date de début et de fin : </p>
+    <ul>
+        @foreach (var item in Model.ActivityDates)
+        {
+            <li>Date de début : @item.BeginDate</li>
+            <li>Date de fin : @item.EndDate</li>
+        }
+    </ul>
+   
+    
+</ul>

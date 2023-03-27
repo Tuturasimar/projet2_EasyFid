@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Projet2_EasyFid.Data.Enums;
 using Projet2_EasyFid.Models;
 using System.Collections.Generic;
@@ -18,6 +18,7 @@ namespace Projet2_EasyFid.Data.Services
             _bddContext.SaveChanges();
             return mission.Id;
         }
+
         public static Mission GetMissionById(BddContext _bddContext, int id)
         {
             // Le Include permet ici de récupérer les données du MissionUser (qui est lié à User par une clé étrangère)
@@ -45,9 +46,9 @@ namespace Projet2_EasyFid.Data.Services
 
         //MissionUser
 
-        public static MissionUser GetMissionUserById(BddContext _bddContext, int id)
+           public static MissionUser GetMissionUserById(BddContext _bddContext, int id)
         {
-            return _bddContext.MissionUsers.SingleOrDefault(u => u.Id == id);
+            return _bddContext.MissionUsers.SingleOrDefault(m => m.Id == id); 
         }
 
 
@@ -72,6 +73,24 @@ namespace Projet2_EasyFid.Data.Services
             _bddContext.SaveChanges();
         }
 
+
+
+
+        public static List<MissionUser> GetAllActiveMissionsByUserId(BddContext _bddContext,int id)
+        {
+           return _bddContext.MissionUsers.Include(m => m.Mission).Include(m => m.UserFeedback).Where(m => m.UserId == id && m.MissionState == MissionStateEnum.ACTIVE).ToList();
+        }
+
+        public static void ModifyMissionUser(BddContext _bddContext, MissionUser missionUser)
+        {
+            _bddContext.MissionUsers.Update(missionUser);
+            _bddContext.SaveChanges();
+        }
+
+     
+        
+
+        
 
     }
 }
