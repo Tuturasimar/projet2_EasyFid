@@ -246,6 +246,26 @@ namespace Projet2_EasyFid.Data
             return CraServices.GetCraActivityByCraId(_bddContext, id);
         }
 
+
+        public List<Activity> GetAllActivityByCraId(int id)
+        {
+            return CraServices.GetAllActivityByCraId (_bddContext, id);
+        }
+
+        public List<ActivityDate> GetAllActivityDateByCraId(int id)
+        {
+            return CraServices.GetAllActivityDateByCraId(_bddContext, id);
+        }
+
+        //Pour reucperer tous les BeginDate d'une ActivityDate
+        //Pas utile pour l'instant, à voir pour la suite, je laisse en commentaire pour l'instant
+        /*
+        public List<DateTime> GetBeginDate(int id)
+        {
+            return CraServices.GetBeginDate(_bddContext, id);
+        }
+        */
+
         public UserFeedback GetUserFeedbackById(int id)
         {
             return UserServices.GetUserFeedbackById(_bddContext, id);
@@ -270,6 +290,7 @@ namespace Projet2_EasyFid.Data
         {
             return MissionServices.GetMissionUserById(_bddContext, id);
         }
+
 
     }
 }

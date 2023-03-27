@@ -29,8 +29,8 @@ namespace Projet2_EasyFid.Data
 
 
 
-            optionsBuilder.UseMySql("server=localhost;port=8889;user id=root;password=root;database=easyFid"); // connexion trévor
-            //optionsBuilder.UseMySql("server=localhost;user id=root;password=rrrrr;database=projet2"); //connexion Laura
+            //optionsBuilder.UseMySql("server=localhost;port=8889;user id=root;password=root;database=easyFid"); // connexion trévor
+            optionsBuilder.UseMySql("server=localhost;user id=root;password=rrrrr;database=projet2"); //connexion Laura
             //optionsBuilder.UseMySql("server=localhost;user id=root;password=rrrrrrrr;database=UserData"); //connexion Louis
             //optionsBuilder.UseMySql("server=localhost;user id=root;password=root;database=easyFid"); //connexion Seb
 
