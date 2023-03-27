@@ -98,12 +98,13 @@ namespace Projet2_EasyFid.Controllers
         {
             using (Dal dal = new Dal())
             {
-                
-                bool isDateValid =  dal.CheckActivityDateComptability(BeginDate, EndDate, activities);
+                User user = dal.GetUser(HttpContext.User.Identity.Name);
+
+                bool isDateValid =  dal.CheckActivityDateComptability(BeginDate, EndDate, activities, user);
                 if (!isDateValid)
                 {
-                    return RedirectToAction("Index");
-                    // Créer une notif d'erreur de conflit de dates de mission
+                    ViewBag.activities = dal.GetAllActivities();
+                    return View();
                 }
 
                 // On cree un nouveau Cra qui recupere la date de creation et de modification, ainsi que le statut du Cra

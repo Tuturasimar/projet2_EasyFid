@@ -1,4 +1,5 @@
-﻿using Projet2_EasyFid.Models;
+﻿using Microsoft.AspNetCore.Http;
+using Projet2_EasyFid.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace Projet2_EasyFid.Data.Services
 			_bddContext.SaveChanges();
 		}
 
-		public static bool CheckActivityDateComptability(BddContext _bddContext, List<DateTime> BeginDate, List<DateTime> EndDate, List<int> activities)
+		public static bool CheckActivityDateComptability(BddContext _bddContext, List<DateTime> BeginDate, List<DateTime> EndDate, List<int> activities, User user)
 		{
 			List<DateTime> bDate = new List<DateTime>();
 			List<DateTime> eDate = new List<DateTime>();
@@ -21,7 +22,8 @@ namespace Projet2_EasyFid.Data.Services
 
 			if(BeginDate.Count != activities.Count-1 || EndDate.Count != activities.Count - 1)
 			{
-				// Créer notification sur les champs non renseignés
+				Notification notification = new Notification { ClassContext = "danger", MessageContent = "Renseignez tous les champs lors de l'ajout d'activités", UserId= user.Id};
+				NotificationServices.CreateNotification(_bddContext, notification);
 				return false;
 			}
 
@@ -37,8 +39,9 @@ namespace Projet2_EasyFid.Data.Services
                     }
 					else
 					{
-						// Créer notification sur les dates non valides
-						return false;
+                        Notification notification = new Notification { ClassContext = "danger", MessageContent = "Renseignez des dates de début et de fin cohérentes.", UserId = user.Id };
+                        NotificationServices.CreateNotification(_bddContext, notification);
+                        return false;
 					}
 					
 				} ;
@@ -55,8 +58,9 @@ namespace Projet2_EasyFid.Data.Services
 						if (otherValue < 0)
 						{
 							isCompatible = false;
-							// Créer notification sur les dates de mission qui se chevauchent
-							break;
+                            Notification notification = new Notification { ClassContext = "danger", MessageContent = "Renseignez des dates de missions qui ne se chevauchent pas", UserId = user.Id };
+                            NotificationServices.CreateNotification(_bddContext, notification);
+                            break;
 						}
 					}
 				}		 
