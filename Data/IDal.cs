@@ -26,7 +26,13 @@ namespace Projet2_EasyFid.Data
         void UpdateFormation(Formation formation);
     
 
+
+		int CreateMission(Mission mission);
+		//int DeleteMission(int id);
+
+
 		
+
 	}
 
 }

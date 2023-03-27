@@ -15,6 +15,7 @@ namespace Projet2_EasyFid.ViewModels
         public ActivityDate ActivityDate { get; set; }
         public List <ActivityDate> ActivityDates { get; set;}
         public List<DateTime> BeginDate { get; set; }
+        public User User { get; set; }  
 
     }
 }
