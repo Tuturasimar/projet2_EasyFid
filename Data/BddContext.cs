@@ -73,12 +73,11 @@ namespace Projet2_EasyFid.Data
             //Dans la tables cras
             this.Cras.AddRange(
                 new Cra { Id = 1, CreatedAt = new DateTime(2020, 06, 20), UpdatedAt = new DateTime(2020, 06, 27), StateCra = StateEnum.VALIDATED, UserId = 1},
-
                 new Cra { Id = 2, CreatedAt = new DateTime(2022, 01, 12), UpdatedAt= new DateTime(2022, 01, 23), StateCra = StateEnum.VALIDATED, UserId = 2},
                 new Cra { Id = 3, CreatedAt = new DateTime(2022, 02, 19), UpdatedAt = new DateTime(2022, 02, 27), StateCra = StateEnum.VALIDATED, UserId = 2 },
                 new Cra { Id = 4, CreatedAt = new DateTime(2022, 03, 20), UpdatedAt = new DateTime(2022, 03, 28), StateCra = StateEnum.VALIDATED, UserId = 2 },
-                new Cra { Id = 5, CreatedAt = new DateTime(2022, 04, 16), UpdatedAt = new DateTime(2022, 03, 28), StateCra = StateEnum.VALIDATED, UserId = 2 },
-                new Cra { Id = 6, CreatedAt = new DateTime(2022, 05, 17), UpdatedAt = new DateTime(2022, 03, 25), StateCra = StateEnum.VALIDATED, UserId = 2 },
+                new Cra { Id = 5, CreatedAt = new DateTime(2022, 04, 16), UpdatedAt = new DateTime(2022, 04, 28), StateCra = StateEnum.VALIDATED, UserId = 2 },
+                new Cra { Id = 6, CreatedAt = new DateTime(2022, 05, 17), UpdatedAt = new DateTime(2022, 05, 25), StateCra = StateEnum.VALIDATED, UserId = 2 },
                 new Cra { Id = 7, CreatedAt = new DateTime(2023, 01, 18), UpdatedAt = new DateTime(2023, 01, 29), StateCra = StateEnum.VALIDATED, UserId = 4 },
                 new Cra { Id = 8, CreatedAt = new DateTime(2023, 02, 21), UpdatedAt = new DateTime(2023, 01, 27), StateCra = StateEnum.VALIDATED, UserId = 4 },
                 new Cra { Id = 9, CreatedAt = new DateTime(2023, 03, 18), UpdatedAt = new DateTime(2023, 01, 25), StateCra = StateEnum.INHOLD, UserId = 4 }
@@ -87,11 +86,11 @@ namespace Projet2_EasyFid.Data
 
             //Dans la table Missions
             this.Missions.AddRange(
-                new Mission {Id = 1, Name = "Sanofi", MissionStart = new DateTime(2020, 06, 10), MissionEnd = new DateTime(2020, 06, 24), Tjm = 630 , MissionType = MissionTypeEnum.FORFAIT, MissionUsersId = 1},
-                new Mission {Id = 2, Name = "Firmenich", MissionStart = new DateTime(2020, 02, 01), MissionEnd = new DateTime(2021, 01, 01), Tjm = 670, MissionType = MissionTypeEnum.FORFAIT, MissionUsersId = 2},
+                new Mission {Id = 1, Name = "Sanofi", MissionStart = new DateTime(2020, 06, 10), MissionEnd = new DateTime(2020, 06, 24), Tjm = 630 , MissionType = MissionTypeEnum.FORFAIT},
+                new Mission {Id = 2, Name = "Firmenich", MissionStart = new DateTime(2020, 02, 01), MissionEnd = new DateTime(2021, 01, 01), Tjm = 670, MissionType = MissionTypeEnum.FORFAIT},
                 new Mission { Id = 3, Name = "RechercheContrat", MissionStart = new DateTime(2022, 09, 01), Tjm = 450, MissionType = MissionTypeEnum.INTERCONTRAT},
-                new Mission { Id = 4, Name = "Total", MissionStart = new DateTime(2022, 10, 01), Tjm = 500, MissionType = MissionTypeEnum.FORFAIT, MissionUsersId = 2},
-                new Mission { Id = 5, Name = "Vivendi", MissionStart = new DateTime(2022, 07, 05), MissionEnd = new DateTime(2021, 08, 12), Tjm = 500, MissionType = MissionTypeEnum.FORFAIT, MissionUsersId = 2 },
+                new Mission { Id = 4, Name = "Total", MissionStart = new DateTime(2022, 10, 01), Tjm = 500, MissionType = MissionTypeEnum.FORFAIT},
+                new Mission { Id = 5, Name = "Vivendi", MissionStart = new DateTime(2022, 07, 05), MissionEnd = new DateTime(2021, 08, 12), Tjm = 500, MissionType = MissionTypeEnum.FORFAIT},
                 new Mission { Id = 6, Name = "Renault", MissionStart = new DateTime(2022, 06, 15), MissionEnd = new DateTime(2021, 06, 15),Tjm = 490, MissionType = MissionTypeEnum.FORFAIT }
                 );
 
