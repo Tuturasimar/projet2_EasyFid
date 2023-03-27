@@ -21,15 +21,22 @@ namespace Projet2_EasyFid.Data
         public DbSet<Formation> Formations { get; set; }
         public DbSet<Absence> Absences { get; set; }
         public DbSet<ActivityDate> ActivityDates { get; set; }
-
         public DbSet<UserFeedback> UserFeedbacks { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             // Les paramètres du serveur changent en fonction des configurations personnelles
-            //optionsBuilder.UseMySql("server=localhost;port=8889;user id=root;password=root;database=easyFid"); // connexion trévor
-            optionsBuilder.UseMySql("server=localhost;user id=root;password=rrrrr;database=projet2"); //connexion Laura
+
+
+
+
+
+
+            optionsBuilder.UseMySql("server=localhost;port=8889;user id=root;password=root;database=easyFid"); // connexion trévor
+            //optionsBuilder.UseMySql("server=localhost;user id=root;password=rrrrr;database=projet2"); //connexion Laura
+
+
             //optionsBuilder.UseMySql("server=localhost;user id=root;password=rrrrrrrr;database=UserData"); //connexion Louis
             //optionsBuilder.UseMySql("server=localhost;user id=root;password=root;database=easyFid"); //connexion Seb
 
@@ -66,6 +73,7 @@ namespace Projet2_EasyFid.Data
             //Dans la tables cras
             this.Cras.AddRange(
                 new Cra { Id = 1, CreatedAt = new DateTime(2020, 06, 20), UpdatedAt = new DateTime(2020, 06, 27), StateCra = StateEnum.VALIDATED, UserId = 1},
+
                 new Cra { Id = 2, CreatedAt = new DateTime(2022, 01, 12), UpdatedAt= new DateTime(2022, 01, 23), StateCra = StateEnum.VALIDATED, UserId = 2},
                 new Cra { Id = 3, CreatedAt = new DateTime(2022, 02, 19), UpdatedAt = new DateTime(2022, 02, 27), StateCra = StateEnum.VALIDATED, UserId = 2 },
                 new Cra { Id = 4, CreatedAt = new DateTime(2022, 03, 20), UpdatedAt = new DateTime(2022, 03, 28), StateCra = StateEnum.VALIDATED, UserId = 2 },
@@ -74,6 +82,7 @@ namespace Projet2_EasyFid.Data
                 new Cra { Id = 7, CreatedAt = new DateTime(2023, 01, 18), UpdatedAt = new DateTime(2023, 01, 29), StateCra = StateEnum.VALIDATED, UserId = 4 },
                 new Cra { Id = 8, CreatedAt = new DateTime(2023, 02, 21), UpdatedAt = new DateTime(2023, 01, 27), StateCra = StateEnum.VALIDATED, UserId = 4 },
                 new Cra { Id = 9, CreatedAt = new DateTime(2023, 03, 18), UpdatedAt = new DateTime(2023, 01, 25), StateCra = StateEnum.INHOLD, UserId = 4 }
+
                 );
 
             //Dans la table Missions
@@ -135,7 +144,7 @@ namespace Projet2_EasyFid.Data
             //Dans la table ActivityDate
             this.ActivityDates.AddRange(
                 new ActivityDate { Id = 1, BeginDate = new DateTime(2022, 04, 05), EndDate = new DateTime(2022, 04, 10), CraActivityId = 1 },
-                new ActivityDate { Id = 2, BeginDate = new DateTime(2023, 03, 21), CraActivityId = 2 },
+                new ActivityDate { Id = 2, BeginDate = new DateTime(2023, 03, 21), EndDate = new DateTime(2023, 03, 31), CraActivityId = 2 },
                 new ActivityDate { Id = 3, BeginDate = new DateTime(2022, 04, 11), EndDate = new DateTime(2022, 04, 16), CraActivityId = 1 }
                 );
 

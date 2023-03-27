@@ -8,6 +8,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Configuration.UserSecrets;
 using Projet2_EasyFid.Data;
 using Projet2_EasyFid.Data.Enums;
+using Projet2_EasyFid.Data.Services;
 using Projet2_EasyFid.Models;
 using Projet2_EasyFid.ViewModels;
 
@@ -19,7 +20,37 @@ namespace Projet2_EasyFid.Controllers
     public class SalarieController : Controller
     {
         // GET: /<controller>/
+
+
+        [Produces("application/json")]
+        public IActionResult GetAllNotificationsByUser()
+        {
+            try
+            {
+                using(Dal dal = new Dal())
+                {
+                    // On récupère le User authentifié
+                    User user = dal.GetUser(HttpContext.User.Identity.Name);
+
+                    // On récupère toutes les notifications de l'utilisateur
+                    var notifications = dal.GetAllNotificationsByUserId(user.Id);
+                    foreach(Notification notif in notifications)
+                    {
+                        // On boucle dessus pour enlever le contenu de User (trop lourd pour le format Json)
+                        notif.User = null;
+                    }
+                    return Ok(notifications);
+                }
+                
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
         //Affiche tous les cras du salarie
+
         public IActionResult IndexSalarie()
         {
             using (Dal dal = new Dal())
@@ -29,7 +60,9 @@ namespace Projet2_EasyFid.Controllers
                 // Récupérer l'utilisateur actuellement connecté
                 User user = dal.GetUser(HttpContext.User.Identity.Name);
 
+
                 List<Cra> cras = dal.GetAllCrasByUserId(user.Id);
+
                 SalarieViewModel svm = new SalarieViewModel { Cras = cras };
                 return View(svm);
             }
@@ -104,6 +137,15 @@ namespace Projet2_EasyFid.Controllers
         {
             using (Dal dal = new Dal())
             {
+                User user = dal.GetUser(HttpContext.User.Identity.Name);
+
+                bool isDateValid =  dal.CheckActivityDateComptability(BeginDate, EndDate, activities, user);
+                if (!isDateValid)
+                {
+                    
+                    return RedirectToAction("Index");
+                }
+
                 // On cree un nouveau Cra qui recupere la date de creation et de modification, ainsi que le statut du Cra
                 // Il y aura un seul Cra d'instancié, qui aura un lien avec plusieurs activités
 
@@ -123,17 +165,12 @@ namespace Projet2_EasyFid.Controllers
                 for (int i = 0; i < total ; i++)
 
                 {
-                    // On recupere l'id de l'activity actuelle
-                    // Il servira pour la suite, pour creer la CraActivity
-
-                    int activityId = dal.GetActivityById(activities[i]).Id;
-
                     //On cree le CraActivity qui relie l'Activity et le Cra
                     //On cree le Cra avant cette methode car on a besoin de l'id du Cra
                     CraActivity newCraActivity = new CraActivity
                     {
                         CraId = craId,
-                        ActivityId = activityId
+                        ActivityId = activities[i]
                     };
 
                     // On recupere l'id de la nouvelle CraActivity créée
