@@ -87,7 +87,7 @@ namespace Projet2_EasyFid.Data
             User user = this._bddContext.Users.FirstOrDefault(u => u.Login == login && u.Password == encryptedPassword);
             return user;
         }
-     
+
         // Récupère l'utilisateur actuellement authentifié
         public User GetUser(string idStr)
         {
@@ -149,6 +149,11 @@ namespace Projet2_EasyFid.Data
         public List<RoleUser> GetAllRolesById(int id)
         {
             return UserServices.GetAllRolesById(_bddContext,id);
+        }
+
+        public Boolean checkUserRole(int userId, RoleTypeEnum role)
+        {
+            return UserServices.GetAllRolesById(_bddContext, userId).Find(r => r.RoleType == role) != null;
         }
 
         public void CreateRoleUser (RoleUser roleUser)
