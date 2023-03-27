@@ -2,9 +2,9 @@
 namespace Projet2_EasyFid.Models
 {
 	// Classe qui regroupe les statistiques d'un CRA
-	public class Statistics
+	public class Statistic
 	{
-		public Statistics()
+		public Statistic()
 		{
 		}
 	}
