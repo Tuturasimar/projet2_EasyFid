@@ -19,6 +19,7 @@ namespace Projet2_EasyFid.Data
 
 
 		List<Mission> GetAllMissions();
+		List<Statistic>GetAllStatistics();
         List<Formation> GetAllFormations();
 
         //int DeleteMission(int id);
@@ -27,8 +28,10 @@ namespace Projet2_EasyFid.Data
     
 
 
+
 		int CreateMission(Mission mission);
 		//int DeleteMission(int id);
+
 
 
 		

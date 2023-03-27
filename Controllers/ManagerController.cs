@@ -16,6 +16,7 @@ namespace Projet2_EasyFid.Controllers
     // Controller qui va gérer les méthodes Manager (require authentification Manager)
     public class ManagerController : Controller
     {
+
         
 
         // GET: /<controller>/
@@ -72,7 +73,15 @@ namespace Projet2_EasyFid.Controllers
             }
             return View("Error");
         }
+        public IActionResult EditDashboard()
+        {
+            using Dal dal = new Dal();
+            {
+                
+                return View();
+            }
 
+        }
 
         [HttpPost]
         public IActionResult UpdateMission(Mission mission)
