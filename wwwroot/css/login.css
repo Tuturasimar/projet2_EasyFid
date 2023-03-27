@@ -39,11 +39,12 @@ body {
 
 
 h4 {
-    margin-top: 20rem;
+    margin-top: 2rem;
     font-size: 1.25rem;
     font-weight: bold;
-    padding-bottom: 2.5rem;
+    padding-bottom: 1rem;
 }
+
 
 .logo {
     display: block;

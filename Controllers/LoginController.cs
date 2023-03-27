@@ -101,7 +101,8 @@ namespace Projet2_EasyFid.Controllers
         public ActionResult ResetPassword()
         {
             HttpContext.SignOutAsync();
-            return RedirectToAction("ChangePassword", "Login");
+            return View();
         }
+
     }
 }
