@@ -20,7 +20,6 @@ namespace Projet2_EasyFid.Controllers
     public class SalarieController : Controller
     {
         // GET: /<controller>/
-        //Affiche tous les cras du salarie
 
 
         [Produces("application/json")]
@@ -30,11 +29,14 @@ namespace Projet2_EasyFid.Controllers
             {
                 using(Dal dal = new Dal())
                 {
+                    // On récupère le User authentifié
                     User user = dal.GetUser(HttpContext.User.Identity.Name);
 
+                    // On récupère toutes les notifications de l'utilisateur
                     var notifications = dal.GetAllNotificationsByUserId(user.Id);
                     foreach(Notification notif in notifications)
                     {
+                        // On boucle dessus pour enlever le contenu de User (trop lourd pour le format Json)
                         notif.User = null;
                     }
                     return Ok(notifications);
@@ -46,6 +48,8 @@ namespace Projet2_EasyFid.Controllers
                 return BadRequest();
             }
         }
+
+        //Affiche tous les cras du salarie
 
         public IActionResult IndexSalarie()
         {
