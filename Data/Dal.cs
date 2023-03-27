@@ -302,6 +302,10 @@ namespace Projet2_EasyFid.Data
             return MissionServices.GetMissionUserById(_bddContext, id);
         }
 
+        public List<MissionUser> GetAllActivityByUserId(int id)
+        {
+            return CraServices.GetAllActivityByUserId(_bddContext, id);
+        }
 
     }
 }

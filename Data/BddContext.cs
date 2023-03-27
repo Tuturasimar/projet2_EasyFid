@@ -122,7 +122,7 @@ namespace Projet2_EasyFid.Data
                 new CraActivity { Id = 6, CraId = 4, ActivityId = 4 },
                 new CraActivity { Id = 7, CraId = 4, ActivityId = 5 },
                 new CraActivity { Id = 8, CraId = 5, ActivityId = 1 },
-                new CraActivity { Id = 9, CraId = 5, ActivityId = 3 },
+                new CraActivity { Id = 9, CraId = 5, ActivityId = 2 },
                 new CraActivity { Id = 10, CraId = 6, ActivityId = 5 },
                 new CraActivity { Id =11, CraId = 6, ActivityId = 6 },
                 new CraActivity { Id = 12, CraId = 7, ActivityId = 8 },
