@@ -20,6 +20,8 @@ namespace Projet2_EasyFid.Data
         public DbSet<Formation> Formations { get; set; }
         public DbSet<Absence> Absences { get; set; }
         public DbSet<ActivityDate> ActivityDates { get; set; }
+        public DbSet<MissionUser> MissionUsers { get; set; }
+        public DbSet<UserFeedback> UserFeedbacks { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -32,9 +34,8 @@ namespace Projet2_EasyFid.Data
             //optionsBuilder.UseMySql("server=localhost;user id=root;password=rrrrrrrr;database=UserData"); //connexion Louis
             //optionsBuilder.UseMySql("server=localhost;user id=root;password=root;database=easyFid"); //connexion Seb
 
-
         }
-
+        
         public void InitialiseDb()
         {
             // Suppression et création de la BDD
@@ -94,8 +95,8 @@ namespace Projet2_EasyFid.Data
 
             //Dans la table Activities
             this.Activities.AddRange(
-                new Activity {Id = 1, LabelActivity = "Sanofi", MissionId = 1},
-                new Activity {Id = 2,  LabelActivity = "Firmenich", MissionId = 2},
+                new Activity { Id = 1, LabelActivity = "Sanofi", MissionId = 1},
+                new Activity { Id = 2,  LabelActivity = "Firmenich", MissionId = 2},
                 new Activity { Id = 3, LabelActivity = "Maladie", AbsenceId = 1},
                 new Activity { Id = 4, LabelActivity = "Congé", AbsenceId = 2},
                 new Activity { Id = 5, LabelActivity = "Formation Incendie", FormationId = 1 },
@@ -106,7 +107,6 @@ namespace Projet2_EasyFid.Data
                 new Activity { Id = 10, LabelActivity = "Renault", MissionId = 6 }
                 );
 
-
              //Ajout des liens entre des cles etrangeres (cra et activity) dans la table CraActivity
              this.CraActivities.AddRange(
                 new CraActivity { Id = 1,  CraId = 1, ActivityId =  1 },
@@ -115,15 +115,12 @@ namespace Projet2_EasyFid.Data
                 new CraActivity { Id = 4, CraId = 1, ActivityId  = 5 }
                 );
 
-
             //Dans la table ActivityDate
             this.ActivityDates.AddRange(
                 new ActivityDate { Id = 1, BeginDate = new DateTime(2022, 04, 05), EndDate = new DateTime(2022, 04, 10), CraActivityId = 1 },
                 new ActivityDate { Id = 2, BeginDate = new DateTime(2023, 03, 21), CraActivityId = 2 },
                 new ActivityDate { Id = 3, BeginDate = new DateTime(2022, 04, 11), EndDate = new DateTime(2022, 04, 16), CraActivityId = 1 }
                 );
-
-
 
             // Ajout de liens entre des clés étrangères (user et role) dans la table RoleUsers
             this.RoleUsers.AddRange(
@@ -139,6 +136,25 @@ namespace Projet2_EasyFid.Data
                 new Notification { MessageContent = "Cra validé avec succès", ClassContext = "success", UserId = 1 },
                 new Notification { MessageContent = "Cra refusée, il manque des données sur les jours du 12 au 14 février", ClassContext = "danger", UserId = 1 }
                 );
+
+            // Dans la table UserFeedback
+            this.UserFeedbacks.AddRange(
+                new UserFeedback {Id = 1, Comment = "C'est un commentaire", GradeClientRelation = 3, GradeManager = 2, GradeMission = 4, GradeUserComfort = 5},
+                new UserFeedback {Id = 2, Comment = "C'est un autre commentaire", GradeClientRelation = 1, GradeManager = 5, GradeMission = 3, GradeUserComfort = 3},
+                new UserFeedback {Id = 3, Comment = "C'est un ultime commentaire", GradeClientRelation = 2, GradeManager = 4, GradeMission = 0, GradeUserComfort = 1},
+                new UserFeedback {Id = 4, Comment = "C'est encore un autre commentaire", GradeClientRelation = 0, GradeManager = 5, GradeMission = 0, GradeUserComfort = 1}
+                );
+
+            // Dans la table MissionUser
+            this.MissionUsers.AddRange(
+                new MissionUser { Id = 1, UserId = 1, MissionId = 1, MissionState= MissionStateEnum.ACTIVE, UserFeedbackId = 1 },
+                new MissionUser { Id = 2, UserId = 2, MissionId = 1, MissionState= MissionStateEnum.ACTIVE, UserFeedbackId = 2 },
+                new MissionUser { Id = 3, UserId = 2, MissionId = 2, MissionState= MissionStateEnum.FINISHED, UserFeedbackId = 3},
+                new MissionUser { Id = 4, UserId = 2, MissionId = 4, MissionState= MissionStateEnum.ACTIVE, UserFeedbackId = 4},
+                new MissionUser { Id = 5, UserId = 2, MissionId = 5, MissionState=MissionStateEnum.ACTIVE}
+                );
+
+            
 
             // Sauvegarde des données dans la BDD
             this.SaveChanges();

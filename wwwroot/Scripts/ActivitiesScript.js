@@ -1,5 +1,4 @@
 ﻿$(document).ready(() => {
-    console.log("Test");
     $("#addActivity").click(function () {
         var rowCount = parseInt($("#total").val());
         rowCount++;
@@ -19,7 +18,7 @@
     $(document).on('click', '#deleteActivity',function () {
 
         var rowCount = parseInt($("#total").val());
-        rowCount++;
+        rowCount--;
         $("#total").val(rowCount);
 
         $(this).closest('#activityHidden').remove();

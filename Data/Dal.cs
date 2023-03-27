@@ -208,7 +208,13 @@ namespace Projet2_EasyFid.Data
         {
             return CraServices.GetMissionById(_bddContext, id);
         }
-        
+
+        public List<MissionUser> GetAllActiveMissionsByUserId(int id)
+        {
+            return MissionServices.GetAllActiveMissionsByUserId(_bddContext, id);
+        }
+
+
         public Activity GetActivityById(int id)
         {
             return CraServices.GetActivityById(_bddContext, id);
@@ -240,6 +246,7 @@ namespace Projet2_EasyFid.Data
             return CraServices.GetCraActivityByCraId(_bddContext, id);
         }
 
+
         public List<Activity> GetAllActivityByCraId(int id)
         {
             return CraServices.GetAllActivityByCraId (_bddContext, id);
@@ -258,6 +265,32 @@ namespace Projet2_EasyFid.Data
             return CraServices.GetBeginDate(_bddContext, id);
         }
         */
+
+        public UserFeedback GetUserFeedbackById(int id)
+        {
+            return UserServices.GetUserFeedbackById(_bddContext, id);
+        }
+
+        public void ModifyUserFeedback(UserFeedback userFeedback)
+        {
+            UserServices.ModifyUserFeedback(_bddContext,userFeedback);
+        }
+
+        public int CreateUserFeedback(UserFeedback userFeedback)
+        {
+            return UserServices.CreateUserFeedback(_bddContext, userFeedback);
+        }
+
+        public void ModifyMissionUser(MissionUser missionUser)
+        {
+            MissionServices.ModifyMissionUser(_bddContext, missionUser);
+        }
+
+        public MissionUser GetMissionUserById(int id)
+        {
+            return MissionServices.GetMissionUserById(_bddContext, id);
+        }
+
 
     }
 }
