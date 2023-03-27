@@ -307,6 +307,11 @@ namespace Projet2_EasyFid.Data
             return ActivityServices.CheckActivityDateComptability(_bddContext, BeginDate, EndDate, activities, user);
         }
 
+        public List<Notification> GetAllNotificationsByUserId(int id)
+        {
+            return NotificationServices.GetAllNotificationsByUserId(_bddContext, id);
+        }
+
 
     }
 }

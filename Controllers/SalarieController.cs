@@ -21,6 +21,32 @@ namespace Projet2_EasyFid.Controllers
     {
         // GET: /<controller>/
         //Affiche tous les cras du salarie
+
+
+        [Produces("application/json")]
+        public IActionResult GetAllNotificationsByUser()
+        {
+            try
+            {
+                using(Dal dal = new Dal())
+                {
+                    User user = dal.GetUser(HttpContext.User.Identity.Name);
+
+                    var notifications = dal.GetAllNotificationsByUserId(user.Id);
+                    foreach(Notification notif in notifications)
+                    {
+                        notif.User = null;
+                    }
+                    return Ok(notifications);
+                }
+                
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
         public IActionResult IndexSalarie()
         {
             using (Dal dal = new Dal())
@@ -29,6 +55,8 @@ namespace Projet2_EasyFid.Controllers
 
                 // Récupérer l'utilisateur actuellement connecté
                 User user = dal.GetUser(HttpContext.User.Identity.Name);
+
+
 
                 List<Cra> cras = dal.GetAllCras();
                 SalarieViewModel svm = new SalarieViewModel { Cras = cras };

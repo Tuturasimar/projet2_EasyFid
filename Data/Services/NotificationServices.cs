@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Projet2_EasyFid.Models;
 
 namespace Projet2_EasyFid.Data.Services
@@ -15,6 +17,12 @@ namespace Projet2_EasyFid.Data.Services
 		{
 			_bddContext.Notifications.Remove(notification);
 			_bddContext.SaveChanges();
+		}
+
+		public static List<Notification> GetAllNotificationsByUserId(BddContext _bddContext, int id)
+		{
+			return _bddContext.Notifications.Where(n => n.UserId == id).ToList();
+
 		}
 	}
 }
