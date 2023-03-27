@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Razor.Language.Intermediate;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Configuration.UserSecrets;
 using Projet2_EasyFid.Data;
+using Projet2_EasyFid.Data.Enums;
 using Projet2_EasyFid.Models;
 using Projet2_EasyFid.ViewModels;
 
@@ -24,6 +25,10 @@ namespace Projet2_EasyFid.Controllers
             using (Dal dal = new Dal())
             {
                 //On recupere tous les cras pour les stocker dans une liste
+
+                // Récupérer l'utilisateur actuellement connecté
+                User user = dal.GetUser(HttpContext.User.Identity.Name);
+
                 List<Cra> cras = dal.GetAllCras();
                 SalarieViewModel svm = new SalarieViewModel { Cras = cras };
                 return View(svm);
@@ -88,35 +93,163 @@ namespace Projet2_EasyFid.Controllers
 
         [HttpPost]
         //Une fois qu'on appuie sur le bouton du formulaire, cette methode recupere un objet Cra
-        public IActionResult CreateCra(Cra cra, int user, int mission)
+        public IActionResult CreateCra(List<DateTime> BeginDate, List<DateTime> EndDate, List<int> activities, StateEnum stateEnum, int total)
         {
             using (Dal dal = new Dal())
             {
-                //On recupere l'id de la mission
-                //int missionId = dal.GetMissionById(mission).Id;
-               
-                //On cree l'ActivityDate 
-                ActivityDate newActivityDate = new ActivityDate
-                {
+                // On cree un nouveau Cra qui recupere la date de creation et de modification, ainsi que le statut du Cra
+                // Il y aura un seul Cra d'instancié, qui aura un lien avec plusieurs activités
 
+                Cra newCra = new Cra
+                {
+                    CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now,
+                    StateCra = stateEnum
                 };
 
-            //
-            Cra newCra = new Cra
-            {
-                CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now
+                // On recupere l'id du nouveau Cra grace à la méthode CreateCra
+                // Il servira pour la suite, pour faire le lien entre le Cra et les activités (dans CraActivity)
+                int craId = dal.CreateCra(newCra);
 
-            };
-                int CraId = dal.CreateCra(newCra);
-                
+                // On boucle en fonction du total d'activités récupérées afin de créer 
+
+                for (int i = 0; i < total ; i++)
+
+                {
+                    // On recupere l'id de l'activity actuelle
+                    // Il servira pour la suite, pour creer la CraActivity
+
+                    int activityId = dal.GetActivityById(activities[i]).Id;
+
+                    //On cree le CraActivity qui relie l'Activity et le Cra
+                    //On cree le Cra avant cette methode car on a besoin de l'id du Cra
+                    CraActivity newCraActivity = new CraActivity
+                    {
+                        CraId = craId,
+                        ActivityId = activityId
+                    };
+
+                    // On recupere l'id de la nouvelle CraActivity créée
+                    // Il nous servira pour la suite, pour creer l'ActivityDate
+                    int craActivityId = dal.CreateCraActivity(newCraActivity);
+
+                    //On cree l'ActivityDate 
+                    ActivityDate newActivityDate = new ActivityDate
+                    {
+                        BeginDate = BeginDate[i],
+                        EndDate = EndDate[i],
+                        CraActivityId = craActivityId
+                    };
+
+                    dal.CreateActivityDate(newActivityDate);
+                }
+
+                //On recupere l'id de la nouvelle ActivityDate creee
+                //Utile ou non ??
+                //int activityDateId = dal.CreateActivityDate(newActivityDate);
             }
 
             //Pour retourner sur la page d'affichade des cras
             return RedirectToAction("IndexSalarie");
         }
 
+        public IActionResult CraDetail(int id)
+        {
+            using (Dal dal = new Dal()) 
+            {
+                //On recupere le Cra en fonction de son Id
+                Cra cra = dal.GetCraById(id);
+                //On recupere le CraActivity afin de pouvoir recuperer l'Activity reliee au Cra
+                //CraActivity craActivity = dal.GetCraActivityByCraId(id);
+                //On recupère les Activity reliees au même Cra 
+                List<Activity> activities = dal.GetAllActivityByCraId(id).ToList();
+                //On recupère les ActivityDate relies au meme Cra
+                List<ActivityDate> activityDates = dal.GetAllActivityDateByCraId(id).ToList();
+                //Pour reucperer tous les BeginDate d'une ActivityDate
+                //Pas utile pour l'instant, à voir pour la suite, je laisse en commentaire pour l'instant
+                //List<DateTime> beginDates = dal.GetBeginDate(id).ToList();
 
+                //On vérifie si le Cra existe en bdd
+                if (cra != null)
+                {
+                    SalarieViewModel svm = new SalarieViewModel { Cra = cra, Activities = activities, ActivityDates = activityDates};
+                    return View(svm);
+                }
+            }
+                //Si il n'existe pas, on retourne sur la vue Index
+                return RedirectToAction("IndexSalarie");
+        }
+
+        public IActionResult SeeCurrentUserFeedback()
+        {
+            using(Dal dal = new Dal())
+            {
+                // On récupère l'utilisateur actuellement authentifié
+                User user = dal.GetUser(HttpContext.User.Identity.Name);
+                // On récupère les missions attribuées par son manager en amont
+                List<MissionUser> activeMissions = dal.GetAllActiveMissionsByUserId(user.Id);
+                ViewBag.activeMissions = activeMissions;
+                return View(activeMissions);
+            }
+
+        }
+
+        [HttpPost]
+        public IActionResult SeeCurrentUserFeedback(List<MissionUser> missionUsers)
+        {
+            using(Dal dal = new Dal())
+            {
+                // On boucle sur la liste de MissionUser que l'on reçoit
+                foreach (MissionUser missionUser in missionUsers)
+                {
+                    // Si c'est une modification d'un UserFeedback
+                    if (missionUser.UserFeedbackId != null)
+                    {
+                        // On récupère celui qui existe déjà
+                      UserFeedback oldUserFeedback = dal.GetUserFeedbackById((int)missionUser.UserFeedbackId);
+
+                        // On change les différentes informations
+                        oldUserFeedback.GradeClientRelation = missionUser.UserFeedback.GradeClientRelation;
+                        oldUserFeedback.GradeManager = missionUser.UserFeedback.GradeManager;
+                        oldUserFeedback.GradeMission = missionUser.UserFeedback.GradeMission;
+                        oldUserFeedback.GradeUserComfort = missionUser.UserFeedback.GradeUserComfort;
+                        oldUserFeedback.Comment = missionUser.UserFeedback.Comment;
+
+                        // On le modifie
+                        dal.ModifyUserFeedback(oldUserFeedback);
+                    }
+                    // Si c'est une création d'un UserFeedback
+                    else
+                    {
+                        // On instancie un nouveau userFeedback
+                        UserFeedback userFeedback = new UserFeedback
+                        {
+                            Comment = missionUser.UserFeedback.Comment,
+                            GradeClientRelation = missionUser.UserFeedback.GradeClientRelation,
+                            GradeManager = missionUser.UserFeedback.GradeManager,
+                            GradeMission = missionUser.UserFeedback.GradeMission,
+                            GradeUserComfort = missionUser.UserFeedback.GradeUserComfort
+                        };
+                        // On récupère l'Id lors de sa création dans la BDD
+                        int userFeedbackId = dal.CreateUserFeedback(userFeedback);
+
+                        // On récupère l'ancien MissionUser qui ne disposait pas encore de UserFeedback
+                        MissionUser oldMissionUser = dal.GetMissionUserById(missionUser.Id);
+                        // On renseigne la valeur de l'Id du UserFeedback
+                        oldMissionUser.UserFeedbackId = userFeedbackId;
+
+                        // On modifie le changement
+                        dal.ModifyMissionUser(oldMissionUser);
+                        
+                    }
+                }
+            }
+
+           
+
+            return RedirectToAction("Index");
+        }
+     
     }
 }
 

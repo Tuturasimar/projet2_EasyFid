@@ -1,44 +1,38 @@
-﻿@model Projet2_EasyFid.Models.CraActivity
+﻿@model List<Projet2_EasyFid.Models.ActivityDate>
 @{
     Layout = "_Layout";
     ViewBag.Title = "Formulaire création d'un Cra";
 }
 <h2>Formulaire de création du Cra</h2>
+
+<button id="addActivity" type="button" class="btn btn-info">Ajouter une activité</button>
+
 @using (Html.BeginForm("CreateCra", "Salarie", FormMethod.Post))
 {
     <fieldset>
         <legend>Formulaire d'ajout</legend>
-        @*Liste déroulante pour choisir la mission effectuee*@
-        @Html.Label("missions", "Mission : ")
-        @Html.DropDownList("missions", new SelectList(ViewBag.missions, "Id", "Name"))
-        <br />
-
-        @*Calendrier pour choisir la periode de temps*@
-        @Html.Partial("SalariePartialForm", Model)
-            
-        @Html.HiddenFor(m=> Model.Cra.Id)
-        <br />
-
         @*Liste deroulante pour le choix de l'activité (mission, formation ou absence)*@
-        @Html.Label("activities", "Activité : ")
-        @Html.DropDownList("activities", new SelectList(ViewBag.activities, "Id", "LabelActivity" ))
-        <br />
 
-        @*Liste déroulante pour choisir la formation*@
-        @Html.Label("formations", "Formation : ")
-        @Html.DropDownList("formations", new SelectList(ViewBag.formations, "Id", "Name"))
-        <br />
+        <div id="newActivity">
+            <input type="hidden" id="total" name="total" value=0 />
+        </div>
 
-        @*Liste déroulante pour choisir la raison de l'absence*@
-        @Html.Label("AbsenceTypeEnum", "Raison de l'absence : ")
-        <select name="AbsenceTypeEnum">
-            @foreach (var item in Enum.GetValues(typeof(Projet2_EasyFid.Data.Enums.AbsenceTypeEnum)))
-            {
-                <option name="AbsenceTypeEnum" value=@item>@item</option>
-            }
-        </select>
-        <br />
+        <div name="activityHidden" class="hidden" id="activityHidden">
+            @Html.Label("activities", "Activité : ")
+            @Html.DropDownList("activities", new SelectList(ViewBag.activities, "Id", "LabelActivity"))
+            <br />
 
+
+            @*Calendrier pour choisir la periode de temps*@
+            @Html.Partial("SalariePartialForm", Model)
+
+            <br />
+            <button id="deleteActivity" type="button" class="btn btn-danger">Supprimer l'activité</button>
+        </div>
         <input type="submit" value="Valider" />
     </fieldset>
+}
+
+@section Scripts {
+    <script src="/Scripts/ActivitiesScript.js"></script>
 }
