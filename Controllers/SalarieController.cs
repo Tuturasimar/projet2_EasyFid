@@ -8,6 +8,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Configuration.UserSecrets;
 using Projet2_EasyFid.Data;
 using Projet2_EasyFid.Data.Enums;
+using Projet2_EasyFid.Data.Services;
 using Projet2_EasyFid.Models;
 using Projet2_EasyFid.ViewModels;
 
@@ -97,6 +98,14 @@ namespace Projet2_EasyFid.Controllers
         {
             using (Dal dal = new Dal())
             {
+                
+                bool isDateValid =  dal.CheckActivityDateComptability(BeginDate, EndDate, activities);
+                if (!isDateValid)
+                {
+                    return RedirectToAction("Index");
+                    // Créer une notif d'erreur de conflit de dates de mission
+                }
+
                 // On cree un nouveau Cra qui recupere la date de creation et de modification, ainsi que le statut du Cra
                 // Il y aura un seul Cra d'instancié, qui aura un lien avec plusieurs activités
 
@@ -116,17 +125,12 @@ namespace Projet2_EasyFid.Controllers
                 for (int i = 0; i < total ; i++)
 
                 {
-                    // On recupere l'id de l'activity actuelle
-                    // Il servira pour la suite, pour creer la CraActivity
-
-                    int activityId = dal.GetActivityById(activities[i]).Id;
-
                     //On cree le CraActivity qui relie l'Activity et le Cra
                     //On cree le Cra avant cette methode car on a besoin de l'id du Cra
                     CraActivity newCraActivity = new CraActivity
                     {
                         CraId = craId,
-                        ActivityId = activityId
+                        ActivityId = activities[i]
                     };
 
                     // On recupere l'id de la nouvelle CraActivity créée

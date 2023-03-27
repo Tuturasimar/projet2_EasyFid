@@ -25,7 +25,7 @@ namespace Projet2_EasyFid.Data.Services
             // Sans Include, impossible de récupérer certaines données en faisant User.Userdata.FirstName, par exemple.
             //Mission mission = _bddContext.Missions.Include(m => m.Activity).Include(m => m.Name).Include(m => m.Mana).SingleOrDefault(u => u.Id == id);
             //return mission;
-            Mission mission = _bddContext.Missions.Include(m => m.MissionUser).Include(m => m.Name).Include(m => m.MissionStart).Include(m => m.MissionEnd).Include(m => m.MissionType).SingleOrDefault(m => m.Id == id);
+            Mission mission = _bddContext.Missions.SingleOrDefault(m => m.Id == id);
             return mission;
 
         }
