@@ -86,7 +86,8 @@ namespace Projet2_EasyFid.Controllers
                 List<Mission> missions = dal.GetAllMissions();
                 List<Formation> formations = dal.GetAllFormations();
                 //List<Activity> activities = dal.GetAllActivities();
-                List<MissionUser> missionUsers = dal.GetAllActivityByUserId(user.Id).ToList();
+                List<MissionUser> missionUsers = dal.GetAllMissionUserByUserId(user.Id).ToList();
+                //List<UserMissionViewModel> activities = dal.GetAllActivityByUserId(user.Id).ToList();
                 
                 ViewBag.missions = missions;
                 ViewBag.formations = formations;    

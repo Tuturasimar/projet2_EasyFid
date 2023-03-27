@@ -7,6 +7,7 @@ using System.Linq;
 using Projet2_EasyFid.Data.Enums;
 using System.Text;
 using Microsoft.VisualBasic;
+using Projet2_EasyFid.ViewModels;
 
 namespace Projet2_EasyFid.Data
 {
@@ -302,10 +303,18 @@ namespace Projet2_EasyFid.Data
             return MissionServices.GetMissionUserById(_bddContext, id);
         }
 
-        public List<MissionUser> GetAllActivityByUserId(int id)
+        public List<MissionUser> GetAllMissionUserByUserId(int id)
+        {
+            return CraServices.GetAllMissionUserByUserId(_bddContext, id);
+        }
+
+        /*Methode Pierre
+        public List<UserMissionViewModel> GetAllActivityByUserId(int id)
         {
             return CraServices.GetAllActivityByUserId(_bddContext, id);
         }
+        */
+
 
     }
 }
