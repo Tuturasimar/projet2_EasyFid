@@ -26,11 +26,12 @@ namespace Projet2_EasyFid.Controllers
             {
                 //Récupération des missions que l'on stocke dans une liste
                 List<Mission>missions=dal.GetAllMissions();
-                ManagerViewModel managerViewModel  = new ManagerViewModel { Missions = missions };
-                return View(managerViewModel);
+                MissionListViewModel missionList  = new MissionListViewModel { Missions = missions };
+                return View(missionList);
             }
 
         }
+
         //ma methode de modification d'une mission
         public IActionResult UpdateMission(int id)
         {
@@ -52,42 +53,24 @@ namespace Projet2_EasyFid.Controllers
             return View("Error");
         }
 
-        //Affiche le formulaire de creation d'une mission
-        public IActionResult CreateMission()
+        public IActionResult UpdateFormation(int id)
         {
-            using (Dal dal = new Dal())
-            {   List<Mission> missions = dal.GetAllMissions() ?? new List<Mission>();
-                ViewBag.missions = missions;
-            }
-            return View();
-        }
 
-        [HttpPost]
-        //Une fois qu'on appuie sur le bouton du formulaire, cette methode recupere un objet Mission
-        public IActionResult CreateMission(int id, string name, DateTime missionStart, DateTime missionEnd, float tjm, MissionTypeEnum missionType)
-        {
-            using (Dal dal = new Dal())
+            if (id != 0)
             {
 
-                Mission mission = new Mission
+                using (IDal dal = new Dal())
                 {
-                    Name = name,
-                    MissionStart = missionStart,
-                    MissionEnd = missionEnd,
-                    Tjm = tjm,
-                    MissionType = missionType
-                };
-                
-                //Recuperation de l'id de la mission que nous venons de creer
-                int missionId = mission.Id;
-
-
-               
+                    //je recherche l'ID qui est egal au parametre que m'a transmis l'utilisateur
+                    Formation formation = dal.GetAllFormations().Where(f => f.Id == id).FirstOrDefault();
+                    if (formation == null)
+                    {
+                        return View("Error");
+                    }
+                    return View(formation);
+                }
             }
-              
-            //Pour retourner sur la page d'affichage des mission
-            return RedirectToAction("IndexManager");
-            
+            return View("Error");
         }
 
 
@@ -112,6 +95,98 @@ namespace Projet2_EasyFid.Controllers
                 return View("Error");
             }
         }
+
+        [HttpPost]
+        public IActionResult UpdateFormation(Formation formation)
+        {
+
+            if (!ModelState.IsValid)
+                return View(formation);
+
+
+            if (formation.Id != 0)
+            {
+                using (Dal dal = new Dal())
+                {
+                    dal.UpdateFormation(formation);
+                    return RedirectToAction("UpdateFormation", new { @id = formation.Id });
+                }
+            }
+            else
+            {
+                return View("Error");
+            }
+        }
+        //Affiche le formulaire de creation d'une mission
+        public IActionResult CreateMission()
+        {
+            
+            return View();
+        }
+        public IActionResult CreateFormation()
+        {
+            
+            return View();
+        }
+
+        [HttpPost]
+        //Une fois qu'on appuie sur le bouton du formulaire, cette methode recupere un objet Mission
+        public IActionResult CreateMission( Mission mission)
+        {
+            using (Dal dal = new Dal())
+            {
+
+                Mission newMission = new Mission
+                {
+                    Name = mission.Name,
+                    MissionStart = mission.MissionStart,
+                    MissionEnd = mission.MissionEnd,
+                    MissionType = mission.MissionType
+                };
+                int missionId = dal.CreateMission(newMission);
+                //Recuperation de l'id de la mission que nous venons de creer
+                Activity activity = new Activity
+                {
+                    LabelActivity = mission.Name,
+                    MissionId = missionId
+                };
+                dal.CreateActivity(activity);
+            }
+            
+            //Pour retourner sur la page d'affichage des mission
+            return RedirectToAction("Index");
+            
+        }
+
+        [HttpPost]
+        //Une fois qu'on appuie sur le bouton du formulaire, cette methode recupere un objet Mission
+        public IActionResult CreateFormation(Formation formation)
+        {
+            using (Dal dal = new Dal())
+            {
+
+                Formation newFormation = new Formation
+                {
+                    Name = formation.Name,
+                    FormationStatus = formation.FormationStatus,
+                    LocationFormation = formation.LocationFormation,
+                    
+                };
+                int formationId = dal.CreateFormation(newFormation);
+                //Recuperation de l'id de la mission que nous venons de creer
+                Activity activity = new Activity
+                {
+                    LabelActivity = formation.Name,
+                    FormationId = formationId
+                };
+                dal.CreateActivity(activity);
+            }
+
+            //Pour retourner sur la page d'affichage des mission
+            return RedirectToAction("Index");
+
+        }
+
 
 
     }

@@ -1,0 +1,53 @@
+﻿@model Projet2_EasyFid.Models.Formation
+@{
+    Layout = "_Layout";
+    ViewBag.Title = "Formulaire création d'une formation";
+}
+<!Doctype html>
+<html>
+<head>
+    <meta name="viewport" content="width =device-with" />
+    <title>Creer une formation</title>
+</head>
+<body>
+    @using (Html.BeginForm("CreateFormation", "Manager", FormMethod.Post))
+    {
+        <fieldset>
+            <legend>Création de la formation</legend>
+            @Html.LabelFor(m => Model.Name)
+            @Html.TextBoxFor(m => Model.Name)
+            @Html.ValidationMessageFor(m => Model.Name)
+            <br />
+            @Html.Label("FormationStatusEnum", "Type de formation : ")
+            <select name="FormationStatusEnum">
+                @foreach (var item in Enum.GetValues(typeof(Projet2_EasyFid.Data.Enums.FormationStatusEnum)))
+                {
+                    <option name="FormationStatusEnum" value=@item>@item</option>
+                }
+            </select>
+            <br />
+            @Html.Label("LocationFormation", "Lieu de formation : ")
+            <select name="LocationFormationEnum">
+                @foreach (var item in Enum.GetValues(typeof(Projet2_EasyFid.Data.Enums.LocationFormationEnum)))
+                {
+                    <option name="LocationFormationEnum" value=@item>@item</option>
+                }
+            </select>
+            <br />
+            @Html.LabelFor(m => Model.FormationStart)
+            @Html.TextBoxFor(m => Model.FormationStart)
+            @Html.ValidationMessageFor(m => Model.FormationStart)
+            <br />
+            @Html.LabelFor(m => Model.FormationEnd)
+            @Html.TextBoxFor(m => Model.FormationEnd)
+            @Html.ValidationMessageFor(m => Model.FormationEnd)
+            <br />
+            <input type="submit" value="Valider" />
+        </fieldset>
+    }
+    <script type="text/javascript" src="~/Scripts/jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery.validate-vsdoc.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+</body>
+</html>
+

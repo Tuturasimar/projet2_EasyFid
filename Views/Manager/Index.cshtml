@@ -1,33 +1,42 @@
-﻿@model Projet2_EasyFid.ViewModels.ManagerViewModel
+﻿@model Projet2_EasyFid.ViewModels.MissionListViewModel
 @{
     Layout = "_Layout";
     ViewBag.Title = "ManagerAccueil";
 }
+<!Doctype html>
+<html>
+<head>
+    <meta name="viewport" content="width =device-with" />
+    <title>Modifier Mission</title>
+</head>
+<body>
 
-<h2>Bienvenue sur votre espace personnel</h2>
-<table id="Missions" border="1">
-    <tr>
-        <td>Date de création</td>
-        <td>Date de modification</td>
-        <td>Status</td>
-        <td>Modification</td>
-        <td>Suppression</td>
-    </tr>
-    @foreach (var mission in Model.Missions)
-    {
+    <h2>Bienvenue sur votre espace personnel</h2>
+    <table id="Missions" border="1">
         <tr>
-            <td>@mission.Name</td>
-            <td>@mission.MissionStart</td>
-            <td>@mission.MissionEnd</td>
-            <td>@mission.Tjm</td>
-            <td>@mission.MissionType</td>
-
-            <td>@Html.ActionLink("Modifier", "UpdateMission", new { id = mission.Id})</td>
-            <td>@Html.ActionLink("Supprimer", "IndexManager")</td>
+            <td>Date de création</td>
+            <td>Date de modification</td>
+            <td>Status</td>
+            <td>Modification</td>
+            <td>Suppression</td>
         </tr>
-    }
+        @foreach (var mission in Model.Missions)
+        {
+            <tr>
+                <td>@mission.Name</td>
+                <td>@mission.MissionStart</td>
+                <td>@mission.MissionEnd</td>
+                <td>@mission.Tjm</td>
+                <td>@mission.MissionType</td>
+
+                <td>@Html.ActionLink("Modifier", "UpdateMission", new { id = mission.Id})</td>
+                <td>@Html.ActionLink("Supprimer", "IndexManager")</td>
+            </tr>
+        }
+    </table>
+
     <div>
         @Html.ActionLink("Ajouter", "CreateMission")
     </div>
-
-</table>
+</body>
+</html>

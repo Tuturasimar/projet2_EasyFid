@@ -17,11 +17,14 @@ namespace Projet2_EasyFid.Data
         public DbSet<Activity> Activities { get; set; }
         public DbSet<CraActivity> CraActivities { get; set; }
         public DbSet<Mission> Missions { get; set; }
+        public DbSet<MissionUser>MissionUsers { get; set; }
         public DbSet<Formation> Formations { get; set; }
         public DbSet<Absence> Absences { get; set; }
         public DbSet<ActivityDate> ActivityDates { get; set; }
+
         public DbSet<MissionUser> MissionUsers { get; set; }
         public DbSet<UserFeedback> UserFeedbacks { get; set; }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -30,10 +33,12 @@ namespace Projet2_EasyFid.Data
 
 
 
+
             //optionsBuilder.UseMySql("server=localhost;port=8889;user id=root;password=root;database=easyFid"); // connexion trévor
             optionsBuilder.UseMySql("server=localhost;user id=root;password=rrrrr;database=projet2"); //connexion Laura
+
             //optionsBuilder.UseMySql("server=localhost;user id=root;password=rrrrrrrr;database=UserData"); //connexion Louis
-            //optionsBuilder.UseMySql("server=localhost;user id=root;password=root;database=easyFid"); //connexion Seb
+            optionsBuilder.UseMySql("server=localhost;user id=root;password=root;database=easyFid"); //connexion Seb
 
         }
         
@@ -84,8 +89,8 @@ namespace Projet2_EasyFid.Data
 
             //Dans la table Formation
             this.Formations.AddRange(
-                new Formation { Id = 1, Name ="Formation Incendie", FormationStatus = FormationStatusEnum.GIVEN, LocationFormation = LocationFormationEnum.EXTERN},
-                new Formation { Id = 2, Name = "Formation nouveau logiciel", FormationStatus = FormationStatusEnum.FOLLOWED, LocationFormation = LocationFormationEnum.INTERN }
+                new Formation { Id = 1, Name ="Formation Incendie", FormationStatus = FormationStatusEnum.GIVEN, LocationFormation = LocationFormationEnum.EXTERN,FormationStart=new DateTime(2020,08,15),FormationEnd=new DateTime(2020,08,20)},
+                new Formation { Id = 2, Name = "Formation nouveau logiciel", FormationStatus = FormationStatusEnum.FOLLOWED, LocationFormation = LocationFormationEnum.INTERN, FormationStart = new DateTime(2020, 08, 21), FormationEnd = new DateTime(2020, 08, 25) }
                 );
 
             //Dans la table Absence
