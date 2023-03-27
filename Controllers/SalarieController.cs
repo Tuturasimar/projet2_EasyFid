@@ -135,8 +135,8 @@ namespace Projet2_EasyFid.Controllers
                 bool isDateValid =  dal.CheckActivityDateComptability(BeginDate, EndDate, activities, user);
                 if (!isDateValid)
                 {
-                    ViewBag.activities = dal.GetAllActivities();
-                    return View();
+                    
+                    return RedirectToAction("Index");
                 }
 
                 // On cree un nouveau Cra qui recupere la date de creation et de modification, ainsi que le statut du Cra
