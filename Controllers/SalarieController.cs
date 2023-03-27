@@ -29,7 +29,7 @@ namespace Projet2_EasyFid.Controllers
                 // Récupérer l'utilisateur actuellement connecté
                 User user = dal.GetUser(HttpContext.User.Identity.Name);
 
-                List<Cra> cras = dal.GetAllCras();
+                List<Cra> cras = dal.GetAllCrasByUserId(user.Id);
                 SalarieViewModel svm = new SalarieViewModel { Cras = cras };
                 return View(svm);
             }
