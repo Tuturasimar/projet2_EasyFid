@@ -71,42 +71,54 @@ namespace Projet2_EasyFid.Controllers
         //Affiche le formulaire de modification du Cra en fonction de son id
         public IActionResult UpdateCra(int id)
         {
-            if (id != 0)
-            {
-                using (IDal dal = new Dal())
-                {
-                    Cra cra = dal.GetAllCras().Where(c => c.Id == id).FirstOrDefault();
-                    if (cra == null) 
-                    {
-                        return View("Error");
-                    }
-                    return View(cra);
-                }
-            }
-            return View("Error");
-        }
 
-        //Affiche le formulaire de modification du Cra
-        [HttpPost]
-        public IActionResult UpdateCra(Cra cra)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(cra);
-            }
-            if (cra.Id != 0)
+            if (id != 0)
             {
                 using (Dal dal = new Dal())
                 {
-                    dal.UpdateCra(cra.Id, cra.StateCra);
-                    return RedirectToAction("UpdateCra", new { @id = cra.Id });    
-                }  
+                    //On recupere l'utilisateur actuellement connecté
+                    User user = dal.GetUser(HttpContext.User.Identity.Name);
+                    Cra cra = dal.GetAllCras().Where(c => c.Id == id).FirstOrDefault();
+                    //On cree une liste vide 
+                    List<Activity> activities = new List<Activity>();
+                    //On ajoute à cette liste les activités liées à l'User
+                    activities.AddRange(dal.GetAllActivityByUserId(user.Id));
+                    //Et les formations et absences
+                    activities.AddRange(dal.GetAllFormationAndAbsence());
+
+                    ViewBag.activities = activities;
+                    return View();
+                    
+                }
             }
+            // Sinon, on est redirigé vers l'index
+            return RedirectToAction("IndexSalarie");
+        }
+
+        //Cette méthode recupère un objet de type Cra 
+        [HttpPost]
+        public IActionResult UpdateCra(Cra cra, List<DateTime> BeginDate, List<DateTime> EndDate, List<int> activities, int total)
+        {
+
+            using (Dal dal = new Dal())
+            {
+                if (!ModelState.IsValid)
+                {
+                return View(cra);
+                }
+     
+                if (cra.Id != 0)
+                {
+                dal.UpdateCra(cra.Id, cra.StateCra);
+                return RedirectToAction("UpdateCra", new { @id = cra.Id });    
+                
+                }
             else
             {
                 return View("Error");
             }
         }
+    }
 
         //Affiche le formulaire de creation du Cra
         public IActionResult CreateCra()
@@ -116,22 +128,14 @@ namespace Projet2_EasyFid.Controllers
                 // Récupérer l'utilisateur actuellement connecté
                 User user = dal.GetUser(HttpContext.User.Identity.Name);
 
-                //List<Mission> missions = dal.GetAllMissions();
-                //List<Formation> formations = dal.GetAllFormations();
-                //List<Activity> activities = dal.GetAllActivities();
-                //List<MissionUser> missionUsers = dal.GetAllMissionUserByUserId(user.Id).ToList();
-                //List<UserMissionViewModel> activities = dal.GetAllActivityByUserId(user.Id).ToList();
-                List<MissionUser> missionUsers = new List<MissionUser>();
-                missionUsers.AddRange(dal.GetAllMissionUserByUserId(user.Id));
-
+                //On cree une liste vide
                 List<Activity> activities = new List<Activity>();
+                //On ajoute à cette liste les activités qui sont liées à l'utilisateur
                 activities.AddRange(dal.GetAllActivityByUserId(user.Id));
+                //Et les formations et absences
                 activities.AddRange(dal.GetAllFormationAndAbsence());
 
-                //ViewBag.missions = missions;
-                //ViewBag.formations = formations;    
                 ViewBag.activities = activities;
-                //ViewBag.missionUsers = missionUsers;
 
             }
             return View();
