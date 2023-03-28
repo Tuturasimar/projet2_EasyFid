@@ -4,12 +4,20 @@
     ViewBag.Title = "Modification du Cra";
 }
 <h2>Formulaire de modification du Cra</h2>
+
+<button id="addActivity" type="button" class="btn btn-info">Ajouter une activité</button>
+
 @using (Html.BeginForm("UpdateCra", "Salarie", FormMethod.Post))
 {
     <fieldset>
         <legend>Modification</legend>
 
-        <div name="activity" id="activity">
+        @*Div cachée afin de pouvoir ajouter une activité dans le cra*@
+        <div id="newActivity">
+            <input type="hidden" id="total" name="total" value=0 />
+        </div>
+
+        <div name="activityHidden" class="hidden" id="activityHidden">
             @Html.Label("activites", "Activité : ")
             @Html.DropDownList("activities", new SelectList(ViewBag.activities, "Id", "LabelActivity"))
             <br />
@@ -17,8 +25,28 @@
             @*Calendrier pour choisir la periode de temps sur laquelle a été effectuée l'activité (mission, absence ou formation)*@
             @Html.Partial("SalariePartialForm", Model)
 
+            <button id="deleteActivity" type="button" class="btn btn-danger">Supprimer l'activité</button>
+            <br />
+            </div>
+
+            @*Div visible qui correspondra à l'ancienne activité de l'User qui sera pré-rempli avec les anciennes données*@
+            <div name="oldActivity" id="activityHiddden">
+                @Html.Label("activites", "Activité : ")
+                @Html.DropDownList("activities", new SelectList(ViewBag.activities, "Id", "LabelActivity"))
+                <br />
+
+            @*Calendrier pour choisir la periode de temps sur laquelle a été effectuée l'activité (mission, absence ou formation)*@
+            @Html.Partial("SalariePartialForm", Model)
+
+            <button id="deleteActivity" type="button" class="btn btn-danger">Supprimer l'activité</button>
+
+            </div>
+
             <input type="submit" value="Modifier" />
    
   
     </fieldset>
+}
+@section Scripts {
+    <script src="/Scripts/ActivitiesScript.js"></script>
 }

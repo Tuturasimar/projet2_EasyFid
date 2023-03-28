@@ -97,14 +97,14 @@ namespace Projet2_EasyFid.Controllers
 
         //Cette méthode recupère un objet de type Cra 
         [HttpPost]
-        public IActionResult UpdateCra(Cra cra, List<DateTime> BeginDate, List<DateTime> EndDate, List<int> activities, int total)
+        public IActionResult UpdateCra(Cra cra, List<DateTime> BeginDate, List<DateTime> EndDate, ActivityDate ActivityDate, List<int> activities, int total)
         {
 
             using (Dal dal = new Dal())
             {
                 //On recupere l'utilisateur actuellement connecté
                 User user = dal.GetUser(HttpContext.User.Identity.Name);
-                /*
+                
                 //On vérifie que les dates sont correctes
                 bool isDateValid = dal.CheckActivityDateComptability(BeginDate, EndDate, activities, user);
 
@@ -113,8 +113,9 @@ namespace Projet2_EasyFid.Controllers
 
                     return RedirectToAction("IndexSalarie");
                 }
-                */
                 
+                
+                /*
                 if (!ModelState.IsValid)
                 {
                     
@@ -128,6 +129,7 @@ namespace Projet2_EasyFid.Controllers
                     ViewBag.activities = activitiesList;
                     //return View(cra);
                 }
+                */
                 
                 // On récupère l'ensemble des données renseignées pour ce Cra en BDD grâce à une requête
                 Cra oldCra = dal.GetCraById(cra.Id);
@@ -149,7 +151,7 @@ namespace Projet2_EasyFid.Controllers
                 //On remplace
                 foreach (ActivityDate item in oldActivityDate)
                 {
-                    
+                    item.BeginDate = ActivityDate.BeginDate;
                 }
 
                
