@@ -24,6 +24,11 @@ namespace Projet2_EasyFid.Data.Services
 			return _bddContext.Notifications.Where(n => n.UserId == id).ToList();
 
 		}
+
+		public static Notification GetNotificationById(BddContext _bddContext, int id)
+		{
+			return _bddContext.Notifications.SingleOrDefault(n => n.Id == id);
+		}
 	}
 }
 

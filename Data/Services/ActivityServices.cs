@@ -103,6 +103,16 @@ namespace Projet2_EasyFid.Data.Services
 		{
 			return _bddContext.ActivityDates.Include(a => a.CraActivity).Where(a => a.CraActivity.ActivityId == idActivity && a.CraActivity.CraId == idCra).ToList();
 		}
+
+		public static Activity GetActivityByMissionId(BddContext _bddContext, int id)
+		{
+			return _bddContext.Activities.SingleOrDefault(a => a.MissionId == id);
+		}
+
+		public static List<Activity> GetAllAbsenceAndFormation(BddContext _bddContext)
+		{
+			return _bddContext.Activities.Where(a => a.AbsenceId != null || a.FormationId != null).ToList();
+		}
 	}
 }
 

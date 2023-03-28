@@ -152,7 +152,7 @@ namespace Projet2_EasyFid.Data
             // Dans la table Notifications
             this.Notifications.AddRange(
                 new Notification { MessageContent = "Cra validé avec succès", ClassContext = "success", UserId = 1 },
-                new Notification { MessageContent = "Cra refusée, il manque des données sur les jours du 12 au 14 février", ClassContext = "danger", UserId = 1 }
+                new Notification { MessageContent = "Cra refusé, il manque des données sur les jours du 12 au 14 février", ClassContext = "danger", UserId = 1 }
                 );
 
             // Dans la table UserFeedback
@@ -168,7 +168,7 @@ namespace Projet2_EasyFid.Data
                 new MissionUser { Id = 1, UserId = 1, MissionId = 1, MissionState= MissionStateEnum.FINISHED, UserFeedbackId = 1 },
                 new MissionUser { Id = 2, UserId = 2, MissionId = 2, MissionState= MissionStateEnum.FINISHED, UserFeedbackId = 2 },
                 new MissionUser { Id = 3, UserId = 1, MissionId = 4, MissionState= MissionStateEnum.ACTIVE, UserFeedbackId = 3 },
-                new MissionUser { Id = 4, UserId = 2, MissionId = 4, MissionState= MissionStateEnum.ACTIVE, UserFeedbackId = 4},
+                new MissionUser { Id = 4, UserId = 2, MissionId = 4, MissionState= MissionStateEnum.ACTIVE, UserFeedbackId = 4 },
                 new MissionUser { Id = 5, UserId = 2, MissionId = 6, MissionState= MissionStateEnum.ACTIVE}
                 );
 

@@ -49,6 +49,35 @@ namespace Projet2_EasyFid.Controllers
             }
         }
 
+        public IActionResult DeleteOneNotification(int id)
+        {
+            using(Dal dal = new Dal())
+            {
+                User user = dal.GetUser(HttpContext.User.Identity.Name);
+                Notification notifToDelete = dal.GetNotificationById(id);
+                dal.DeleteNotification(notifToDelete);
+
+                List<RoleUser> roleUsers = dal.GetAllRolesById(user.Id);
+                foreach(RoleUser role in roleUsers)
+                {
+                    if(role.RoleType == RoleTypeEnum.ADMIN)
+                    {
+                        return RedirectToAction("Index","Admin");
+                    } else if (role.RoleType == RoleTypeEnum.SALARIE)
+                    {
+                        return RedirectToAction("Index", "Salarie");
+                    } else if (role.RoleType == RoleTypeEnum.MANAGER)
+                    {
+                        return RedirectToAction("Index", "Manager");
+                    }
+                }
+
+                return View("Error");
+
+                
+            }
+        }
+
         //Affiche tous les cras du salarie
 
         public IActionResult IndexSalarie()
@@ -116,16 +145,16 @@ namespace Projet2_EasyFid.Controllers
                 // Récupérer l'utilisateur actuellement connecté
                 User user = dal.GetUser(HttpContext.User.Identity.Name);
 
-                List<Mission> missions = dal.GetAllMissions();
-                List<Formation> formations = dal.GetAllFormations();
-                //List<Activity> activities = dal.GetAllActivities();
-                List<MissionUser> missionUsers = dal.GetAllMissionUserByUserId(user.Id).ToList();
-                //List<UserMissionViewModel> activities = dal.GetAllActivityByUserId(user.Id).ToList();
-                
-                ViewBag.missions = missions;
-                ViewBag.formations = formations;    
-                //ViewBag.activities = activities;
-                ViewBag.missionUsers = missionUsers;
+
+                List<Activity> activities = new List<Activity>();
+                List<Mission> missionUsers = dal.GetAllMissionUserByUserId(user.Id);
+                foreach(Mission mission in missionUsers)
+                {
+                    activities.Add(dal.GetActivityByMissionId(mission.Id));
+                }
+                List<Activity> otherActivities = dal.GetAllAbsenceAndFormation();
+                activities.AddRange(otherActivities);
+                ViewBag.activities = activities;
 
             }
             return View();
@@ -133,7 +162,7 @@ namespace Projet2_EasyFid.Controllers
 
         [HttpPost]
         //Une fois qu'on appuie sur le bouton du formulaire, cette methode recupere un objet Cra
-        public IActionResult CreateCra(List<DateTime> BeginDate, List<DateTime> EndDate, List<int> activities, StateEnum stateEnum, int total)
+        public IActionResult CreateCra(List<DateTime> BeginDate, List<DateTime> EndDate, List<int> activities, int total)
         {
             using (Dal dal = new Dal())
             {
@@ -153,7 +182,8 @@ namespace Projet2_EasyFid.Controllers
                 {
                     CreatedAt = DateTime.Now,
                     UpdatedAt = DateTime.Now,
-                    StateCra = stateEnum
+                    StateCra = StateEnum.DRAFT,
+                    UserId = user.Id
                 };
 
                 // On recupere l'id du nouveau Cra grace à la méthode CreateCra
@@ -230,6 +260,28 @@ namespace Projet2_EasyFid.Controllers
             }
                 //Si il n'existe pas, on retourne sur la vue Index
                 return RedirectToAction("IndexSalarie");
+        }
+
+        public IActionResult AskForCraValidation(int id)
+        {
+            using (Dal dal = new Dal())
+            {
+                User user = dal.GetUser(HttpContext.User.Identity.Name);
+                Cra cra = dal.GetCraById(id);
+
+                if(cra != null && cra.StateCra == StateEnum.DRAFT)
+                {
+                    cra.StateCra = StateEnum.INHOLD;
+                    dal.ModifyCra(cra);
+                    Notification notif = new Notification { ClassContext = "success", MessageContent = "Votre CRA va être consulté par votre manager pour validation.", UserId = user.Id };
+                    Notification notifToManager = new Notification { ClassContext = "info", MessageContent = user.UserData.Firstname + " " + user.UserData.Lastname + " demande validation de son CRA.", UserId= (int)user.ManagerId };
+                    dal.CreateNotification(notif);
+                    dal.CreateNotification(notifToManager);
+
+                    return RedirectToAction("Index");
+                }
+                return View("Error");
+            }
         }
 
         public IActionResult SeeCurrentUserFeedback()

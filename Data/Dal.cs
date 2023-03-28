@@ -304,7 +304,7 @@ namespace Projet2_EasyFid.Data
         }
 
 
-        public List<MissionUser> GetAllMissionUserByUserId(int id)
+        public List<Mission> GetAllMissionUserByUserId(int id)
         {
             return CraServices.GetAllMissionUserByUserId(_bddContext, id);
         }
@@ -344,6 +344,26 @@ namespace Projet2_EasyFid.Data
         public void CreateNotification(Notification notification)
         {
             NotificationServices.CreateNotification(_bddContext,notification);
+        }
+
+        public void DeleteNotification(Notification notification)
+        {
+            NotificationServices.DeleteNotification(_bddContext, notification);
+        }
+
+        public Notification GetNotificationById(int id)
+        {
+            return NotificationServices.GetNotificationById(_bddContext, id);
+        }
+
+        public Activity GetActivityByMissionId(int id)
+        {
+            return ActivityServices.GetActivityByMissionId(_bddContext,id);
+        }
+
+        public List<Activity> GetAllAbsenceAndFormation()
+        {
+            return ActivityServices.GetAllAbsenceAndFormation(_bddContext);
         }
     }
 }

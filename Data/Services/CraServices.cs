@@ -141,14 +141,14 @@ namespace Projet2_EasyFid.Data.Services
         }
 		*/
 
-        public static List<MissionUser> GetAllMissionUserByUserId(BddContext _bddContext, int id)
+        public static List<Mission> GetAllMissionUserByUserId(BddContext _bddContext, int id)
         {
 			//Ici on fait une jointure entre 3 tables 
 			var query = from mu in _bddContext.MissionUsers
 						join m in _bddContext.Missions on mu.MissionId equals m.Id //jointure entre les tables MissionUser et Missions
 						join u in _bddContext.Users on mu.UserId equals u.Id //jointure entre les tables MissionUser et User 
                         where mu.UserId == id && mu.MissionState == MissionStateEnum.ACTIVE
-                        select mu;
+                        select m;
 			return query.ToList();
         }
 

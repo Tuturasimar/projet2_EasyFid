@@ -102,7 +102,7 @@ namespace Projet2_EasyFid.Controllers
                 {
                     cra.StateCra = StateEnum.DRAFT;
                     dal.ModifyCra(cra);
-                    Notification notif = new Notification { MessageContent = notification.MessageContent, ClassContext = "danger", UserId = (int)cra.UserId };
+                    Notification notif = new Notification { MessageContent = "ERREUR CRA - " +notification.MessageContent, ClassContext = "danger", UserId = (int)cra.UserId };
                     dal.CreateNotification(notif);
 
                     return RedirectToAction("Index");
