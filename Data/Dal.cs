@@ -18,7 +18,10 @@ namespace Projet2_EasyFid.Data
         {
             _bddContext = new BddContext();
         }
-
+        public List<Statistic> GetAllStatistics()
+        {
+            return StatisticsServices.GetAllStatistics(_bddContext);
+        }
 
         public List<Cra> GetAllCras()
         {
