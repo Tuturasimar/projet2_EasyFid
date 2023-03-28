@@ -331,6 +331,11 @@ namespace Projet2_EasyFid.Data
             return NotificationServices.GetAllNotificationsByUserId(_bddContext, id);
         }
 
+        public List<CraActivity> GetAllCraActivityByCraId(int id)
+        {
+            return CraServices.GetAllCraActivityByCraId(_bddContext, id);
+        }
+
 
 
     }

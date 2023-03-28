@@ -102,21 +102,61 @@ namespace Projet2_EasyFid.Controllers
 
             using (Dal dal = new Dal())
             {
+                //On recupere l'utilisateur actuellement connecté
+                User user = dal.GetUser(HttpContext.User.Identity.Name);
+                /*
+                //On vérifie que les dates sont correctes
+                bool isDateValid = dal.CheckActivityDateComptability(BeginDate, EndDate, activities, user);
+
+                if (!isDateValid)
+                {
+
+                    return RedirectToAction("IndexSalarie");
+                }
+                */
+                
                 if (!ModelState.IsValid)
                 {
-                return View(cra);
+                    
+                    //On cree une liste vide 
+                    List<Activity> activitiesList = new List<Activity>();
+                    //On ajoute à cette liste les activités liées à l'User
+                    activitiesList.AddRange(dal.GetAllActivityByUserId(user.Id));
+                    //Et les formations et absences
+                    activitiesList.AddRange(dal.GetAllFormationAndAbsence());
+
+                    ViewBag.activities = activitiesList;
+                    //return View(cra);
                 }
-     
-                if (cra.Id != 0)
-                {
-                dal.UpdateCra(cra.Id, cra.StateCra);
-                return RedirectToAction("UpdateCra", new { @id = cra.Id });    
                 
+                // On récupère l'ensemble des données renseignées pour ce Cra en BDD grâce à une requête
+                Cra oldCra = dal.GetCraById(cra.Id);
+
+                // On remplace un par un l'ensemble des champs du formulaire
+                oldCra.UpdatedAt = DateTime.Now;
+                oldCra.StateCra = StateEnum.DRAFT;
+
+                //On recupère tous les CraActivity en fonction de l'id du Cra
+                List<CraActivity> oldCraActivity = dal.GetAllCraActivityByCraId(cra.Id);
+
+                //On récupère l'ensemble des activitées renseignées lors de la création du Cra
+                List<Activity> oldActivity = dal.GetAllActivityByCraId(cra.Id);
+
+                //On remplace 
+                //On récupère l'ensemble des activityDate renseignées lors de la création du Cra
+                List<ActivityDate> oldActivityDate = dal.GetAllActivityDateByCraId(cra.Id) ;
+
+                //On remplace
+                foreach (ActivityDate item in oldActivityDate)
+                {
+                    
                 }
-            else
-            {
-                return View("Error");
-            }
+
+               
+                dal.UpdateCra(cra.Id, cra.StateCra);
+                return RedirectToAction("CraDetail", new { @id = cra.Id });    
+                
+                
         }
     }
 

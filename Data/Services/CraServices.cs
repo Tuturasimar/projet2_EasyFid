@@ -97,6 +97,12 @@ namespace Projet2_EasyFid.Data.Services
 			return craActivity;
 		}
 
+		public static List<CraActivity> GetAllCraActivityByCraId(BddContext _bddContext, int id)
+		{
+			List<CraActivity> craActivities = _bddContext.CraActivities.Include(ca => ca.Cra).Include(ca => ca.Activity).Where(a => a.CraId == id).ToList();
+			return craActivities;
+        }
+
 		
 		public static List<Activity> GetAllActivityByCraId (BddContext _bddContext, int id)
 		{
@@ -110,13 +116,16 @@ namespace Projet2_EasyFid.Data.Services
 
 		public static List<ActivityDate> GetAllActivityDateByCraId (BddContext _bddContext, int id)
 		{
-			//Ici on fait une jointure entre 2 tables
+            //Ici on fait une jointure entre 2 tables
+            /*
 			var query = from ad in _bddContext.ActivityDates
 						join ca in _bddContext.CraActivities on ad.CraActivityId equals ca.Id //jointure entre ActivityDate et CraActivity
 						where ca.CraId == id //On recupere les ActivityDate qui ont le même CraId (donc le même Cra)
 						select ad;
 			return query.ToList();
-		}
+			*/
+            return _bddContext.ActivityDates.Include(a => a.CraActivity.Activity).Where(a => a.CraActivity.CraId == id).ToList();
+        }
 
         //Pour reucperer tous les BeginDate d'une ActivityDate
         //Pas utile pour l'instant, à voir pour la suite, je laisse en commentaire pour l'instant
