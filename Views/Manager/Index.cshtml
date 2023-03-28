@@ -19,12 +19,12 @@
     {
         <tr>
             
-            <td>@cra.CreatedAt.ToString("dd/MM/yy")</td>
-            <td>@cra.UpdatedAt.ToString("dd/MM/yy")</td>
+            <td>@cra.CreatedAt.ToString("dd/MM/yyyy")</td>
+            <td>@cra.UpdatedAt.ToString("dd/MM/yyyy")</td>
             <td>@cra.StateCra</td>
             <td>@cra.User.UserData.Lastname</td>
             <td>@cra.User.UserData.Firstname</td>
-            <td>Détails</td>
+            <td>@Html.ActionLink("Détails", "CraDetails", "Manager", new { id = cra.Id })</td>
             
         </tr>
     }

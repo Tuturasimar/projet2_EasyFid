@@ -90,7 +90,7 @@ namespace Projet2_EasyFid.Data.Services
 
 		public static Cra GetCraById(BddContext _bddContext, int id)
 		{
-			Cra cra = _bddContext.Cras.Include(c => c.User).SingleOrDefault(c => c.Id == id);
+			Cra cra = _bddContext.Cras.Include(c => c.User).Include(c => c.User.UserData).SingleOrDefault(c => c.Id == id);
 			return cra;
 		}
 

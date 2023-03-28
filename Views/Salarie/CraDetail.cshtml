@@ -4,10 +4,11 @@
     ViewBag.Title = "Détail Cra";
 }
 
-<h2>Détail du Cra</h2>
+<h2>Détail du Cra de @ViewBag.cra.User.UserData.Firstname @ViewBag.cra.User.UserData.Lastname </h2>
 <ul>
     <li>Date de création : @ViewBag.cra.CreatedAt.ToString("dd/MM/yy")</li>
     <li>Date de modification : @ViewBag.cra.UpdatedAt.ToString("dd/MM/yy")</li>
+    <li>Etat : @ViewBag.cra.StateCra</li>
 
     @if (Model.Count > 0)
         {
