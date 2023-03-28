@@ -116,16 +116,22 @@ namespace Projet2_EasyFid.Controllers
                 // Récupérer l'utilisateur actuellement connecté
                 User user = dal.GetUser(HttpContext.User.Identity.Name);
 
-                List<Mission> missions = dal.GetAllMissions();
-                List<Formation> formations = dal.GetAllFormations();
+                //List<Mission> missions = dal.GetAllMissions();
+                //List<Formation> formations = dal.GetAllFormations();
                 //List<Activity> activities = dal.GetAllActivities();
-                List<MissionUser> missionUsers = dal.GetAllMissionUserByUserId(user.Id).ToList();
+                //List<MissionUser> missionUsers = dal.GetAllMissionUserByUserId(user.Id).ToList();
                 //List<UserMissionViewModel> activities = dal.GetAllActivityByUserId(user.Id).ToList();
-                
-                ViewBag.missions = missions;
-                ViewBag.formations = formations;    
-                //ViewBag.activities = activities;
-                ViewBag.missionUsers = missionUsers;
+                List<MissionUser> missionUsers = new List<MissionUser>();
+                missionUsers.AddRange(dal.GetAllMissionUserByUserId(user.Id));
+
+                List<Activity> activities = new List<Activity>();
+                activities.AddRange(dal.GetAllActivityByUserId(user.Id));
+                activities.AddRange(dal.GetAllFormationAndAbsence());
+
+                //ViewBag.missions = missions;
+                //ViewBag.formations = formations;    
+                ViewBag.activities = activities;
+                //ViewBag.missionUsers = missionUsers;
 
             }
             return View();
@@ -133,7 +139,7 @@ namespace Projet2_EasyFid.Controllers
 
         [HttpPost]
         //Une fois qu'on appuie sur le bouton du formulaire, cette methode recupere un objet Cra
-        public IActionResult CreateCra(List<DateTime> BeginDate, List<DateTime> EndDate, List<int> activities, StateEnum stateEnum, int total)
+        public IActionResult CreateCra(List<DateTime> BeginDate, List<DateTime> EndDate, List<int> activities, int total)
         {
             using (Dal dal = new Dal())
             {
@@ -153,7 +159,8 @@ namespace Projet2_EasyFid.Controllers
                 {
                     CreatedAt = DateTime.Now,
                     UpdatedAt = DateTime.Now,
-                    StateCra = stateEnum
+                    StateCra = StateEnum.DRAFT,
+                    UserId = user.Id
                 };
 
                 // On recupere l'id du nouveau Cra grace à la méthode CreateCra
