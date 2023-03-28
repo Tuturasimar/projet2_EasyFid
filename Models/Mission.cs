@@ -19,13 +19,14 @@ namespace Projet2_EasyFid.Models
         [Display(Name = "Début")]
         public DateTime MissionStart { get; set; }
 
-        //On ajoute un ? car la mission peut etre en cours et n'a pas forcement une date de fin
         [Display(Name = "Fin")]
-        public DateTime? MissionEnd { get; set; }
+        public DateTime MissionEnd { get; set; }
         [Display(Name = "Taux Journalier Moyen")]
         public float Tjm { get; set; }
         [Display(Name = "Type de contrat")]
         public MissionTypeEnum MissionType { get; set; }
+
+        public MissionStateEnum MissionState { get; set; }
 
 		//pour creer une relation one one entre Mission et Activity
 		//Fonctionne ==> Si on ajoute dans la table Activity une nouvelle Activité avec le meme MissionId, le premier MissionId devient null

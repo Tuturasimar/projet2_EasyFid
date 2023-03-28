@@ -1,15 +1,10 @@
 ﻿@model Projet2_EasyFid.Models.Mission
 @{
     Layout = "_Layout";
+    ViewBag.Title = "Edition de Mission";
 
 }
-<!Doctype html>
-<html>
-<head>
-    <meta name="viewport" content="width =device-with" />
-    <title>Modifier Mission</title>
-</head>
-<body>
+
 
     @using (Html.BeginForm("UpdateMission", "Manager", FormMethod.Post))
     {
@@ -37,6 +32,3 @@
     <script type="text/javascript" src="~/Scripts/jquery-3.3.1.js"></script>
     <script type="text/javascript" src="~/Scripts/jquery.validate-vsdoc.js"></script>
     <script type="text/javascript" src="~/Scripts/jquery.validate.unobtrusive.js"></script>
-
-</body>
-</html>

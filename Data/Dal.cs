@@ -326,7 +326,10 @@ namespace Projet2_EasyFid.Data
             return NotificationServices.GetAllNotificationsByUserId(_bddContext, id);
         }
 
-
+        public List<Cra> GetAllInHoldAndValidatedCrasByUserId(int id)
+        {
+            return CraServices.GetAllInHoldAndValidatedCrasByUserId(_bddContext, id);
+        }
 
     }
 }

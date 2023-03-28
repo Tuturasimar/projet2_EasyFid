@@ -77,6 +77,11 @@ namespace Projet2_EasyFid.Data.Services
 			return cras;
 		}
 
+		public static List<Cra> GetAllInHoldAndValidatedCrasByUserId(BddContext _bddContext, int id)
+		{
+			return _bddContext.Cras.Include(c => c.User.UserData).Where(c => c.UserId == id && (c.StateCra == StateEnum.INHOLD || c.StateCra == StateEnum.VALIDATED)).ToList();
+		}
+
 		public static void SetUserIdNullOnDelete(BddContext _bddContext, Cra cra)
 		{
 			_bddContext.Cras.Update(cra);

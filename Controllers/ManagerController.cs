@@ -16,21 +16,49 @@ namespace Projet2_EasyFid.Controllers
     // Controller qui va gérer les méthodes Manager (require authentification Manager)
     public class ManagerController : Controller
     {
-
-        
-
         // GET: /<controller>/
         //Affichage de l'ensemble des missions
         public IActionResult Index()
         {
             using Dal dal =new Dal();
             {
+                User user = dal.GetUser(HttpContext.User.Identity.Name);
                 //Récupération des missions que l'on stocke dans une liste
-                List<Mission>missions=dal.GetAllMissions();
-                MissionListViewModel missionList  = new MissionListViewModel { Missions = missions };
-                return View(missionList);
+                List<User> users = dal.GetAllUsersByManagerId(user.Id);
+                List<Cra> crasForManager = new List<Cra>();
+                foreach(User userCra in users)
+                {
+                    crasForManager.AddRange(dal.GetAllInHoldAndValidatedCrasByUserId(userCra.Id));
+                }
+
+                CraListViewModel craList  = new CraListViewModel { Cras = crasForManager };
+                return View(craList);
             }
 
+        }
+
+        public IActionResult CraDetails(int id)
+        {
+            using (Dal dal = new Dal())
+            {
+                Cra cra = dal.GetCraById(id);
+
+                return View(cra);
+
+            }
+
+    }
+
+
+        public IActionResult SeeMissions()
+        {
+            using Dal dal = new Dal();
+            {
+                //Récupération des missions que l'on stocke dans une liste
+                List<Mission> missions = dal.GetAllMissions();
+                MissionListViewModel missionList = new MissionListViewModel { Missions = missions };
+                return View(missionList);
+            }
         }
 
         //ma methode de modification d'une mission
@@ -43,7 +71,7 @@ namespace Projet2_EasyFid.Controllers
                 using (Dal dal = new Dal())
                 {
                     //je recherche l'ID qui est egal au parametre que m'a transmis l'utilisateur
-                Mission mission = dal.GetAllMissions().Where(m=>m.Id ==id).FirstOrDefault();
+                    Mission mission = dal.GetMissionById(id);
                     if(mission == null)
                     {
                         return View("Error");
@@ -60,7 +88,7 @@ namespace Projet2_EasyFid.Controllers
             if (id != 0)
             {
 
-                using (IDal dal = new Dal())
+                using (Dal dal = new Dal())
                 {
                     //je recherche l'ID qui est egal au parametre que m'a transmis l'utilisateur
                     Formation formation = dal.GetAllFormations().Where(f => f.Id == id).FirstOrDefault();
@@ -126,15 +154,13 @@ namespace Projet2_EasyFid.Controllers
                 return View("Error");
             }
         }
+       
+        
+
         //Affiche le formulaire de creation d'une mission
         public IActionResult CreateMission()
         {
-            
-            return View();
-        }
-        public IActionResult CreateFormation()
-        {
-            
+
             return View();
         }
 
@@ -165,6 +191,12 @@ namespace Projet2_EasyFid.Controllers
             //Pour retourner sur la page d'affichage des mission
             return RedirectToAction("Index");
             
+        }
+
+        public IActionResult CreateFormation()
+        {
+
+            return View();
         }
 
         [HttpPost]

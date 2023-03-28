@@ -1,42 +1,31 @@
-﻿@model Projet2_EasyFid.ViewModels.MissionListViewModel
+﻿@model Projet2_EasyFid.ViewModels.CraListViewModel
 @{
     Layout = "_Layout";
     ViewBag.Title = "ManagerAccueil";
 }
-<!Doctype html>
-<html>
-<head>
-    <meta name="viewport" content="width =device-with" />
-    <title>Modifier Mission</title>
-</head>
-<body>
 
-    <h2>Bienvenue sur votre espace personnel</h2>
-    <table id="Missions" border="1">
+<h2>Liste des CRA des collaborateurs</h2>
+
+<table id="cras">
+    <tr>
+        <th>Date création</th>
+        <th>Date modification</th>
+        <th>Statut</th>
+        <th>Nom</th>
+        <th>Prénom</th>
+        <th>Actions</th>
+    </tr>
+    @foreach (var cra in @Model.Cras)
+    {
         <tr>
-            <td>Date de création</td>
-            <td>Date de modification</td>
-            <td>Status</td>
-            <td>Modification</td>
-            <td>Suppression</td>
+            
+            <td>@cra.CreatedAt.ToString("dd/MM/yy")</td>
+            <td>@cra.UpdatedAt.ToString("dd/MM/yy")</td>
+            <td>@cra.StateCra</td>
+            <td>@cra.User.UserData.Lastname</td>
+            <td>@cra.User.UserData.Firstname</td>
+            <td>Détails</td>
+            
         </tr>
-        @foreach (var mission in Model.Missions)
-        {
-            <tr>
-                <td>@mission.Name</td>
-                <td>@mission.MissionStart</td>
-                <td>@mission.MissionEnd</td>
-                <td>@mission.Tjm</td>
-                <td>@mission.MissionType</td>
-
-                <td>@Html.ActionLink("Modifier", "UpdateMission", new { id = mission.Id})</td>
-                <td>@Html.ActionLink("Supprimer", "IndexManager")</td>
-            </tr>
-        }
-    </table>
-
-    <div>
-        @Html.ActionLink("Ajouter", "CreateMission")
-    </div>
-</body>
-</html>
+    }
+</table>
