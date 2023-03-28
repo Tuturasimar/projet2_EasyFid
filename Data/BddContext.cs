@@ -137,7 +137,7 @@ namespace Projet2_EasyFid.Data
                 new ActivityDate { Id = 7, BeginDate = new DateTime(2023, 03, 21), EndDate = new DateTime(2023, 03, 31), CraActivityId = 6 },
                 new ActivityDate { Id = 8, BeginDate = new DateTime(2023, 03, 01), EndDate = new DateTime(2023, 03, 10), CraActivityId = 7 },
                 new ActivityDate { Id = 9, BeginDate = new DateTime(2023, 03, 01), EndDate = new DateTime(2023, 03, 10), CraActivityId = 8 },
-                new ActivityDate { Id = 10, BeginDate = new DateTime(2023, 03, 11), EndDate = new DateTime(2023, 03, 31), CraActivityId = 7 }
+                new ActivityDate { Id = 10, BeginDate = new DateTime(2023, 03, 11), EndDate = new DateTime(2023, 03, 31), CraActivityId = 9 }
                 );
 
             // Ajout de liens entre des clés étrangères (user et role) dans la table RoleUsers

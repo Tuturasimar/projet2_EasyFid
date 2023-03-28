@@ -266,7 +266,7 @@ namespace Projet2_EasyFid.Data
 
         public List<ActivityDate> GetAllActivityDateByCraId(int id)
         {
-            return CraServices.GetAllActivityDateByCraId(_bddContext, id);
+            return ActivityServices.GetAllActivityDateByCraId(_bddContext, id);
         }
 
         //Pour reucperer tous les BeginDate d'une ActivityDate
@@ -331,6 +331,10 @@ namespace Projet2_EasyFid.Data
             return CraServices.GetAllInHoldAndValidatedCrasByUserId(_bddContext, id);
         }
 
+        public List<ActivityDate> GetAllActivityDateByActivityIdAndCraId(int idActivity, int idCra)
+        {
+            return ActivityServices.GetAllActivityDateByActivityIdAndCraId(_bddContext, idActivity, idCra);
+        }
     }
 }
 

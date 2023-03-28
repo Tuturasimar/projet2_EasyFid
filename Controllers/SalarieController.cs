@@ -203,21 +203,29 @@ namespace Projet2_EasyFid.Controllers
             {
                 //On recupere le Cra en fonction de son Id
                 Cra cra = dal.GetCraById(id);
-                //On recupere le CraActivity afin de pouvoir recuperer l'Activity reliee au Cra
-                //CraActivity craActivity = dal.GetCraActivityByCraId(id);
-                //On recupère les Activity reliees au même Cra 
-                List<Activity> activities = dal.GetAllActivityByCraId(id).ToList();
-                //On recupère les ActivityDate relies au meme Cra
-                List<ActivityDate> activityDates = dal.GetAllActivityDateByCraId(id).ToList();
-                //Pour reucperer tous les BeginDate d'une ActivityDate
-                //Pas utile pour l'instant, à voir pour la suite, je laisse en commentaire pour l'instant
-                //List<DateTime> beginDates = dal.GetBeginDate(id).ToList();
 
                 //On vérifie si le Cra existe en bdd
                 if (cra != null)
                 {
-                    SalarieViewModel svm = new SalarieViewModel { Cra = cra, Activities = activities, ActivityDates = activityDates};
-                    return View(svm);
+                    // On instancie une liste d'un CraDetailViewModel
+                    // Ce modèle contient une Activity et une liste d'ActivityDate
+                    List<CraDetailViewModel> craDetailViewModels = new List<CraDetailViewModel>();
+
+                    // On récupère toutes les activités présentes dans ce Cra
+                    List<Activity> activities = dal.GetAllActivityByCraId(id).ToList();
+
+                    // Sur chaque activité, on boucle
+                    foreach (Activity activity in activities)
+                    {
+                        // Pour chaque activité, on récupère les ActivityDate qui correspondent
+                        List<ActivityDate> activityDates = dal.GetAllActivityDateByActivityIdAndCraId(activity.Id,cra.Id);
+                        // On rajoute à notre liste de CraDetailViewModel une instance du modele
+                        craDetailViewModels.Add(new CraDetailViewModel { Activity = activity, ActivityDates = activityDates });
+                    }
+                    // On envoie le cra dans une ViewBag
+                    ViewBag.cra = cra;
+
+                    return View(craDetailViewModels);
                 }
             }
                 //Si il n'existe pas, on retourne sur la vue Index

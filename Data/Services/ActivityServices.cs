@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Projet2_EasyFid.Models;
 using System;
 using System.Collections.Generic;
@@ -91,6 +92,16 @@ namespace Projet2_EasyFid.Data.Services
 			}
 
 			return isDateValid;
+		}
+
+		public static List<ActivityDate> GetAllActivityDateByCraId(BddContext _bddContext, int id)
+		{
+			return _bddContext.ActivityDates.Include(a => a.CraActivity.Activity).Where(a => a.CraActivity.CraId == id).ToList();
+		}
+
+		public static List<ActivityDate> GetAllActivityDateByActivityIdAndCraId(BddContext _bddContext, int idActivity, int idCra)
+		{
+			return _bddContext.ActivityDates.Include(a => a.CraActivity).Where(a => a.CraActivity.ActivityId == idActivity && a.CraActivity.CraId == idCra).ToList();
 		}
 	}
 }

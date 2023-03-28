@@ -110,8 +110,8 @@ namespace Projet2_EasyFid.Data.Services
 						select a;
 			return query.ToList(); //On recupère une liste d'Activity
 		}
-
-		public static List<ActivityDate> GetAllActivityDateByCraId (BddContext _bddContext, int id)
+        
+        public static List<ActivityDate> GetAllActivityDateByCraId (BddContext _bddContext, int id)
 		{
 			//Ici on fait une jointure entre 2 tables
 			var query = from ad in _bddContext.ActivityDates
@@ -167,6 +167,7 @@ namespace Projet2_EasyFid.Data.Services
 			return myList;
         }
 		*/
+
 		
 
 
