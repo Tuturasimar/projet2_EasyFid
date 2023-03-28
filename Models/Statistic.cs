@@ -14,7 +14,7 @@ namespace Projet2_EasyFid.Models
 			public float TjmRegie { get; set; }
 			public float TACE { get; set; }
 			public DateTime Date { get; set; }
-	
+	        public string Label { get; set; }
 			public int? MissionId { get; set; }
 			public virtual Mission Mission { get; set; }
 

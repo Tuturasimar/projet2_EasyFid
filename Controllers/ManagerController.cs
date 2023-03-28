@@ -50,7 +50,7 @@ namespace Projet2_EasyFid.Controllers
         public IActionResult DisplayStatistics()
         {
 
-            return View("GetAllStatistics");
+            return View("EditDashboard");
         }
 
         //ma methode de modification d'une mission
