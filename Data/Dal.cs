@@ -335,6 +335,16 @@ namespace Projet2_EasyFid.Data
         {
             return ActivityServices.GetAllActivityDateByActivityIdAndCraId(_bddContext, idActivity, idCra);
         }
+
+        public void ModifyCra(Cra cra)
+        {
+            CraServices.ModifyCra(_bddContext,cra);
+        }
+
+        public void CreateNotification(Notification notification)
+        {
+            NotificationServices.CreateNotification(_bddContext,notification);
+        }
     }
 }
 

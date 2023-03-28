@@ -42,6 +42,12 @@ namespace Projet2_EasyFid.Data.Services
 			return cra.Id;
 		}
 
+		public static void ModifyCra(BddContext _bddContext, Cra cra)
+		{
+			_bddContext.Cras.Update(cra);
+			_bddContext.SaveChanges();
+		}
+
 
 		public static Activity GetActivityById (BddContext _bddContext,  int id)
 		{

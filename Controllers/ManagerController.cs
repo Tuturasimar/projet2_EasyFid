@@ -73,6 +73,61 @@ namespace Projet2_EasyFid.Controllers
 
         }
 
+        public IActionResult DenyCraValidation(int id)
+        {
+            using(Dal dal = new Dal())
+            {
+                Cra cra = dal.GetCraById(id);
+
+                if(cra != null && cra.StateCra == StateEnum.INHOLD)
+                {
+                    ViewBag.cra = cra;
+
+                    return View();
+                }
+
+
+                return View("Error");
+            }
+        }
+
+        [HttpPost]
+        public IActionResult CraToDraft(int id, Notification notification)
+        {
+            using (Dal dal = new Dal())
+            {
+                Cra cra = dal.GetCraById(id);
+
+                if(cra != null && cra.StateCra == StateEnum.INHOLD)
+                {
+                    cra.StateCra = StateEnum.DRAFT;
+                    dal.ModifyCra(cra);
+                    Notification notif = new Notification { MessageContent = notification.MessageContent, ClassContext = "danger", UserId = (int)cra.UserId };
+                    dal.CreateNotification(notif);
+
+                    return RedirectToAction("Index");
+                }
+                return View("Error");
+            }
+        }
+
+        public IActionResult CraToValidation(int id)
+        {
+            using(Dal dal = new Dal())
+            {
+                Cra cra = dal.GetCraById(id);
+                if (cra != null && cra.StateCra == StateEnum.INHOLD)
+                {
+                    cra.StateCra = StateEnum.VALIDATED;
+                    dal.ModifyCra(cra);
+                    Notification notification = new Notification { MessageContent = "Votre Cra a bien été validé", ClassContext = "success", UserId = (int)cra.UserId };
+                    dal.CreateNotification(notification);
+                    return RedirectToAction("Index");
+                }
+                return View("Error");
+            }
+        }
+
 
         public IActionResult SeeMissions()
         {
