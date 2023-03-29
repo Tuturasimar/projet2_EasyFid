@@ -58,8 +58,15 @@ namespace Projet2_EasyFid.Controllers
                     // Crée un cookie pour l'user
                     var userClaims = new List<Claim>()
                         {
-                        new Claim(ClaimTypes.Name, user.Id.ToString())
+                        new Claim(ClaimTypes.Name, user.Id.ToString()),
                         };
+
+                    List<RoleUser> roles = dal.GetAllRolesById(user.Id);
+
+                    foreach (RoleUser roleUser in roles)
+                    {
+                        userClaims.Add(new Claim(ClaimTypes.Role, roleUser.RoleType.ToString()));
+                    }
 
                     var ClaimIdentity = new ClaimsIdentity(userClaims, "User Identity");
 
