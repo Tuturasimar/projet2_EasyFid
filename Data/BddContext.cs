@@ -76,8 +76,8 @@ namespace Projet2_EasyFid.Data
                 new Cra { Id = 1, CreatedAt = new DateTime(2022, 06, 20), UpdatedAt = new DateTime(2022, 06, 27), StateCra = StateEnum.VALIDATED, UserId = 1 },
                 new Cra { Id = 2, CreatedAt = new DateTime(2022, 05, 12), UpdatedAt= new DateTime(2022, 05, 23), StateCra = StateEnum.VALIDATED, UserId = 2 },
                 new Cra { Id = 3, CreatedAt = new DateTime(2022, 06, 19), UpdatedAt = new DateTime(2022, 06, 27), StateCra = StateEnum.VALIDATED, UserId = 2 },
-                new Cra { Id = 4, CreatedAt = new DateTime(2023, 03, 18), UpdatedAt = new DateTime(2023, 03, 25), StateCra = StateEnum.INHOLD, UserId = 1 },
-                new Cra { Id = 5, CreatedAt = new DateTime(2023, 03, 10), UpdatedAt = new DateTime(2023, 03, 27), StateCra = StateEnum.DRAFT, UserId = 2 }
+                new Cra { Id = 4, CreatedAt = new DateTime(2023, 03, 18), UpdatedAt = new DateTime(2023, 03, 25), StateCra = StateEnum.INHOLD, UserId = 1 }
+                //new Cra { Id = 5, CreatedAt = new DateTime(2023, 03, 10), UpdatedAt = new DateTime(2023, 03, 27), StateCra = StateEnum.DRAFT, UserId = 2 }
 
                 );
 
@@ -125,9 +125,9 @@ namespace Projet2_EasyFid.Data
                 new CraActivity { Id = 4, CraId = 3, ActivityId = 2 },
                 new CraActivity { Id = 5, CraId = 4, ActivityId = 4 },
                 new CraActivity { Id = 6, CraId = 4, ActivityId = 7 },
-                new CraActivity { Id = 7, CraId = 4, ActivityId = 8 },
-                new CraActivity { Id = 8, CraId = 5, ActivityId = 8 },
-                new CraActivity { Id = 9, CraId = 5, ActivityId = 10 }
+                new CraActivity { Id = 7, CraId = 4, ActivityId = 8 }
+                //new CraActivity { Id = 8, CraId = 5, ActivityId = 8 },
+                //new CraActivity { Id = 9, CraId = 5, ActivityId = 10 }
                 );
 
             //Dans la table ActivityDate
@@ -139,9 +139,9 @@ namespace Projet2_EasyFid.Data
                 new ActivityDate { Id = 5, BeginDate = new DateTime(2022, 06, 01), EndDate = new DateTime(2022, 06, 30), CraActivityId = 4 },
                 new ActivityDate { Id = 6, BeginDate = new DateTime(2023, 03, 11), EndDate = new DateTime(2023, 03, 20), CraActivityId = 5 },
                 new ActivityDate { Id = 7, BeginDate = new DateTime(2023, 03, 21), EndDate = new DateTime(2023, 03, 31), CraActivityId = 6 },
-                new ActivityDate { Id = 8, BeginDate = new DateTime(2023, 03, 01), EndDate = new DateTime(2023, 03, 10), CraActivityId = 7 },
-                new ActivityDate { Id = 9, BeginDate = new DateTime(2023, 03, 01), EndDate = new DateTime(2023, 03, 10), CraActivityId = 8 },
-                new ActivityDate { Id = 10, BeginDate = new DateTime(2023, 03, 11), EndDate = new DateTime(2023, 03, 31), CraActivityId = 9 }
+                new ActivityDate { Id = 8, BeginDate = new DateTime(2023, 03, 01), EndDate = new DateTime(2023, 03, 10), CraActivityId = 7 }
+                //new ActivityDate { Id = 9, BeginDate = new DateTime(2023, 03, 01), EndDate = new DateTime(2023, 03, 10), CraActivityId = 8 },
+                //new ActivityDate { Id = 10, BeginDate = new DateTime(2023, 03, 11), EndDate = new DateTime(2023, 03, 31), CraActivityId = 9 }
                 );
 
             // Ajout de liens entre des clés étrangères (user et role) dans la table RoleUsers
