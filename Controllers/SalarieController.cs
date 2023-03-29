@@ -252,7 +252,28 @@ namespace Projet2_EasyFid.Controllers
                 // Récupérer l'utilisateur actuellement connecté
                 User user = dal.GetUser(HttpContext.User.Identity.Name);
 
+                // vérifier si un CRA de ce mois existe déjà ou non pour l'utilisateur connecté -> récupérer son ID
+                List<Cra> craList = dal.GetAllCrasByUserId(user.Id);
+                foreach(Cra cra in craList)
+                {
+                    // S'il existe, est ce que son State est DRAFT ?
+                    if(cra.CreatedAt.Month == DateTime.Now.Month && cra.CreatedAt.Year == DateTime.Now.Year)
+                    {
+                        if(cra.StateCra == StateEnum.DRAFT)
+                        {
+                            Notification notification = new Notification { ClassContext = "info", MessageContent = "Le Cra du mois est déjà créé", UserId = user.Id };
+                            return RedirectToAction("UpdateCra", new { id = cra.Id });
+                        } else
+                        {
+                            Notification notification = new Notification { ClassContext = "danger", MessageContent = "Le CRA du mois a déjà été validé ou est en cours de traitement.", UserId = user.Id };
+                            dal.CreateNotification(notification);
+                            return RedirectToAction("Index");
+                        }
+                    } 
+                }
 
+
+                // Si le cra n'existe pas, suite de la méthode habituelle
 
                 List<Activity> activities = new List<Activity>();
                 List<Mission> missionUsers = dal.GetAllMissionUserByUserId(user.Id);
