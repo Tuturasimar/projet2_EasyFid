@@ -10,26 +10,22 @@
     {
         <fieldset>
             <legend>Mettre à jour une formation</legend>
-            @Html.LabelFor(m => Model.Name)
-            @Html.TextBoxFor(m => Model.Name)
-            @Html.ValidationMessageFor(m => Model.Name)
+            @Html.LabelFor(f => Model.Name)
+            @Html.TextBoxFor(f => Model.Name)
+            @Html.ValidationMessageFor(f => Model.Name)
             <br />
-            @Html.LabelFor(m => Model.FormationStatus)
-            @Html.TextBoxFor(m => Model.FormationStatus)
-            @Html.ValidationMessageFor(m => Model.FormationStatus)
+            @Html.LabelFor(f => Model.NbOfDays)
+            @Html.TextBoxFor(f => Model.NbOfDays)
+            @Html.ValidationMessageFor(f => Model.NbOfDays)
             <br />
-            @Html.LabelFor(m => Model.LocationFormation)
-            @Html.TextBoxFor(m => Model.LocationFormation)
-            @Html.ValidationMessageFor(m => Model.LocationFormation)
+            @Html.LabelFor(f => Model.LocationFormation)
+            @Html.TextBoxFor(f => Model.LocationFormation)
+            @Html.ValidationMessageFor(f => Model.LocationFormation)
             <br />
-            @Html.LabelFor(m => Model.FormationStart)
-            @Html.TextBoxFor(m => Model.FormationStart)
-            @Html.ValidationMessageFor(m => Model.FormationStart)
-            <br />
-            @Html.LabelFor(m => Model.FormationEnd)
-            @Html.TextBoxFor(m => Model.FormationEnd)
-            @Html.ValidationMessageFor(m => Model.FormationEnd)
-            <br />
+            @Html.LabelFor(f => Model.Description)
+            @Html.TextBoxFor(f => Model.Description)
+            @Html.ValidationMessageFor(f => Model.Description)
+        <br />
             <input type="submit" value="Modifier" />
         </fieldset>
     }

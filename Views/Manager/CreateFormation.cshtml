@@ -8,17 +8,13 @@
     {
         <fieldset>
             <legend>Création de la formation</legend>
-            @Html.LabelFor(m => Model.Name)
-            @Html.TextBoxFor(m => Model.Name)
-            @Html.ValidationMessageFor(m => Model.Name)
+            @Html.LabelFor(f => Model.Name)
+            @Html.TextBoxFor(f => Model.Name)
+            @Html.ValidationMessageFor(f => Model.Name)
             <br />
-            @Html.Label("FormationStatusEnum", "Type de formation : ")
-            <select name="FormationStatusEnum">
-                @foreach (var item in Enum.GetValues(typeof(Projet2_EasyFid.Data.Enums.FormationStatusEnum)))
-                {
-                    <option name="FormationStatusEnum" value=@item>@item</option>
-                }
-            </select>
+            @Html.LabelFor(f => Model.NbOfDays)
+            @Html.TextBoxFor(f => Model.NbOfDays)
+            @Html.ValidationMessageFor(f => Model.NbOfDays)
             <br />
             @Html.Label("LocationFormation", "Lieu de formation : ")
             <select name="LocationFormationEnum">
@@ -28,13 +24,9 @@
                 }
             </select>
             <br />
-            @Html.LabelFor(m => Model.FormationStart)
-            @Html.TextBoxFor(m => Model.FormationStart)
-            @Html.EditorFor(m => Model.FormationStart,"yyyy-MM-dd")
-            <br />
-            @Html.LabelFor(m => Model.FormationEnd)
-            @Html.TextBoxFor(m => Model.FormationEnd)
-            @Html.EditorFor(m => Model.FormationEnd,"yyyy-MM-dd")
+            @Html.LabelFor(f => Model.Description)
+            @Html.TextBoxFor(f => Model.Description)
+            @Html.ValidationMessageFor(f => Model.Description)
             <br />
             <input type="submit" value="Valider" />
         </fieldset>
