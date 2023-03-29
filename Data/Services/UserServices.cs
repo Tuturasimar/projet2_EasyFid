@@ -15,6 +15,11 @@ namespace Projet2_EasyFid.Data.Services
             return _bddContext.Users.Include(u => u.UserData).Include(u => u.Company).ToList();
         }
 
+        public static UserData GetUserByEmail(BddContext _bddContext, int id)
+        {
+            return _bddContext.UserDatas.SingleOrDefault(u => u.Id == id);
+        }
+
         public static List<User> GetAllUsersByManagerId (BddContext _bddContext, int id)
         {
             return _bddContext.Users.Where(u => u.ManagerId == id).ToList();
@@ -143,6 +148,7 @@ namespace Projet2_EasyFid.Data.Services
             _bddContext.SaveChanges();
             return userFeedback.Id;
         }
+
     }
 }
 

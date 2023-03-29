@@ -23,6 +23,14 @@ namespace Projet2_EasyFid.Controllers
             dal = new Dal();
         }
 
+        [HttpPost]
+        public IActionResult SendPasswordResetEmail(string email)
+        {
+            var forgotPasswordServices = new ForgotPasswordServices();
+            forgotPasswordServices.SendPasswordResetEmail(email);
+            return View();
+        }
+
         // Méthode "Index" appelée lorsqu'un utilisateur accède à la page de connexion
         public IActionResult Index()
         {            
@@ -42,25 +50,31 @@ namespace Projet2_EasyFid.Controllers
         [HttpPost]
         public IActionResult Index(UserViewModel viewModel, string returnUrl)
         {
+            // Vérifie si le modèle est valide
             if (ModelState.IsValid)
             {
-                // Vérifie que le nom d'user et le mot de passe sont corrects
+                // Authentifie l'utilisateur avec le nom d'utilisateur et le mot de passe fournis dans le modèle
                 User user = dal.Authentifier(viewModel.User.Login, viewModel.User.Password);
+
+                // Vérifie si l'utilisateur existe
                 if (user != null)
                 {
-                    // Vérifie que l'user a le rôle correspondant à celui sélectionné dans le formulaire
+                    // Vérifie si l'utilisateur a le rôle correspondant à celui sélectionné dans le formulaire
                     if (!dal.checkUserRole(user.Id, viewModel.UserRoleViewModel.SelectedRole))
                     {
+                        // Ajoute une erreur de modèle si l'utilisateur n'a pas le rôle sélectionné
                         ModelState.AddModelError("UserRoleViewModel.SelectedRole", "Le rôle sélectionné ne correspond pas");
                         return View(viewModel);
                     }
 
-                    // Crée un cookie pour l'user
+                    // Crée un cookie pour l'utilisateur
                     var userClaims = new List<Claim>()
-                        {
-                        new Claim(ClaimTypes.Name, user.Id.ToString()),
-                        };
+            {
+                // Ajoute une claim de nom d'utilisateur à l'identité de l'utilisateur
+                new Claim(ClaimTypes.Name, user.Id.ToString()),
+            };
 
+                    // Récupère tous les rôles de l'utilisateur et les ajoute à l'identité de l'utilisateur
                     List<RoleUser> roles = dal.GetAllRolesById(user.Id);
 
                     foreach (RoleUser roleUser in roles)
@@ -68,6 +82,7 @@ namespace Projet2_EasyFid.Controllers
                         userClaims.Add(new Claim(ClaimTypes.Role, roleUser.RoleType.ToString()));
                     }
 
+                    // Crée une identité pour l'utilisateur avec les claims récupérées
                     var ClaimIdentity = new ClaimsIdentity(userClaims, "User Identity");
 
                     var userPrincipal = new ClaimsPrincipal(new[] { ClaimIdentity });
@@ -105,6 +120,7 @@ namespace Projet2_EasyFid.Controllers
             return RedirectToAction("Index", "Login");
         }
 
+        // ne fonctionne pas
         public ActionResult ResetPassword()
         {
             HttpContext.SignOutAsync();

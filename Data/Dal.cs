@@ -122,6 +122,8 @@ namespace Projet2_EasyFid.Data
             return UserServices.GetAllUsersByManagerId(_bddContext, id);
         }
 
+
+
         public User GetUserById(int id)
         {
             return UserServices.GetUserById(_bddContext, id);
