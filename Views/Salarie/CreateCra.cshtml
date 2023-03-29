@@ -18,7 +18,9 @@
         </div>
 
         <div name="activityHidden" class="hidden" id="activityHidden">
+
             @Html.Label("activities", "Activité : ")
+
             @Html.DropDownList("activities", new SelectList(ViewBag.activities, "Id", "LabelActivity"))
             <br />
 

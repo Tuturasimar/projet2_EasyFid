@@ -30,11 +30,11 @@
             <br />
             @Html.LabelFor(m => Model.FormationStart)
             @Html.TextBoxFor(m => Model.FormationStart)
-            @Html.ValidationMessageFor(m => Model.FormationStart)
+            @Html.EditorFor(m => Model.FormationStart,"yyyy-MM-dd")
             <br />
             @Html.LabelFor(m => Model.FormationEnd)
             @Html.TextBoxFor(m => Model.FormationEnd)
-            @Html.ValidationMessageFor(m => Model.FormationEnd)
+            @Html.EditorFor(m => Model.FormationEnd,"yyyy-MM-dd")
             <br />
             <input type="submit" value="Valider" />
         </fieldset>

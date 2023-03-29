@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -138,6 +138,26 @@ namespace Projet2_EasyFid.Controllers
                 MissionListViewModel missionList = new MissionListViewModel { Missions = missions };
                 return View(missionList);
             }
+        }
+
+        [Produces("application/json")]
+        public IActionResult GetAllStatistics()
+        {
+            try
+            {
+                var statistics = new BddContext().Statistics.OrderBy(s=>s.Date).ToList();
+                return Ok(statistics);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+        
+        public IActionResult DisplayStatistics()
+        {
+
+            return View("EditDashboard");
         }
 
         //ma methode de modification d'une mission

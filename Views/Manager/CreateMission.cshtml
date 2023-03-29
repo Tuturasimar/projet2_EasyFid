@@ -14,11 +14,11 @@
             <br />
             @Html.LabelFor(m => Model.MissionStart)
             @Html.TextBoxFor(m => Model.MissionStart)
-            @Html.ValidationMessageFor(m => Model.MissionStart)
+            @Html.EditorFor(m => Model.MissionStart, "yyyy-MM-dd")
             <br />
             @Html.LabelFor(m => Model.MissionEnd)
             @Html.TextBoxFor(m => Model.MissionEnd)
-            @Html.ValidationMessageFor(m => Model.MissionEnd)
+            @Html.EditorFor(m => Model.MissionEnd,"yyyy-MM-dd")
             <br />
             @*Liste déroulante pour choisir le type de contrat*@
             @Html.Label("MissionTypeEnum", "Type de mission : ")

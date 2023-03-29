@@ -18,7 +18,10 @@ namespace Projet2_EasyFid.Data
         {
             _bddContext = new BddContext();
         }
-
+        public List<Statistic> GetAllStatistics()
+        {
+            return StatisticsServices.GetAllStatistics(_bddContext);
+        }
 
         public List<Cra> GetAllCras()
         {
@@ -199,12 +202,13 @@ namespace Projet2_EasyFid.Data
             UserServices.DeleteUserDataById(_bddContext, id);
         }
 
-
+        
         public List<Formation> GetAllFormations()
         {
             return CraServices.GetAllFormations(_bddContext);
         }
         
+
         public void UpdateFormation(Formation formation)
         {
             this._bddContext.Formations.Update(formation);
@@ -309,12 +313,16 @@ namespace Projet2_EasyFid.Data
             return CraServices.GetAllMissionUserByUserId(_bddContext, id);
         }
 
-        /*Methode Pierre
-        public List<UserMissionViewModel> GetAllActivityByUserId(int id)
+
+        public List<Activity> GetAllActivityByUserId(int id)
         {
             return CraServices.GetAllActivityByUserId(_bddContext, id);
         }
-        */
+
+        public List<Activity> GetAllFormationAndAbsence()
+        {
+            return CraServices.GetAllFormationAndAbsence(_bddContext);
+        }
 
         public bool CheckActivityDateComptability(List<DateTime> BeginDate, List<DateTime> EndDate, List<int> activities, User user)
         {
@@ -326,10 +334,18 @@ namespace Projet2_EasyFid.Data
             return NotificationServices.GetAllNotificationsByUserId(_bddContext, id);
         }
 
+
         public List<Cra> GetAllInHoldAndValidatedCrasByUserId(int id)
         {
             return CraServices.GetAllInHoldAndValidatedCrasByUserId(_bddContext, id);
         }
+
+        public List<CraActivity> GetAllCraActivityByCraId(int id)
+        {
+            return CraServices.GetAllCraActivityByCraId(_bddContext, id);
+        }
+
+
 
         public List<ActivityDate> GetAllActivityDateByActivityIdAndCraId(int idActivity, int idCra)
         {
