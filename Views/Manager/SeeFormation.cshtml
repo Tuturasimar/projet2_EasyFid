@@ -4,7 +4,7 @@
     ViewBag.Title = "Liste des Formations";
 }
 
-
+@Html.ActionLink("Retour", "Index")
 
 <h2>Liste des formations</h2>
 <div>
@@ -24,7 +24,7 @@
             <tr>
                 <td>@formation.Name</td>
                 <td>@formation.NbOfDays</td>
-                <td>@formation.LocationFormation</td>
+                <td>@formation.Location</td>
                 <td>@formation.Description</td>
                 <td>@Html.ActionLink("Modifier", "UpdateFormation", new { id = formation.Id })</td>
                 <td>@Html.ActionLink("Supprimer", "Index")</td>

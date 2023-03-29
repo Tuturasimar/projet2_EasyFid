@@ -37,7 +37,10 @@ namespace Projet2_EasyFid.Data
         {
             return MissionServices.GetAllMissions(_bddContext);
         }
-
+        public List<Formation> GetAllFormations()
+        {
+            return FormationServices.GetAllFormations(_bddContext);
+        }
 
         public void SetUserIdNullOnDelete(Cra cra)
         {
@@ -203,10 +206,10 @@ namespace Projet2_EasyFid.Data
         }
 
         
-        public List<Formation> GetAllFormations()
-        {
-            return CraServices.GetAllFormations(_bddContext);
-        }
+        //public List<Formation> GetAllFormations()
+        //{
+        //    return CraServices.GetAllFormations(_bddContext);
+        //}
         
 
         public void UpdateFormation(Formation formation)

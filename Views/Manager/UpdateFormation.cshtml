@@ -18,15 +18,16 @@
             @Html.TextBoxFor(f => Model.NbOfDays)
             @Html.ValidationMessageFor(f => Model.NbOfDays)
             <br />
-            @Html.LabelFor(f => Model.LocationFormation)
-            @Html.TextBoxFor(f => Model.LocationFormation)
-            @Html.ValidationMessageFor(f => Model.LocationFormation)
+            @Html.LabelFor(f => Model.Location)
+            @Html.TextBoxFor(f => Model.Location)
+            @Html.ValidationMessageFor(f => Model.Location)
             <br />
             @Html.LabelFor(f => Model.Description)
-            @Html.TextBoxFor(f => Model.Description)
+            @Html.TextAreaFor(f => Model.Description,10,40, htmlAttributes: new {style="width: 100%; max-width: 100%;" })
             @Html.ValidationMessageFor(f => Model.Description)
         <br />
             <input type="submit" value="Modifier" />
+            @Html.ActionLink("Retour", "SeeFormation")
         </fieldset>
     }
     <script type="text/javascript" src="~/Scripts/jquery-3.3.1.js"></script>

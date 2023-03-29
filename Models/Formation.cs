@@ -12,6 +12,7 @@ namespace Projet2_EasyFid.Models
         [Display(Name = "Nom de formation")]
         [Required(ErrorMessage = "Veuillez indiquer le nom de la Formation")]
         public string Name { get; set; }
+        [Display(Name = "Nb de jours de formation")]
         public int NbOfDays { get; set; }
         public FormationStatusEnum FormationStatus { get; set; }
         [MaxLength(20)]
@@ -20,6 +21,7 @@ namespace Projet2_EasyFid.Models
         public LocationFormationEnum LocationFormation { get; set; }
         [MaxLength(100)]
         [Display(Name = "Description de la formation")]
+        public string Location { get; set; }
         public string Description { get; set; }
         
         //Pour creer une relation one one entre Activity et Formation 

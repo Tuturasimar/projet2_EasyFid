@@ -13,6 +13,11 @@
   <link rel="stylesheet" href="css/dashboard.css" />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script type="text/javascript">
+        function imprimer_page() {
+            window.print();
+        }
+  </script>
   <style>
     /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
     .row.content {height:700px}
@@ -31,7 +36,9 @@
 </head>
 <body>
 
-
+<form>
+<input id="impression" name="impression" type="button" onclick="imprimer_page()" value="Imprimer cette page" />
+</form>
 
  <div class="container-fluid">
    <div class="row content"><br>
@@ -45,7 +52,7 @@
 
         <div class="col-sm-6">
           <div class="well">
-                    <table class="columns">
+                    <table class="columns" align="center">
                         <tr>
                             <td><div id="linechart1_div" style="border: 1px solid #ccc"></div></td>
                         </tr>
@@ -55,7 +62,7 @@
         </div>
         <div class="col-sm-6">
           <div class="well">
-                    <table class="columns">
+                    <table class="columns" align="center">
                         <tr>
                             <td><div id="linechart2_div" style="border: 1px solid #ccc"></div></td>
                         </tr>
@@ -74,7 +81,7 @@
 
         <div class="col-sm-6">
           <div class="well">
-                    <table class="columns">
+                    <table class="columns" align="center">
                         <tr>
                             <td><div id="piechart_div" style="border: 1px solid #ccc"></div></td>
                         </tr>
@@ -83,7 +90,7 @@
         </div>
         <div class="col-sm-6">
           <div class="well">
-                    <table class="columns">
+                    <table class="columns" align="center">
                         <tr>
                             <td><div id="barchart_div" style="border: 1px solid #ccc"></div></td>
                         </tr>
