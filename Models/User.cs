@@ -28,6 +28,7 @@ namespace Projet2_EasyFid.Models
 
         public int? ManagerId { get; set; }
         public User Manager { get; set; }
+        public string UserIdentityName { get; internal set; }
     }
 }
 
