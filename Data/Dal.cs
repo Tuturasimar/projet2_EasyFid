@@ -202,12 +202,13 @@ namespace Projet2_EasyFid.Data
             UserServices.DeleteUserDataById(_bddContext, id);
         }
 
-
+        
         public List<Formation> GetAllFormations()
         {
             return CraServices.GetAllFormations(_bddContext);
         }
         
+
         public void UpdateFormation(Formation formation)
         {
             this._bddContext.Formations.Update(formation);
@@ -312,12 +313,16 @@ namespace Projet2_EasyFid.Data
             return CraServices.GetAllMissionUserByUserId(_bddContext, id);
         }
 
-        /*Methode Pierre
-        public List<UserMissionViewModel> GetAllActivityByUserId(int id)
+
+        public List<Activity> GetAllActivityByUserId(int id)
         {
             return CraServices.GetAllActivityByUserId(_bddContext, id);
         }
-        */
+
+        public List<Activity> GetAllFormationAndAbsence()
+        {
+            return CraServices.GetAllFormationAndAbsence(_bddContext);
+        }
 
         public bool CheckActivityDateComptability(List<DateTime> BeginDate, List<DateTime> EndDate, List<int> activities, User user)
         {
@@ -327,6 +332,11 @@ namespace Projet2_EasyFid.Data
         public List<Notification> GetAllNotificationsByUserId(int id)
         {
             return NotificationServices.GetAllNotificationsByUserId(_bddContext, id);
+        }
+
+        public List<CraActivity> GetAllCraActivityByCraId(int id)
+        {
+            return CraServices.GetAllCraActivityByCraId(_bddContext, id);
         }
 
 

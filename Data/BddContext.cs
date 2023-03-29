@@ -22,7 +22,9 @@ namespace Projet2_EasyFid.Data
         public DbSet<Absence> Absences { get; set; }
         public DbSet<ActivityDate> ActivityDates { get; set; }
 
-        public DbSet<Statistic> Statistics { get; set; }
+
+        //public DbSet<Statistic> Statistics { get; set; }
+
 
 
 
@@ -41,7 +43,11 @@ namespace Projet2_EasyFid.Data
            
 
             //optionsBuilder.UseMySql("server=localhost;port=8889;user id=root;password=root;database=easyFid"); // connexion trévor
+
             //optionsBuilder.UseMySql("server=localhost;user id=root;password=rrrrr;database=projet2"); //connexion Laura
+
+       
+
 
 
 
@@ -87,8 +93,8 @@ namespace Projet2_EasyFid.Data
                 new Cra { Id = 5, CreatedAt = new DateTime(2022, 04, 16), UpdatedAt = new DateTime(2022, 04, 28), StateCra = StateEnum.VALIDATED, UserId = 2 },
                 new Cra { Id = 6, CreatedAt = new DateTime(2022, 05, 17), UpdatedAt = new DateTime(2022, 05, 25), StateCra = StateEnum.VALIDATED, UserId = 2 },
                 new Cra { Id = 7, CreatedAt = new DateTime(2023, 01, 18), UpdatedAt = new DateTime(2023, 01, 29), StateCra = StateEnum.VALIDATED, UserId = 4 },
-                new Cra { Id = 8, CreatedAt = new DateTime(2023, 02, 21), UpdatedAt = new DateTime(2023, 01, 27), StateCra = StateEnum.VALIDATED, UserId = 4 },
-                new Cra { Id = 9, CreatedAt = new DateTime(2023, 03, 18), UpdatedAt = new DateTime(2023, 01, 25), StateCra = StateEnum.INHOLD, UserId = 4 }
+                new Cra { Id = 8, CreatedAt = new DateTime(2023, 02, 21), UpdatedAt = new DateTime(2023, 02, 27), StateCra = StateEnum.VALIDATED, UserId = 4 },
+                new Cra { Id = 9, CreatedAt = new DateTime(2023, 03, 18), UpdatedAt = new DateTime(2023, 03, 25), StateCra = StateEnum.INHOLD, UserId = 4 }
 
                 );
 
