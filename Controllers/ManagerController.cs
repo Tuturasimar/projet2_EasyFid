@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Projet2_EasyFid.Data;
 using Projet2_EasyFid.Data.Enums;
@@ -13,6 +15,7 @@ using Projet2_EasyFid.ViewModels;
 
 namespace Projet2_EasyFid.Controllers
 {
+    [Authorize(Roles = "MANAGER")]
     // Controller qui va gérer les méthodes Manager (require authentification Manager)
     public class ManagerController : Controller
     {

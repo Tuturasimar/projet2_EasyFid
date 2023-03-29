@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Projet2_EasyFid.Data;
 using Projet2_EasyFid.Data.Enums;
@@ -12,6 +13,7 @@ using Projet2_EasyFid.ViewModels;
 
 namespace Projet2_EasyFid.Controllers
 {
+    [Authorize (Roles ="ADMIN")]
     // Controller qui gère les méthodes pour l'Administrateur (require authentificateur Admin)
     public class AdminController : Controller
     {

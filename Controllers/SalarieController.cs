@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Razor.Language.Intermediate;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -15,6 +17,7 @@ using Projet2_EasyFid.ViewModels;
 
 namespace Projet2_EasyFid.Controllers
 {
+    [Authorize(Roles = "SALARIE")]
     // Controller qui va gérer les méthodes basiques de l'application (authentification en tant que salarie)
     public class SalarieController : Controller
     {
