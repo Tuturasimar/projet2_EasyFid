@@ -173,7 +173,8 @@ namespace Projet2_EasyFid.Data
                 new MissionUser { Id = 2, UserId = 2, MissionId = 2, MissionState= MissionStateEnum.FINISHED, UserFeedbackId = 2 },
                 new MissionUser { Id = 3, UserId = 1, MissionId = 4, MissionState= MissionStateEnum.ACTIVE, UserFeedbackId = 3 },
                 new MissionUser { Id = 4, UserId = 2, MissionId = 4, MissionState= MissionStateEnum.ACTIVE, UserFeedbackId = 4 },
-                new MissionUser { Id = 5, UserId = 2, MissionId = 6, MissionState= MissionStateEnum.ACTIVE}
+                new MissionUser { Id = 5, UserId = 2, MissionId = 6, MissionState= MissionStateEnum.ACTIVE},
+                new MissionUser { Id = 6, UserId = 1, MissionId = 3, MissionState= MissionStateEnum.ACTIVE}
                 );
 
             // Dans la table MissionUser

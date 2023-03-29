@@ -381,6 +381,16 @@ namespace Projet2_EasyFid.Data
         {
             return ActivityServices.GetAllAbsenceAndFormation(_bddContext);
         }
+
+        public void DeleteCraActivity(CraActivity craActivity)
+        {
+            CraServices.DeleteCraActivity(_bddContext, craActivity);
+        }
+
+        public void DeleteActivityDate(ActivityDate activityDate)
+        {
+            ActivityServices.DeleteActivityDate(_bddContext,activityDate);
+        }
     }
 }
 

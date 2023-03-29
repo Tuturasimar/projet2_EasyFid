@@ -293,9 +293,19 @@ namespace Projet2_EasyFid.Controllers
         {
             using(Dal dal = new Dal())
             {
-                User userToChange = dal.GetUserById(user.Id);
-                userToChange.Password = Dal.EncodeMD5(user.Password);
-                dal.ModifyUser(userToChange);
+
+                if(user.Password != null)
+                {
+                    User userToChange = dal.GetUserById(user.Id);
+                    userToChange.Password = Dal.EncodeMD5(user.Password);
+                    dal.ModifyUser(userToChange);
+                } else
+                {
+                    User userConnected = dal.GetUser(HttpContext.User.Identity.Name);
+                    Notification notification = new Notification { ClassContext = "danger", MessageContent = "Un mot de passe ne peut être vide...", UserId = userConnected.Id };
+                    dal.CreateNotification(notification);
+                    return RedirectToAction("Index");
+                }
             }
 
             return RedirectToAction("Index");

@@ -133,6 +133,7 @@ namespace Projet2_EasyFid.Controllers
                         cdvm.Add(new CraDetailViewModel { Activity = activity, ActivityDates = activityDates });
                     }
                     ViewBag.activities = activities;
+                    ViewBag.craId = id;
                     return View(cdvm);
                 }
             }
@@ -142,68 +143,104 @@ namespace Projet2_EasyFid.Controllers
 
         //Cette méthode recupère un objet de type Cra 
         [HttpPost]
-        public IActionResult UpdateCra(Cra cra, List<DateTime> BeginDate, List<DateTime> EndDate, ActivityDate ActivityDate, List<int> activities, int total)
+        public IActionResult UpdateCra(List<CraDetailViewModel> cdvm, List<DateTime> BeginDate, List<DateTime> EndDate, List<int> activities, int Id)
         {
 
             using (Dal dal = new Dal())
             {
                 //On recupere l'utilisateur actuellement connecté
                 User user = dal.GetUser(HttpContext.User.Identity.Name);
-                
+
+                // Pour vérifier les dates : instancier une liste de DateTime (BeginDate et EndDate), récup celles du modeles et ajouter nouvelles
+                // Aussi, instancier une liste qui regroupe toutes les ID des activités (en comptant aussi l'invisible, car pris en compte dans les méthodes)
+
+                List<DateTime> BeginDateList = new List<DateTime>();
+                List<DateTime> EndDateList = new List<DateTime>();
+                List<int> activitiesId = new List<int>();
+
+                foreach(CraDetailViewModel craModel in cdvm)
+                {
+                    activitiesId.Add(craModel.Activity.Id);
+                    
+                }
+
+                for(int i = 0; i<BeginDate.Count - 1; i++)
+                {
+                    BeginDateList.Add(BeginDate[i]);
+                    EndDateList.Add(EndDate[i]);
+                }
+                activitiesId.AddRange(activities);
+
                 //On vérifie que les dates sont correctes
-                bool isDateValid = dal.CheckActivityDateComptability(BeginDate, EndDate, activities, user);
+                bool isDateValid = dal.CheckActivityDateComptability(BeginDateList, EndDateList, activitiesId, user);
 
                 if (!isDateValid)
                 {
-
                     return RedirectToAction("IndexSalarie");
                 }
-                
-                
-                /*
-                if (!ModelState.IsValid)
-                {
-                    
-                    //On cree une liste vide 
-                    List<Activity> activitiesList = new List<Activity>();
-                    //On ajoute à cette liste les activités liées à l'User
-                    activitiesList.AddRange(dal.GetAllActivityByUserId(user.Id));
-                    //Et les formations et absences
-                    activitiesList.AddRange(dal.GetAllFormationAndAbsence());
 
-                    ViewBag.activities = activitiesList;
-                    //return View(cra);
-                }
-                */
-                
-                // On récupère l'ensemble des données renseignées pour ce Cra en BDD grâce à une requête
-                Cra oldCra = dal.GetCraById(cra.Id);
+                //// On récupère l'ensemble des données renseignées pour ce Cra en BDD grâce à une requête
+                Cra oldCra = dal.GetCraById(Id);
 
-                // On remplace un par un l'ensemble des champs du formulaire
+                //// On remplace un par un l'ensemble des champs du formulaire
                 oldCra.UpdatedAt = DateTime.Now;
                 oldCra.StateCra = StateEnum.DRAFT;
+                dal.ModifyCra(oldCra);
 
-                //On recupère tous les CraActivity en fonction de l'id du Cra
-                List<CraActivity> oldCraActivity = dal.GetAllCraActivityByCraId(cra.Id);
+                ////On recupère tous les CraActivity en fonction de l'id du Cra pour les supprimer ensuite
+                List<CraActivity> oldCraActivity = dal.GetAllCraActivityByCraId(Id);
+                // On récupère tous les ActivityDate liés à ces CraActivity pour les supprimer
+                List<ActivityDate> oldActivityDate = new List<ActivityDate>();
 
-                //On récupère l'ensemble des activitées renseignées lors de la création du Cra
-                List<Activity> oldActivity = dal.GetAllActivityByCraId(cra.Id);
-
-                //On remplace 
-                //On récupère l'ensemble des activityDate renseignées lors de la création du Cra
-                List<ActivityDate> oldActivityDate = dal.GetAllActivityDateByCraId(cra.Id) ;
-
-                //On remplace
-                foreach (ActivityDate item in oldActivityDate)
+                for(int i = 0; i< activitiesId.Count - 1; i++)
                 {
-                    item.BeginDate = ActivityDate.BeginDate;
+                    oldActivityDate.AddRange(dal.GetAllActivityDateByActivityIdAndCraId(activitiesId[i],Id));
                 }
 
+                foreach(ActivityDate activityDateToDelete in oldActivityDate)
+                {
+                    dal.DeleteActivityDate(activityDateToDelete);
+                }
+
+                foreach(CraActivity craActivityToDelete in oldCraActivity)
+                {
+                    dal.DeleteCraActivity(craActivityToDelete);
+                }
+
+                // A ce niveau là, les anciennes dates renseignées et les CraActivity qui liaient le CRA en cours avec les activités n'existent plus
+
+                // Il ne reste plus qu'à recréer les nouvelles qui les remplaceront
+
+                // Création des nouveaux CraActivity
+
+                for (int i = 0; i < activitiesId.Count - 1; i++)
+
+                {
+                    //On cree le CraActivity qui relie l'Activity et le Cra
+                    //On cree le Cra avant cette methode car on a besoin de l'id du Cra
+                    CraActivity newCraActivity = new CraActivity
+                    {
+                        CraId = Id,
+                        ActivityId = activitiesId[i]
+                    };
+
+                    // On recupere l'id de la nouvelle CraActivity créée
+                    // Il nous servira pour la suite, pour creer l'ActivityDate
+                    int craActivityId = dal.CreateCraActivity(newCraActivity);
+
+                    //On cree l'ActivityDate 
+                    ActivityDate newActivityDate = new ActivityDate
+                    {
+                        BeginDate = BeginDateList[i],
+                        EndDate = EndDateList[i],
+                        CraActivityId = craActivityId
+                    };
+
+                    dal.CreateActivityDate(newActivityDate);
+                }
+
+                return RedirectToAction("CraDetail", new { @id = Id });    
                
-                dal.UpdateCra(cra.Id, cra.StateCra);
-                return RedirectToAction("CraDetail", new { @id = cra.Id });    
-                
-                
         }
     }
 
