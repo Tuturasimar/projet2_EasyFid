@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Razor.Language.Intermediate;
@@ -18,7 +19,7 @@ using Projet2_EasyFid.ViewModels;
 
 namespace Projet2_EasyFid.Controllers
 {
-    [Authorize(Roles = "SALARIE")]
+    [Authorize(Roles = "SALARIE, ADMIN")]
     // Controller qui va gérer les méthodes basiques de l'application (authentification en tant que salarie)
     public class SalarieController : Controller
     {
@@ -83,7 +84,7 @@ namespace Projet2_EasyFid.Controllers
 
         //Affiche tous les cras du salarie
 
-        public IActionResult IndexSalarie()
+        public IActionResult Index()
         {
             using (Dal dal = new Dal())
             {
@@ -124,7 +125,7 @@ namespace Projet2_EasyFid.Controllers
                 }
             }
             // Sinon, on est redirigé vers l'index
-            return RedirectToAction("IndexSalarie");
+            return RedirectToAction("Index");
         }
 
         //Cette méthode recupère un objet de type Cra 
@@ -143,7 +144,7 @@ namespace Projet2_EasyFid.Controllers
                 if (!isDateValid)
                 {
 
-                    return RedirectToAction("IndexSalarie");
+                    return RedirectToAction("Index");
                 }
                 
                 
@@ -185,7 +186,6 @@ namespace Projet2_EasyFid.Controllers
                 {
                     item.BeginDate = ActivityDate.BeginDate;
                 }
-
                
                 dal.UpdateCra(cra.Id, cra.StateCra);
                 return RedirectToAction("CraDetail", new { @id = cra.Id });    
@@ -283,7 +283,7 @@ namespace Projet2_EasyFid.Controllers
             }
 
             //Pour retourner sur la page d'affichade des cras
-            return RedirectToAction("IndexSalarie");
+            return RedirectToAction("Index");
         }
 
         public IActionResult CraDetail(int id)
@@ -318,7 +318,7 @@ namespace Projet2_EasyFid.Controllers
                 }
             }
                 //Si il n'existe pas, on retourne sur la vue Index
-                return RedirectToAction("IndexSalarie");
+                return RedirectToAction("Index");
         }
 
         public IActionResult AskForCraValidation(int id)
@@ -407,12 +407,14 @@ namespace Projet2_EasyFid.Controllers
                     }
                 }
             }
-
-           
-
             return RedirectToAction("Index");
+
         }
-     
+        public ActionResult Logout()
+        {
+            HttpContext.SignOutAsync();
+            return RedirectToAction("Index", "Login");
+        }
     }
 }
 

@@ -80,7 +80,7 @@ namespace Projet2_EasyFid.Controllers
                         case RoleTypeEnum.ADMIN:
                             return RedirectToAction("Index", "Admin");
                         case RoleTypeEnum.SALARIE:
-                            return RedirectToAction("IndexSalarie", "Salarie");
+                            return RedirectToAction("Index", "Salarie");
                         case RoleTypeEnum.MANAGER:
                             return RedirectToAction("index", "Manager");
                     }

@@ -66,3 +66,25 @@ tr:hover {
     .action-link:active {
         background-color: #005cbf;
     }
+
+.goldStar {
+    color: gold;
+}
+
+.redStar {
+    color: darkred;
+}
+
+.navbar {
+    width: 90%;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    border-bottom: 4px solid #f76d39;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.sidenav {
+    margin-top: 80px;
+
+}

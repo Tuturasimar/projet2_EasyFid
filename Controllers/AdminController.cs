@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Projet2_EasyFid.Data;
@@ -299,6 +300,12 @@ namespace Projet2_EasyFid.Controllers
 
             return RedirectToAction("Index");
 
+        }
+
+        public ActionResult Logout()
+        {
+            HttpContext.SignOutAsync();
+            return RedirectToAction("Index", "Login");
         }
     }
 }
