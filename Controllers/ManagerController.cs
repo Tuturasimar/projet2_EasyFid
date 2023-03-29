@@ -33,6 +33,26 @@ namespace Projet2_EasyFid.Controllers
 
         }
 
+        [Produces("application/json")]
+        public IActionResult GetAllStatistics()
+        {
+            try
+            {
+                var statistics = new BddContext().Statistics.OrderBy(s=>s.Date).ToList();
+                return Ok(statistics);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+        
+        public IActionResult DisplayStatistics()
+        {
+
+            return View("EditDashboard");
+        }
+
         //ma methode de modification d'une mission
         public IActionResult UpdateMission(int id)
         {

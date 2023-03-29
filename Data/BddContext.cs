@@ -43,12 +43,16 @@ namespace Projet2_EasyFid.Data
            
 
             //optionsBuilder.UseMySql("server=localhost;port=8889;user id=root;password=root;database=easyFid"); // connexion trévor
-            optionsBuilder.UseMySql("server=localhost;user id=root;password=rrrrr;database=projet2"); //connexion Laura
+
+            //optionsBuilder.UseMySql("server=localhost;user id=root;password=rrrrr;database=projet2"); //connexion Laura
+
+       
+
 
 
 
             //optionsBuilder.UseMySql("server=localhost;user id=root;password=rrrrrrrr;database=UserData"); //connexion Louis
-            //optionsBuilder.UseMySql("server=localhost;user id=root;password=root;database=easyFid"); //connexion Seb
+            optionsBuilder.UseMySql("server=localhost;user id=root;password=root;database=easyFid"); //connexion Seb
 
         }
         
@@ -189,7 +193,16 @@ namespace Projet2_EasyFid.Data
                 new MissionUser { Id = 5, UserId = 2, MissionId = 5, MissionState=MissionStateEnum.ACTIVE}
                 );
 
-            
+            // Dans la table MissionUser
+            this.Statistics.AddRange(
+                new Statistic { Id = 1, Ca = 35000, Facturation = 25000, CJM = 150, Merge = 45, TjmRegie = 1000, TACE = 85,Date= new DateTime(2020, 06, 24),Label="Absent", MissionId = 1 },
+                new Statistic { Id = 2, Ca = 28000, Facturation = 28000, CJM = 130, Merge = 47, TjmRegie = 1100, TACE = 86, Date= new DateTime(2021, 01, 01), Label = "present", MissionId = 2 },
+                new Statistic { Id = 3, Ca = 23000, Facturation = 23000, CJM = 145, Merge = 43, TjmRegie = 950, TACE = 84, Date = new DateTime(2021, 08, 15), Label = "present", MissionId = 3 },
+                new Statistic { Id = 4, Ca = 30000, Facturation = 26000, CJM = 160, Merge = 46, TjmRegie = 1050, TACE = 89, Date = new DateTime(2021, 09, 12), Label = "present", MissionId = 4 },
+                new Statistic { Id = 5, Ca = 31000, Facturation = 31000, CJM = 155, Merge = 48, TjmRegie = 950, TACE = 83, Date=new DateTime(2021, 08, 12), Label = "present", MissionId = 5 },
+                new Statistic { Id = 6, Ca = 24000, Facturation = 20000, CJM = 132, Merge = 44, TjmRegie = 1000, TACE = 84, Date=new DateTime(2021, 06, 15), Label = "present", MissionId = 6 }
+                ) ;
+
 
             // Sauvegarde des données dans la BDD
             this.SaveChanges();
