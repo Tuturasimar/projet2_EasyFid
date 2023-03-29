@@ -1,0 +1,35 @@
+﻿@model List<Projet2_EasyFid.ViewModels.CraDetailViewModel>
+@{
+    Layout = "_Layout";
+    ViewBag.Title = "Détail Cra";
+}
+
+<h2>Détail du Cra de @ViewBag.cra.User.UserData.Firstname @ViewBag.cra.User.UserData.Lastname</h2>
+<ul>
+    <li>Date de création : @ViewBag.cra.CreatedAt.ToString("dd/MM/yy")</li>
+    <li>Date de modification : @ViewBag.cra.UpdatedAt.ToString("dd/MM/yy")</li>
+    <li>Etat : @ViewBag.cra.StateCra</li>
+    <br />
+    <p>Activités : </p>
+    <ul>
+        @foreach (var craDetailViewModel in Model)
+        {
+            <li>@craDetailViewModel.Activity.LabelActivity</li>
+            foreach (var activityDate in craDetailViewModel.ActivityDates)
+            {
+                <ul>
+                    <li>Date de début : @activityDate.BeginDate.ToString("dd/MM/yy")</li>
+                    <li>Date de fin : @activityDate.EndDate.ToString("dd/MM/yy")</li>
+                </ul>
+            }
+        }
+    </ul>
+    
+</ul>
+@if (ViewBag.cra.StateCra == Projet2_EasyFid.Data.Enums.StateEnum.INHOLD)
+{
+    @Html.ActionLink("Refuser", "DenyCraValidation", "Manager", new { id = ViewBag.cra.Id}, new { @class = "btn btn-danger" })
+    @Html.ActionLink("Valider", "CraToValidation", "Manager", new { id = ViewBag.cra.Id }, new { @class = "btn btn-success" })
+}
+
+

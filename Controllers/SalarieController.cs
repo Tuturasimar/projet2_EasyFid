@@ -10,6 +10,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Configuration.UserSecrets;
 using Projet2_EasyFid.Data;
 using Projet2_EasyFid.Data.Enums;
+using Projet2_EasyFid.Data.Services;
 using Projet2_EasyFid.Models;
 using Projet2_EasyFid.ViewModels;
 
@@ -22,7 +23,66 @@ namespace Projet2_EasyFid.Controllers
     public class SalarieController : Controller
     {
         // GET: /<controller>/
+
+
+        [Produces("application/json")]
+        public IActionResult GetAllNotificationsByUser()
+        {
+            try
+            {
+                using(Dal dal = new Dal())
+                {
+                    // On récupère le User authentifié
+                    User user = dal.GetUser(HttpContext.User.Identity.Name);
+
+                    // On récupère toutes les notifications de l'utilisateur
+                    var notifications = dal.GetAllNotificationsByUserId(user.Id);
+                    foreach(Notification notif in notifications)
+                    {
+                        // On boucle dessus pour enlever le contenu de User (trop lourd pour le format Json)
+                        notif.User = null;
+                    }
+                    return Ok(notifications);
+                }
+                
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        public IActionResult DeleteOneNotification(int id)
+        {
+            using(Dal dal = new Dal())
+            {
+                User user = dal.GetUser(HttpContext.User.Identity.Name);
+                Notification notifToDelete = dal.GetNotificationById(id);
+                dal.DeleteNotification(notifToDelete);
+
+                List<RoleUser> roleUsers = dal.GetAllRolesById(user.Id);
+                foreach(RoleUser role in roleUsers)
+                {
+                    if(role.RoleType == RoleTypeEnum.ADMIN)
+                    {
+                        return RedirectToAction("Index","Admin");
+                    } else if (role.RoleType == RoleTypeEnum.SALARIE)
+                    {
+                        return RedirectToAction("Index", "Salarie");
+                    } else if (role.RoleType == RoleTypeEnum.MANAGER)
+                    {
+                        return RedirectToAction("Index", "Manager");
+                    }
+                }
+
+                return View("Error");
+
+                
+            }
+        }
+
         //Affiche tous les cras du salarie
+
         public IActionResult IndexSalarie()
         {
             using (Dal dal = new Dal())
@@ -32,7 +92,9 @@ namespace Projet2_EasyFid.Controllers
                 // Récupérer l'utilisateur actuellement connecté
                 User user = dal.GetUser(HttpContext.User.Identity.Name);
 
-                List<Cra> cras = dal.GetAllCras();
+
+                List<Cra> cras = dal.GetAllCrasByUserId(user.Id);
+
                 SalarieViewModel svm = new SalarieViewModel { Cras = cras };
                 return View(svm);
             }
@@ -41,53 +103,116 @@ namespace Projet2_EasyFid.Controllers
         //Affiche le formulaire de modification du Cra en fonction de son id
         public IActionResult UpdateCra(int id)
         {
-            if (id != 0)
-            {
-                using (IDal dal = new Dal())
-                {
-                    Cra cra = dal.GetAllCras().Where(c => c.Id == id).FirstOrDefault();
-                    if (cra == null) 
-                    {
-                        return View("Error");
-                    }
-                    return View(cra);
-                }
-            }
-            return View("Error");
-        }
 
-        //Affiche le formulaire de modification du Cra
-        [HttpPost]
-        public IActionResult UpdateCra(Cra cra)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(cra);
-            }
-            if (cra.Id != 0)
+            if (id != 0)
             {
                 using (Dal dal = new Dal())
                 {
-                    dal.UpdateCra(cra.Id, cra.StateCra);
-                    return RedirectToAction("UpdateCra", new { @id = cra.Id });    
-                }  
+                    //On recupere l'utilisateur actuellement connecté
+                    User user = dal.GetUser(HttpContext.User.Identity.Name);
+                    Cra cra = dal.GetAllCras().Where(c => c.Id == id).FirstOrDefault();
+                    //On cree une liste vide 
+                    List<Activity> activities = new List<Activity>();
+                    //On ajoute à cette liste les activités liées à l'User
+                    activities.AddRange(dal.GetAllActivityByUserId(user.Id));
+                    //Et les formations et absences
+                    activities.AddRange(dal.GetAllFormationAndAbsence());
+
+                    ViewBag.activities = activities;
+                    return View();
+                    
+                }
             }
-            else
-            {
-                return View("Error");
-            }
+            // Sinon, on est redirigé vers l'index
+            return RedirectToAction("IndexSalarie");
         }
+
+        //Cette méthode recupère un objet de type Cra 
+        [HttpPost]
+        public IActionResult UpdateCra(Cra cra, List<DateTime> BeginDate, List<DateTime> EndDate, ActivityDate ActivityDate, List<int> activities, int total)
+        {
+
+            using (Dal dal = new Dal())
+            {
+                //On recupere l'utilisateur actuellement connecté
+                User user = dal.GetUser(HttpContext.User.Identity.Name);
+                
+                //On vérifie que les dates sont correctes
+                bool isDateValid = dal.CheckActivityDateComptability(BeginDate, EndDate, activities, user);
+
+                if (!isDateValid)
+                {
+
+                    return RedirectToAction("IndexSalarie");
+                }
+                
+                
+                /*
+                if (!ModelState.IsValid)
+                {
+                    
+                    //On cree une liste vide 
+                    List<Activity> activitiesList = new List<Activity>();
+                    //On ajoute à cette liste les activités liées à l'User
+                    activitiesList.AddRange(dal.GetAllActivityByUserId(user.Id));
+                    //Et les formations et absences
+                    activitiesList.AddRange(dal.GetAllFormationAndAbsence());
+
+                    ViewBag.activities = activitiesList;
+                    //return View(cra);
+                }
+                */
+                
+                // On récupère l'ensemble des données renseignées pour ce Cra en BDD grâce à une requête
+                Cra oldCra = dal.GetCraById(cra.Id);
+
+                // On remplace un par un l'ensemble des champs du formulaire
+                oldCra.UpdatedAt = DateTime.Now;
+                oldCra.StateCra = StateEnum.DRAFT;
+
+                //On recupère tous les CraActivity en fonction de l'id du Cra
+                List<CraActivity> oldCraActivity = dal.GetAllCraActivityByCraId(cra.Id);
+
+                //On récupère l'ensemble des activitées renseignées lors de la création du Cra
+                List<Activity> oldActivity = dal.GetAllActivityByCraId(cra.Id);
+
+                //On remplace 
+                //On récupère l'ensemble des activityDate renseignées lors de la création du Cra
+                List<ActivityDate> oldActivityDate = dal.GetAllActivityDateByCraId(cra.Id) ;
+
+                //On remplace
+                foreach (ActivityDate item in oldActivityDate)
+                {
+                    item.BeginDate = ActivityDate.BeginDate;
+                }
+
+               
+                dal.UpdateCra(cra.Id, cra.StateCra);
+                return RedirectToAction("CraDetail", new { @id = cra.Id });    
+                
+                
+        }
+    }
 
         //Affiche le formulaire de creation du Cra
         public IActionResult CreateCra()
         {
             using (Dal dal = new Dal()) 
             {
-                List<Mission> missions = dal.GetAllMissions();
-                List<Formation> formations = dal.GetAllFormations();
-                List<Activity> activities = dal.GetAllActivities();
-                ViewBag.missions = missions;
-                ViewBag.formations = formations;    
+                // Récupérer l'utilisateur actuellement connecté
+                User user = dal.GetUser(HttpContext.User.Identity.Name);
+
+
+
+                List<Activity> activities = new List<Activity>();
+                List<Mission> missionUsers = dal.GetAllMissionUserByUserId(user.Id);
+                foreach(Mission mission in missionUsers)
+                {
+                    activities.Add(dal.GetActivityByMissionId(mission.Id));
+                }
+                List<Activity> otherActivities = dal.GetAllAbsenceAndFormation();
+                activities.AddRange(otherActivities);
+
                 ViewBag.activities = activities;
 
             }
@@ -96,10 +221,19 @@ namespace Projet2_EasyFid.Controllers
 
         [HttpPost]
         //Une fois qu'on appuie sur le bouton du formulaire, cette methode recupere un objet Cra
-        public IActionResult CreateCra(List<DateTime> BeginDate, List<DateTime> EndDate, List<int> activities, StateEnum stateEnum, int total)
+        public IActionResult CreateCra(List<DateTime> BeginDate, List<DateTime> EndDate, List<int> activities, int total)
         {
             using (Dal dal = new Dal())
             {
+                User user = dal.GetUser(HttpContext.User.Identity.Name);
+
+                bool isDateValid =  dal.CheckActivityDateComptability(BeginDate, EndDate, activities, user);
+                if (!isDateValid)
+                {
+                    
+                    return RedirectToAction("Index");
+                }
+
                 // On cree un nouveau Cra qui recupere la date de creation et de modification, ainsi que le statut du Cra
                 // Il y aura un seul Cra d'instancié, qui aura un lien avec plusieurs activités
 
@@ -107,7 +241,8 @@ namespace Projet2_EasyFid.Controllers
                 {
                     CreatedAt = DateTime.Now,
                     UpdatedAt = DateTime.Now,
-                    StateCra = stateEnum
+                    StateCra = StateEnum.DRAFT,
+                    UserId = user.Id
                 };
 
                 // On recupere l'id du nouveau Cra grace à la méthode CreateCra
@@ -119,17 +254,12 @@ namespace Projet2_EasyFid.Controllers
                 for (int i = 0; i < total ; i++)
 
                 {
-                    // On recupere l'id de l'activity actuelle
-                    // Il servira pour la suite, pour creer la CraActivity
-
-                    int activityId = dal.GetActivityById(activities[i]).Id;
-
                     //On cree le CraActivity qui relie l'Activity et le Cra
                     //On cree le Cra avant cette methode car on a besoin de l'id du Cra
                     CraActivity newCraActivity = new CraActivity
                     {
                         CraId = craId,
-                        ActivityId = activityId
+                        ActivityId = activities[i]
                     };
 
                     // On recupere l'id de la nouvelle CraActivity créée
@@ -162,25 +292,55 @@ namespace Projet2_EasyFid.Controllers
             {
                 //On recupere le Cra en fonction de son Id
                 Cra cra = dal.GetCraById(id);
-                //On recupere le CraActivity afin de pouvoir recuperer l'Activity reliee au Cra
-                //CraActivity craActivity = dal.GetCraActivityByCraId(id);
-                //On recupère les Activity reliees au même Cra 
-                List<Activity> activities = dal.GetAllActivityByCraId(id).ToList();
-                //On recupère les ActivityDate relies au meme Cra
-                List<ActivityDate> activityDates = dal.GetAllActivityDateByCraId(id).ToList();
-                //Pour reucperer tous les BeginDate d'une ActivityDate
-                //Pas utile pour l'instant, à voir pour la suite, je laisse en commentaire pour l'instant
-                //List<DateTime> beginDates = dal.GetBeginDate(id).ToList();
 
                 //On vérifie si le Cra existe en bdd
                 if (cra != null)
                 {
-                    SalarieViewModel svm = new SalarieViewModel { Cra = cra, Activities = activities, ActivityDates = activityDates};
-                    return View(svm);
+                    // On instancie une liste d'un CraDetailViewModel
+                    // Ce modèle contient une Activity et une liste d'ActivityDate
+                    List<CraDetailViewModel> craDetailViewModels = new List<CraDetailViewModel>();
+
+                    // On récupère toutes les activités présentes dans ce Cra
+                    List<Activity> activities = dal.GetAllActivityByCraId(id).ToList();
+
+                    // Sur chaque activité, on boucle
+                    foreach (Activity activity in activities)
+                    {
+                        // Pour chaque activité, on récupère les ActivityDate qui correspondent
+                        List<ActivityDate> activityDates = dal.GetAllActivityDateByActivityIdAndCraId(activity.Id,cra.Id);
+                        // On rajoute à notre liste de CraDetailViewModel une instance du modele
+                        craDetailViewModels.Add(new CraDetailViewModel { Activity = activity, ActivityDates = activityDates });
+                    }
+                    // On envoie le cra dans une ViewBag
+                    ViewBag.cra = cra;
+
+                    return View(craDetailViewModels);
                 }
             }
                 //Si il n'existe pas, on retourne sur la vue Index
                 return RedirectToAction("IndexSalarie");
+        }
+
+        public IActionResult AskForCraValidation(int id)
+        {
+            using (Dal dal = new Dal())
+            {
+                User user = dal.GetUser(HttpContext.User.Identity.Name);
+                Cra cra = dal.GetCraById(id);
+
+                if(cra != null && cra.StateCra == StateEnum.DRAFT)
+                {
+                    cra.StateCra = StateEnum.INHOLD;
+                    dal.ModifyCra(cra);
+                    Notification notif = new Notification { ClassContext = "success", MessageContent = "Votre CRA va être consulté par votre manager pour validation.", UserId = user.Id };
+                    Notification notifToManager = new Notification { ClassContext = "info", MessageContent = user.UserData.Firstname + " " + user.UserData.Lastname + " demande validation de son CRA.", UserId= (int)user.ManagerId };
+                    dal.CreateNotification(notif);
+                    dal.CreateNotification(notifToManager);
+
+                    return RedirectToAction("Index");
+                }
+                return View("Error");
+            }
         }
 
         public IActionResult SeeCurrentUserFeedback()

@@ -7,8 +7,10 @@ namespace Projet2_EasyFid.Models
     {
         public int Id { get; set; }
 
+        [Required(ErrorMessage = "Renseignez la date de début de l'activité.")]
         public DateTime BeginDate { get; set; }
-        public DateTime? EndDate { get; set; }
+        [Required(ErrorMessage = "Renseignez la date de fin de l'activité.")]
+        public DateTime EndDate { get; set; }
         public bool? HalfTime { get; set; }
 
         //clef etrangere vers la table CraActivity

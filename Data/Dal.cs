@@ -6,22 +6,27 @@ using System.Security.Cryptography;
 using System.Linq;
 using Projet2_EasyFid.Data.Enums;
 using System.Text;
+using Microsoft.VisualBasic;
+using Projet2_EasyFid.ViewModels;
 
 namespace Projet2_EasyFid.Data
 {
-	public class Dal : IDal
-	{
-		private BddContext _bddContext;
-		public Dal()
-		{
-			_bddContext = new BddContext();
-		}
+    public class Dal : IDal
+    {
+        private BddContext _bddContext;
+        public Dal()
+        {
+            _bddContext = new BddContext();
+        }
+        public List<Statistic> GetAllStatistics()
+        {
+            return StatisticsServices.GetAllStatistics(_bddContext);
+        }
 
-
-		public List<Cra> GetAllCras()
-		{
-			return _bddContext.Cras.ToList();
-		}
+        public List<Cra> GetAllCras()
+        {
+            return _bddContext.Cras.ToList();
+        }
 
         public List<Cra> GetAllCrasByUserId(int id)
         {
@@ -34,39 +39,35 @@ namespace Projet2_EasyFid.Data
         }
 
 
-        public void SetUserIdNullOnDelete (Cra cra)
+        public void SetUserIdNullOnDelete(Cra cra)
         {
             CraServices.SetUserIdNullOnDelete(_bddContext, cra);
         }
-        
-        public int CreateCra ( Cra cra )
+
+        public int CreateCra(Cra cra)
         {
-            return CraServices.CreateCra( _bddContext, cra );  
-            }
+            return CraServices.CreateCra(_bddContext, cra);
+        }
         public int CreateMission(Mission mission)
         {
-            return MissionServices.CreateMission(_bddContext,mission);
+            return MissionServices.CreateMission(_bddContext, mission);
         }
 
-        public int CreateMission(int id,string name,DateTime missionStart,DateTime missionEnd,float tjm,MissionTypeEnum missionType)
+        public int CreateFormation(Formation formation)
         {
-            //Instanciation dela nouvelle mission
-            Mission mission = new Mission() { Name = name, MissionStart = missionStart, MissionEnd = missionEnd, Tjm = tjm, MissionType = missionType };
-            _bddContext.Missions.Add(mission);
-            _bddContext.SaveChanges();
-            return mission.Id;
+            return FormationServices.CreateFormation(_bddContext, formation);
         }
 
-		//Methode pour modifier un cra
-		public void UpdateCra(int id, StateEnum stateCra) {
-			Cra cra = _bddContext.Cras.Find(id);
-			if (cra != null)
-			{
-				cra.Id = id;
-				cra.StateCra = stateCra;
-				_bddContext.SaveChanges();
-			}
-		}
+        //Methode pour modifier un cra
+        public void UpdateCra(int id, StateEnum stateCra) {
+            Cra cra = _bddContext.Cras.Find(id);
+            if (cra != null)
+            {
+                cra.Id = id;
+                cra.StateCra = stateCra;
+                _bddContext.SaveChanges();
+            }
+        }
 
         //Methode pour modifier une mission
         public void UpdateMission(Mission mission)
@@ -125,8 +126,8 @@ namespace Projet2_EasyFid.Data
         {
             return UserServices.GetUserById(_bddContext, id);
         }
-        
-        public User GetUserByUserDataId (int id)
+
+        public User GetUserByUserDataId(int id)
         {
             return UserServices.GetUserByUserDataId(_bddContext, id);
         }
@@ -148,14 +149,15 @@ namespace Projet2_EasyFid.Data
 
         public List<RoleUser> GetAllRolesById(int id)
         {
-            return UserServices.GetAllRolesById(_bddContext,id);
+            return UserServices.GetAllRolesById(_bddContext, id);
         }
+
 
         public Boolean checkUserRole(int userId, RoleTypeEnum role)
         {
             return UserServices.GetAllRolesById(_bddContext, userId).Find(r => r.RoleType == role) != null;
         }
-
+    
         public void CreateRoleUser (RoleUser roleUser)
         {
             UserServices.CreateRoleUser(_bddContext, roleUser);
@@ -176,7 +178,7 @@ namespace Projet2_EasyFid.Data
             return UserServices.GetAllManagerUserDatas(_bddContext, idUser);
         }
 
-        public void SetManagerIdNullOnDelete (User user)
+        public void SetManagerIdNullOnDelete(User user)
         {
             UserServices.SetManagerIdNullOnDelete(_bddContext, user);
         }
@@ -186,7 +188,10 @@ namespace Projet2_EasyFid.Data
             UserServices.DeleteAllRoleUsersByUserId(_bddContext, idUser);
         }
 
-
+        public void CreateActivity(Activity activity)
+        {
+            ActivityServices.CreateActivity(_bddContext, activity);
+        }
         public void DeleteUserById(int id)
         {
             UserServices.DeleteUserById(_bddContext, id);
@@ -197,12 +202,18 @@ namespace Projet2_EasyFid.Data
             UserServices.DeleteUserDataById(_bddContext, id);
         }
 
-       
+        
         public List<Formation> GetAllFormations()
         {
             return CraServices.GetAllFormations(_bddContext);
         }
+        
 
+        public void UpdateFormation(Formation formation)
+        {
+            this._bddContext.Formations.Update(formation);
+            this._bddContext.SaveChanges();
+        }
         public List <Activity> GetAllActivities()
         {
             return CraServices.GetAllActivities(_bddContext);
@@ -259,7 +270,7 @@ namespace Projet2_EasyFid.Data
 
         public List<ActivityDate> GetAllActivityDateByCraId(int id)
         {
-            return CraServices.GetAllActivityDateByCraId(_bddContext, id);
+            return ActivityServices.GetAllActivityDateByCraId(_bddContext, id);
         }
 
         //Pour reucperer tous les BeginDate d'une ActivityDate
@@ -297,6 +308,79 @@ namespace Projet2_EasyFid.Data
         }
 
 
+        public List<Mission> GetAllMissionUserByUserId(int id)
+        {
+            return CraServices.GetAllMissionUserByUserId(_bddContext, id);
+        }
+
+
+        public List<Activity> GetAllActivityByUserId(int id)
+        {
+            return CraServices.GetAllActivityByUserId(_bddContext, id);
+        }
+
+        public List<Activity> GetAllFormationAndAbsence()
+        {
+            return CraServices.GetAllFormationAndAbsence(_bddContext);
+        }
+
+        public bool CheckActivityDateComptability(List<DateTime> BeginDate, List<DateTime> EndDate, List<int> activities, User user)
+        {
+            return ActivityServices.CheckActivityDateComptability(_bddContext, BeginDate, EndDate, activities, user);
+        }
+
+        public List<Notification> GetAllNotificationsByUserId(int id)
+        {
+            return NotificationServices.GetAllNotificationsByUserId(_bddContext, id);
+        }
+
+
+        public List<Cra> GetAllInHoldAndValidatedCrasByUserId(int id)
+        {
+            return CraServices.GetAllInHoldAndValidatedCrasByUserId(_bddContext, id);
+        }
+
+        public List<CraActivity> GetAllCraActivityByCraId(int id)
+        {
+            return CraServices.GetAllCraActivityByCraId(_bddContext, id);
+        }
+
+
+
+        public List<ActivityDate> GetAllActivityDateByActivityIdAndCraId(int idActivity, int idCra)
+        {
+            return ActivityServices.GetAllActivityDateByActivityIdAndCraId(_bddContext, idActivity, idCra);
+        }
+
+        public void ModifyCra(Cra cra)
+        {
+            CraServices.ModifyCra(_bddContext,cra);
+        }
+
+        public void CreateNotification(Notification notification)
+        {
+            NotificationServices.CreateNotification(_bddContext,notification);
+        }
+
+        public void DeleteNotification(Notification notification)
+        {
+            NotificationServices.DeleteNotification(_bddContext, notification);
+        }
+
+        public Notification GetNotificationById(int id)
+        {
+            return NotificationServices.GetNotificationById(_bddContext, id);
+        }
+
+        public Activity GetActivityByMissionId(int id)
+        {
+            return ActivityServices.GetActivityByMissionId(_bddContext,id);
+        }
+
+        public List<Activity> GetAllAbsenceAndFormation()
+        {
+            return ActivityServices.GetAllAbsenceAndFormation(_bddContext);
+        }
     }
 }
 

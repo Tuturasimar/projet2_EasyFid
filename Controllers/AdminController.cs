@@ -36,10 +36,10 @@ namespace Projet2_EasyFid.Controllers
                 // On récupère l'utilisateur en fonction de son id
                 User user = dal.GetUserById(id);
                 // Si l'utilisateur existe en BDD
-                if(user != null)
+                if (user != null)
                 {
                     List<RoleUser> rolesUser = dal.GetAllRolesById(id);
-                    UserRoleViewModel urvm = new UserRoleViewModel { User = user, RolesUser= rolesUser};
+                    UserRoleViewModel urvm = new UserRoleViewModel { User = user, RolesUser = rolesUser };
                     // Envoi en paramètre à la vue UserDetail
                     return View(urvm);
                 }

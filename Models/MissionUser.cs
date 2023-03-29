@@ -1,8 +1,9 @@
-﻿using System;
+using System;
 using Projet2_EasyFid.Data.Enums;
 
 namespace Projet2_EasyFid.Models
 {
+
 	// Classe qui regroupe les attributions des missions pour un utilisateur
 	public class MissionUser
 	{
@@ -19,5 +20,6 @@ namespace Projet2_EasyFid.Models
 		public int? UserFeedbackId { get; set; }
 		public UserFeedback UserFeedback { get; set; }
 	}
+
 }
 

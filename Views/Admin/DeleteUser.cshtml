@@ -22,6 +22,6 @@
     }
 </ul>
 <p>Souhaitez-vous vraiment supprimer cet utilisateur ?</p>
-@Html.ActionLink("Confirmer", "ConfirmDeleteUser", "Admin", new { id = Model.User.Id })
-@Html.ActionLink("Retour", "Index", "Admin")
+@Html.ActionLink("Confirmer", "ConfirmDeleteUser", "Admin", new { id = Model.User.Id },new { @class = "btn btn-danger" })
+@Html.ActionLink("Retour", "Index", "Admin", new { @class = "btn btn-info" })
 

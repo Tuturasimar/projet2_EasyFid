@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Projet2_EasyFid.Data.Enums;
 using Projet2_EasyFid.Models;
+using Projet2_EasyFid.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,10 +19,12 @@ namespace Projet2_EasyFid.Data.Services
 				return _bddContext.Missions.ToList();
 			}
 
+		
 		public static List <Formation> GetAllFormations(BddContext _bddContext )
 		{
 			return _bddContext.Formations.ToList();
 		}
+		
 
 		public static List <Activity> GetAllActivities(BddContext _bddContext)
 		{
@@ -39,6 +42,12 @@ namespace Projet2_EasyFid.Data.Services
 			_bddContext.Cras.Add(cra);
 			_bddContext.SaveChanges();
 			return cra.Id;
+		}
+
+		public static void ModifyCra(BddContext _bddContext, Cra cra)
+		{
+			_bddContext.Cras.Update(cra);
+			_bddContext.SaveChanges();
 		}
 
 
@@ -76,6 +85,11 @@ namespace Projet2_EasyFid.Data.Services
 			return cras;
 		}
 
+		public static List<Cra> GetAllInHoldAndValidatedCrasByUserId(BddContext _bddContext, int id)
+		{
+			return _bddContext.Cras.Include(c => c.User.UserData).Where(c => c.UserId == id && (c.StateCra == StateEnum.INHOLD || c.StateCra == StateEnum.VALIDATED)).ToList();
+		}
+
 		public static void SetUserIdNullOnDelete(BddContext _bddContext, Cra cra)
 		{
 			_bddContext.Cras.Update(cra);
@@ -84,7 +98,7 @@ namespace Projet2_EasyFid.Data.Services
 
 		public static Cra GetCraById(BddContext _bddContext, int id)
 		{
-			Cra cra = _bddContext.Cras.Include(c => c.User).SingleOrDefault(c => c.Id == id);
+			Cra cra = _bddContext.Cras.Include(c => c.User).Include(c => c.User.UserData).SingleOrDefault(c => c.Id == id);
 			return cra;
 		}
 
@@ -93,6 +107,12 @@ namespace Projet2_EasyFid.Data.Services
 			CraActivity craActivity = _bddContext.CraActivities.Include(ca => ca.Activity).Where(c => c.CraId == id).SingleOrDefault(ca => ca.Id == id);
 			return craActivity;
 		}
+
+		public static List<CraActivity> GetAllCraActivityByCraId(BddContext _bddContext, int id)
+		{
+			List<CraActivity> craActivities = _bddContext.CraActivities.Include(ca => ca.Cra).Include(ca => ca.Activity).Where(a => a.CraId == id).ToList();
+			return craActivities;
+        }
 
 		
 		public static List<Activity> GetAllActivityByCraId (BddContext _bddContext, int id)
@@ -104,20 +124,23 @@ namespace Projet2_EasyFid.Data.Services
 						select a;
 			return query.ToList(); //On recupère une liste d'Activity
 		}
-
-		public static List<ActivityDate> GetAllActivityDateByCraId (BddContext _bddContext, int id)
+        
+        public static List<ActivityDate> GetAllActivityDateByCraId (BddContext _bddContext, int id)
 		{
-			//Ici on fait une jointure entre 2 tables
+            //Ici on fait une jointure entre 2 tables
+            /*
 			var query = from ad in _bddContext.ActivityDates
 						join ca in _bddContext.CraActivities on ad.CraActivityId equals ca.Id //jointure entre ActivityDate et CraActivity
 						where ca.CraId == id //On recupere les ActivityDate qui ont le même CraId (donc le même Cra)
 						select ad;
 			return query.ToList();
-		}
+			*/
+            return _bddContext.ActivityDates.Include(a => a.CraActivity.Activity).Where(a => a.CraActivity.CraId == id).ToList();
+        }
 
         //Pour reucperer tous les BeginDate d'une ActivityDate
         //Pas utile pour l'instant, à voir pour la suite, je laisse en commentaire pour l'instant
-		/*
+        /*
         public static List<DateTime> GetBeginDate (BddContext _bddContext, int id)
 		{
             //Ici on fait une jointure entre 2 tables
@@ -128,10 +151,40 @@ namespace Projet2_EasyFid.Data.Services
             return query.ToList();
         }
 		*/
-		
-		
 
-   
+        public static List<Mission> GetAllMissionUserByUserId(BddContext _bddContext, int id)
+        {
+			//Ici on fait une jointure entre 3 tables 
+			var query = from mu in _bddContext.MissionUsers
+						join m in _bddContext.Missions on mu.MissionId equals m.Id //jointure entre les tables MissionUser et Missions
+						join u in _bddContext.Users on mu.UserId equals u.Id //jointure entre les tables MissionUser et User 
+                        where mu.UserId == id && mu.MissionState == MissionStateEnum.ACTIVE
+                        select m;
+			return query.ToList();
+        }
+
+		public static List<Activity> GetAllActivityByUserId(BddContext _bddContext, int id)
+		{
+			var query = from a in _bddContext.Activities
+						join m in _bddContext.Missions on a.MissionId equals m.Id
+						join mu in _bddContext.MissionUsers on m.Id equals mu.MissionId
+						join u in _bddContext.Users on mu.UserId equals u.Id
+                        where mu.UserId == id && mu.MissionState == MissionStateEnum.ACTIVE
+                        select a;
+			return query.ToList(); 
+		}
+
+		public static List<Activity> GetAllFormationAndAbsence(BddContext _bddContext)
+		{
+			return _bddContext.Activities.Include(a => a.Formation).Include(a => a.Absence).Where(a => a.AbsenceId != null || a.FormationId != null).ToList();
+
+        }
+
+
+
+
+
+
 
     }
 
