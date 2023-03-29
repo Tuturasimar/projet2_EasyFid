@@ -22,7 +22,9 @@ namespace Projet2_EasyFid.Data
         public DbSet<Absence> Absences { get; set; }
         public DbSet<ActivityDate> ActivityDates { get; set; }
 
+
         //public DbSet<Statistic> Statistics { get; set; }
+
 
 
 

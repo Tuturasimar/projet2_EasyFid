@@ -19,7 +19,7 @@ namespace Projet2_EasyFid.Data
 
 
 		List<Mission> GetAllMissions();
-		
+
         List<Formation> GetAllFormations();
 
         //int DeleteMission(int id);
