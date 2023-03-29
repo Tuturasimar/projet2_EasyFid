@@ -5,28 +5,33 @@
 }
 
 <h2>Bienvenue sur votre espace personnel</h2>
+
+@Html.ActionLink("Ajouter", "CreateCra", new { @class = "btn btn-success" })
 <table id="cras" border="1">
     <tr>
         <td>Date de création</td>
         <td>Date de modification</td>
         <td>Status</td>
-        <td>Modification</td>
-        <td>Suppression</td>
-        <td>Détails</td>
+        <td colspan="3">Actions</td>
     </tr>
-    @foreach(var cra in Model.Cras)
+    @foreach (var cra in Model.Cras)
     {
         <tr>
             <td>@cra.CreatedAt.ToString("dd/MM/yyyy")</td>
             <td>@cra.UpdatedAt.ToString("dd/MM/yyyy")</td>
             <td>@cra.StateCra</td>
-            <td>@Html.ActionLink("Modifier", "UpdateCra", new { id = cra.Id})</td>
-            <td>@Html.ActionLink("Supprimer", "IndexSalarie")</td>
-            <td>@Html.ActionLink("Détails", "CraDetail", "Salarie", new { id = cra.Id})</td>
+            @if (cra.StateCra == Projet2_EasyFid.Data.Enums.StateEnum.DRAFT)
+                {
+                <td>@Html.ActionLink("Modifier", "UpdateCra", "Salarie", new { id = cra.Id })</td>
+                <td>@Html.ActionLink("Valider", "AskForCraValidation", "Salarie", new { id = cra.Id })</td>
+                <td>@Html.ActionLink("Détails", "CraDetail", "Salarie", new { id = cra.Id })</td>
+                }
+                else
+                {
+                <td colspan="3">@Html.ActionLink("Détails", "CraDetail", "Salarie", new { id = cra.Id })</td>
+                }
         </tr>
     }
-    <div>
-        @Html.ActionLink("Ajouter", "CreateCra")
-    </div>
+
 
 </table>

@@ -28,7 +28,7 @@ function showNotifications(data) {
     for (var i = 0; i < data.length; i++) {
         // On met le classContext dans la classe pour se servir de Bootstrap
         // On met le messageContent dans le contenu de la div
-        notifStr += `<div class="alert alert-${data[i].classContext}"> ${data[i].messageContent}  </div>`
+        notifStr += `<div class="alert alert-${data[i].classContext}"> <p>${data[i].messageContent}</p> <a href="/Salarie/DeleteOneNotification?id=${data[i].id}">Supprimer</a></div>`
     }
     // La cible va se faire ajouter le contenu Html de la variable notifStr
     target.innerHTML = notifStr;

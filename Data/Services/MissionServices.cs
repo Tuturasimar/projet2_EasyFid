@@ -65,16 +65,12 @@ namespace Projet2_EasyFid.Data.Services
             return _bddContext.MissionUsers.ToList();
         }
 
-
         public static void DeleteMissionUserById(BddContext _bddContext, int id)
         {
             MissionUser missionUserToDelete = MissionServices.GetMissionUserById(_bddContext, id);
             _bddContext.MissionUsers.Remove(missionUserToDelete);
             _bddContext.SaveChanges();
         }
-
-
-
 
         public static List<MissionUser> GetAllActiveMissionsByUserId(BddContext _bddContext,int id)
         {

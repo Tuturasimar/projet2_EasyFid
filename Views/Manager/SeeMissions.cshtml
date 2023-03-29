@@ -1,0 +1,36 @@
+﻿@model Projet2_EasyFid.ViewModels.MissionListViewModel
+@{
+    Layout = "_Layout";
+    ViewBag.Title = "Liste des Missions";
+}
+
+
+
+<h2>Liste des missions</h2>
+<div>
+    @Html.ActionLink("Ajouter", "CreateMission")
+</div>
+<table id="Missions" border="1">
+    <tr>
+        <td>Nom</td>
+        <td>Date de début</td>
+        <td>Date de fin</td>
+        <td>TJM</td>
+        <td>Type de mission</td>
+        <td>Modifier</td>
+        <td>Supprimer</td>
+    </tr>
+    @foreach (var mission in Model.Missions)
+    {
+        <tr>
+            <td>@mission.Name</td>
+            <td>@mission.MissionStart.ToString("dd/MM/yyyy")</td>
+            <td>@mission.MissionEnd.ToString("dd/MM/yyyy")</td>
+            <td>@mission.Tjm</td>
+            <td>@mission.MissionType</td>
+
+            <td>@Html.ActionLink("Modifier", "UpdateMission", new { id = mission.Id })</td>
+            <td>@Html.ActionLink("Supprimer", "IndexManager")</td>
+        </tr>
+    }
+</table>

@@ -270,7 +270,7 @@ namespace Projet2_EasyFid.Data
 
         public List<ActivityDate> GetAllActivityDateByCraId(int id)
         {
-            return CraServices.GetAllActivityDateByCraId(_bddContext, id);
+            return ActivityServices.GetAllActivityDateByCraId(_bddContext, id);
         }
 
         //Pour reucperer tous les BeginDate d'une ActivityDate
@@ -308,7 +308,7 @@ namespace Projet2_EasyFid.Data
         }
 
 
-        public List<MissionUser> GetAllMissionUserByUserId(int id)
+        public List<Mission> GetAllMissionUserByUserId(int id)
         {
             return CraServices.GetAllMissionUserByUserId(_bddContext, id);
         }
@@ -334,6 +334,12 @@ namespace Projet2_EasyFid.Data
             return NotificationServices.GetAllNotificationsByUserId(_bddContext, id);
         }
 
+
+        public List<Cra> GetAllInHoldAndValidatedCrasByUserId(int id)
+        {
+            return CraServices.GetAllInHoldAndValidatedCrasByUserId(_bddContext, id);
+        }
+
         public List<CraActivity> GetAllCraActivityByCraId(int id)
         {
             return CraServices.GetAllCraActivityByCraId(_bddContext, id);
@@ -341,6 +347,40 @@ namespace Projet2_EasyFid.Data
 
 
 
+        public List<ActivityDate> GetAllActivityDateByActivityIdAndCraId(int idActivity, int idCra)
+        {
+            return ActivityServices.GetAllActivityDateByActivityIdAndCraId(_bddContext, idActivity, idCra);
+        }
+
+        public void ModifyCra(Cra cra)
+        {
+            CraServices.ModifyCra(_bddContext,cra);
+        }
+
+        public void CreateNotification(Notification notification)
+        {
+            NotificationServices.CreateNotification(_bddContext,notification);
+        }
+
+        public void DeleteNotification(Notification notification)
+        {
+            NotificationServices.DeleteNotification(_bddContext, notification);
+        }
+
+        public Notification GetNotificationById(int id)
+        {
+            return NotificationServices.GetNotificationById(_bddContext, id);
+        }
+
+        public Activity GetActivityByMissionId(int id)
+        {
+            return ActivityServices.GetActivityByMissionId(_bddContext,id);
+        }
+
+        public List<Activity> GetAllAbsenceAndFormation()
+        {
+            return ActivityServices.GetAllAbsenceAndFormation(_bddContext);
+        }
     }
 }
 

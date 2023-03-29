@@ -44,6 +44,12 @@ namespace Projet2_EasyFid.Data.Services
 			return cra.Id;
 		}
 
+		public static void ModifyCra(BddContext _bddContext, Cra cra)
+		{
+			_bddContext.Cras.Update(cra);
+			_bddContext.SaveChanges();
+		}
+
 
 		public static Activity GetActivityById (BddContext _bddContext,  int id)
 		{
@@ -79,6 +85,11 @@ namespace Projet2_EasyFid.Data.Services
 			return cras;
 		}
 
+		public static List<Cra> GetAllInHoldAndValidatedCrasByUserId(BddContext _bddContext, int id)
+		{
+			return _bddContext.Cras.Include(c => c.User.UserData).Where(c => c.UserId == id && (c.StateCra == StateEnum.INHOLD || c.StateCra == StateEnum.VALIDATED)).ToList();
+		}
+
 		public static void SetUserIdNullOnDelete(BddContext _bddContext, Cra cra)
 		{
 			_bddContext.Cras.Update(cra);
@@ -87,7 +98,7 @@ namespace Projet2_EasyFid.Data.Services
 
 		public static Cra GetCraById(BddContext _bddContext, int id)
 		{
-			Cra cra = _bddContext.Cras.Include(c => c.User).SingleOrDefault(c => c.Id == id);
+			Cra cra = _bddContext.Cras.Include(c => c.User).Include(c => c.User.UserData).SingleOrDefault(c => c.Id == id);
 			return cra;
 		}
 
@@ -113,8 +124,8 @@ namespace Projet2_EasyFid.Data.Services
 						select a;
 			return query.ToList(); //On recupère une liste d'Activity
 		}
-
-		public static List<ActivityDate> GetAllActivityDateByCraId (BddContext _bddContext, int id)
+        
+        public static List<ActivityDate> GetAllActivityDateByCraId (BddContext _bddContext, int id)
 		{
             //Ici on fait une jointure entre 2 tables
             /*
@@ -141,14 +152,14 @@ namespace Projet2_EasyFid.Data.Services
         }
 		*/
 
-        public static List<MissionUser> GetAllMissionUserByUserId(BddContext _bddContext, int id)
+        public static List<Mission> GetAllMissionUserByUserId(BddContext _bddContext, int id)
         {
 			//Ici on fait une jointure entre 3 tables 
 			var query = from mu in _bddContext.MissionUsers
 						join m in _bddContext.Missions on mu.MissionId equals m.Id //jointure entre les tables MissionUser et Missions
 						join u in _bddContext.Users on mu.UserId equals u.Id //jointure entre les tables MissionUser et User 
                         where mu.UserId == id && mu.MissionState == MissionStateEnum.ACTIVE
-                        select mu;
+                        select m;
 			return query.ToList();
         }
 
@@ -168,6 +179,7 @@ namespace Projet2_EasyFid.Data.Services
 			return _bddContext.Activities.Include(a => a.Formation).Include(a => a.Absence).Where(a => a.AbsenceId != null || a.FormationId != null).ToList();
 
         }
+
 
 
 

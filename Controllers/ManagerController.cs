@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,21 +16,128 @@ namespace Projet2_EasyFid.Controllers
     // Controller qui va gérer les méthodes Manager (require authentification Manager)
     public class ManagerController : Controller
     {
-
-        
-
         // GET: /<controller>/
         //Affichage de l'ensemble des missions
         public IActionResult Index()
         {
             using Dal dal =new Dal();
             {
+                User user = dal.GetUser(HttpContext.User.Identity.Name);
                 //Récupération des missions que l'on stocke dans une liste
-                List<Mission>missions=dal.GetAllMissions();
-                MissionListViewModel missionList  = new MissionListViewModel { Missions = missions };
-                return View(missionList);
+                List<User> users = dal.GetAllUsersByManagerId(user.Id);
+                List<Cra> crasForManager = new List<Cra>();
+                foreach(User userCra in users)
+                {
+                    crasForManager.AddRange(dal.GetAllInHoldAndValidatedCrasByUserId(userCra.Id));
+                }
+
+                CraListViewModel craList  = new CraListViewModel { Cras = crasForManager };
+                return View(craList);
             }
 
+        }
+
+        public IActionResult CraDetails(int id)
+        {
+            using (Dal dal = new Dal())
+            {
+                //On recupere le Cra en fonction de son Id
+                Cra cra = dal.GetCraById(id);
+
+                //On vérifie si le Cra existe en bdd
+                if (cra != null)
+                {
+                    // On instancie une liste d'un CraDetailViewModel
+                    // Ce modèle contient une Activity et une liste d'ActivityDate
+                    List<CraDetailViewModel> craDetailViewModels = new List<CraDetailViewModel>();
+
+                    // On récupère toutes les activités présentes dans ce Cra
+                    List<Activity> activities = dal.GetAllActivityByCraId(id).ToList();
+
+                    // Sur chaque activité, on boucle
+                    foreach (Activity activity in activities)
+                    {
+                        // Pour chaque activité, on récupère les ActivityDate qui correspondent
+                        List<ActivityDate> activityDates = dal.GetAllActivityDateByActivityIdAndCraId(activity.Id, cra.Id);
+                        // On rajoute à notre liste de CraDetailViewModel une instance du modele
+                        craDetailViewModels.Add(new CraDetailViewModel { Activity = activity, ActivityDates = activityDates });
+                    }
+                    // On envoie le cra dans une ViewBag
+                    ViewBag.cra = cra;
+
+                    return View(craDetailViewModels);
+                }
+            }
+            //Si il n'existe pas, on retourne sur la vue Index
+            return RedirectToAction("Index");
+
+        }
+
+        public IActionResult DenyCraValidation(int id)
+        {
+            using(Dal dal = new Dal())
+            {
+                Cra cra = dal.GetCraById(id);
+
+                if(cra != null && cra.StateCra == StateEnum.INHOLD)
+                {
+                    ViewBag.cra = cra;
+
+                    return View();
+                }
+
+
+                return View("Error");
+            }
+        }
+
+        [HttpPost]
+        public IActionResult CraToDraft(int id, Notification notification)
+        {
+            using (Dal dal = new Dal())
+            {
+                Cra cra = dal.GetCraById(id);
+
+                if(cra != null && cra.StateCra == StateEnum.INHOLD)
+                {
+                    cra.StateCra = StateEnum.DRAFT;
+                    dal.ModifyCra(cra);
+                    Notification notif = new Notification { MessageContent = "ERREUR CRA - " +notification.MessageContent, ClassContext = "danger", UserId = (int)cra.UserId };
+                    dal.CreateNotification(notif);
+
+                    return RedirectToAction("Index");
+                }
+                return View("Error");
+            }
+        }
+
+        public IActionResult CraToValidation(int id)
+        {
+            using(Dal dal = new Dal())
+            {
+                Cra cra = dal.GetCraById(id);
+                if (cra != null && cra.StateCra == StateEnum.INHOLD)
+                {
+                    cra.StateCra = StateEnum.VALIDATED;
+                    dal.ModifyCra(cra);
+                    Notification notification = new Notification { MessageContent = "Votre Cra a bien été validé", ClassContext = "success", UserId = (int)cra.UserId };
+                    dal.CreateNotification(notification);
+                    return RedirectToAction("Index");
+                }
+                return View("Error");
+            }
+        }
+
+
+        public IActionResult SeeMissions()
+        {
+            using Dal dal = new Dal();
+            {
+                //Récupération des missions que l'on stocke dans une liste
+                List<Mission> missions = dal.GetAllMissions();
+                MissionListViewModel missionList = new MissionListViewModel { Missions = missions };
+                return View(missionList);
+            }
         }
 
         [Produces("application/json")]
@@ -63,7 +170,7 @@ namespace Projet2_EasyFid.Controllers
                 using (Dal dal = new Dal())
                 {
                     //je recherche l'ID qui est egal au parametre que m'a transmis l'utilisateur
-                Mission mission = dal.GetAllMissions().Where(m=>m.Id ==id).FirstOrDefault();
+                    Mission mission = dal.GetMissionById(id);
                     if(mission == null)
                     {
                         return View("Error");
@@ -80,7 +187,7 @@ namespace Projet2_EasyFid.Controllers
             if (id != 0)
             {
 
-                using (IDal dal = new Dal())
+                using (Dal dal = new Dal())
                 {
                     //je recherche l'ID qui est egal au parametre que m'a transmis l'utilisateur
                     Formation formation = dal.GetAllFormations().Where(f => f.Id == id).FirstOrDefault();
@@ -146,15 +253,13 @@ namespace Projet2_EasyFid.Controllers
                 return View("Error");
             }
         }
+       
+        
+
         //Affiche le formulaire de creation d'une mission
         public IActionResult CreateMission()
         {
-            
-            return View();
-        }
-        public IActionResult CreateFormation()
-        {
-            
+
             return View();
         }
 
@@ -185,6 +290,12 @@ namespace Projet2_EasyFid.Controllers
             //Pour retourner sur la page d'affichage des mission
             return RedirectToAction("Index");
             
+        }
+
+        public IActionResult CreateFormation()
+        {
+
+            return View();
         }
 
         [HttpPost]
