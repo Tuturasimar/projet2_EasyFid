@@ -57,7 +57,7 @@ namespace Projet2_EasyFid
                 // Première route visible avec l'adresse url vide
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Salarie}/{action=IndexSalarie}/{id?}");
+                    pattern: "{controller=Login}/{action=Index}/{id?}");
 
                 // Route de la partie Salarie (/salarie)
                 endpoints.MapControllerRoute(
