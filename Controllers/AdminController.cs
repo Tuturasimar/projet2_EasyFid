@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Projet2_EasyFid.Data;
 using Projet2_EasyFid.Data.Enums;
 using Projet2_EasyFid.Models;
@@ -165,7 +166,7 @@ namespace Projet2_EasyFid.Controllers
             
             using (Dal dal = new Dal())
             {
-                if (!ModelState.IsValid)
+                if(!ModelState.IsValid)
                 {
                     List<Company> companies = dal.GetAllCompanies();
                     List<UserData> userDatas = new List<UserData>();

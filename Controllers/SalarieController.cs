@@ -103,24 +103,37 @@ namespace Projet2_EasyFid.Controllers
         //Affiche le formulaire de modification du Cra en fonction de son id
         public IActionResult UpdateCra(int id)
         {
-
             if (id != 0)
             {
                 using (Dal dal = new Dal())
                 {
                     //On recupere l'utilisateur actuellement connecté
                     User user = dal.GetUser(HttpContext.User.Identity.Name);
-                    Cra cra = dal.GetAllCras().Where(c => c.Id == id).FirstOrDefault();
-                    //On cree une liste vide 
+                    //On recupere le menu deroulant
                     List<Activity> activities = new List<Activity>();
-                    //On ajoute à cette liste les activités liées à l'User
-                    activities.AddRange(dal.GetAllActivityByUserId(user.Id));
-                    //Et les formations et absences
-                    activities.AddRange(dal.GetAllFormationAndAbsence());
-
+                    List<Mission> missionUsers = dal.GetAllMissionUserByUserId(user.Id);
+                    foreach (Mission mission in missionUsers)
+                    {
+                        activities.Add(dal.GetActivityByMissionId(mission.Id));
+                    }
+                    List<Activity> otherActivities = dal.GetAllAbsenceAndFormation();
+                    activities.AddRange(otherActivities);
+                    //On recupere les valeurs en BDD
+                    List<CraActivity> userActivities = dal.GetAllCraActivityByCraId(id);
+                    //On instancie le ViewModel
+                    List<CraDetailViewModel> cdvm = new List<CraDetailViewModel>();
+                    // On récupère toutes les activités présentes dans ce Cra
+                    List<Activity> activitiesByCraId = dal.GetAllActivityByCraId(id).ToList();
+                    // Sur chaque activité, on boucle
+                    foreach (Activity activity in activitiesByCraId)
+                    {
+                        // Pour chaque activité, on récupère les ActivityDate qui correspondent
+                        List<ActivityDate> activityDates = dal.GetAllActivityDateByActivityIdAndCraId(activity.Id, id);
+                        // On rajoute à notre liste de CraDetailViewModel une instance du modele
+                        cdvm.Add(new CraDetailViewModel { Activity = activity, ActivityDates = activityDates });
+                    }
                     ViewBag.activities = activities;
-                    return View();
-                    
+                    return View(cdvm);
                 }
             }
             // Sinon, on est redirigé vers l'index
