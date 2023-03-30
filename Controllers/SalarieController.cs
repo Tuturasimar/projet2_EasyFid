@@ -27,6 +27,7 @@ namespace Projet2_EasyFid.Controllers
 
 
         [Produces("application/json")]
+        [AllowAnonymous]
         public IActionResult GetAllNotificationsByUser()
         {
             try
@@ -52,7 +53,7 @@ namespace Projet2_EasyFid.Controllers
                 return BadRequest();
             }
         }
-
+        [AllowAnonymous]
         public IActionResult DeleteOneNotification(int id)
         {
             using(Dal dal = new Dal())
