@@ -143,6 +143,16 @@ namespace Projet2_EasyFid.Controllers
                 return View(missionList);
             }
         }
+        public IActionResult SeeMissionUsers()
+        {
+            using Dal dal = new Dal();
+            {
+                //Récupération des missions que l'on stocke dans une liste
+                List<Mission> missionUsers = dal.GetAllMissions();
+                MissionListViewModel missionUsersList = new MissionListViewModel { Missions = missionUsers };
+                return View(missionUsersList);
+            }
+        }
         public IActionResult SeeFormation()
         {
             using Dal dal = new Dal();
@@ -321,12 +331,24 @@ namespace Projet2_EasyFid.Controllers
             return RedirectToAction("SeeMissions");
 
         }
+        
+
+        
+        //Une fois qu'on appuie sur le bouton du formulaire, cette methode recupere un objet Mission
         public IActionResult CreateMissionUser()
         {
+            using (Dal dal = new Dal())
 
+            {
+                List<UserData> userDatas = new List<UserData>();
+                List<Mission>missions = new List<Mission>();
+                ViewBag.userDatas = userDatas;
+                ViewBag.missions = missions;
+           
+            }
             return View();
-        }
 
+        }
         [HttpPost]
         //Une fois qu'on appuie sur le bouton du formulaire, cette methode recupere un objet Mission
         public IActionResult CreateMissionUser(MissionUser missionUser)
@@ -334,31 +356,18 @@ namespace Projet2_EasyFid.Controllers
             using (Dal dal = new Dal())
 
             {
-                MissionUser newMissionUser = new MissionUser
-                {
-                    User = missionUser.User,
-                    MissionState = missionUser.MissionState,
+                List<UserData> userDatas = new List<UserData>();
+                List<Mission> missions = new List<Mission>();
+                ViewBag.userDatas = userDatas;
+                ViewBag.missions = missions;
 
-                };
-                int MissionUserId = dal.CreateMissionUser(newMissionUser);
-                //Recuperation de l'id de la mission que nous venons de creer
-                //Activity activity = new Activity
-                //{
-                //    LabelActivity = mission.Name,
-                //    MissionId = missionId
-                //};
-                //dal.CreateActivity(activity);
             }
-            //Pour retourner sur la page d'affichage des mission
-            return RedirectToAction("SeeMissions");
+            return View();
+
         }
-        
-    
-    
-    
-    
-    
-    public IActionResult CreateFormation()
+
+
+        public IActionResult CreateFormation()
         {
 
             return View();
