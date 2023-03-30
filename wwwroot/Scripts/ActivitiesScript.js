@@ -4,9 +4,9 @@
         rowCount++;
         $("#total").val(rowCount);
 
-        var divACloner = document.getElementById('activityHidden');
+        var divACloner = document.getElementsByClassName('hidden');
 
-        var activityToAdd = divACloner.cloneNode(true);
+        var activityToAdd = divACloner[0].cloneNode(true);
         activityToAdd.className = "";
 
 
