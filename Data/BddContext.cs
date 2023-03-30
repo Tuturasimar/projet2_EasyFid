@@ -23,7 +23,9 @@ namespace Projet2_EasyFid.Data
         public DbSet<ActivityDate> ActivityDates { get; set; }
 
 
-        public DbSet<Statistic> Statistics { get; set; }
+
+       public DbSet<Statistic> Statistics { get; set; }
+
 
 
 
@@ -36,10 +38,10 @@ namespace Projet2_EasyFid.Data
             // Les paramètres du serveur changent en fonction des configurations personnelles
 
 
-            optionsBuilder.UseMySql("server=localhost;port=8889;user id=root;password=root;database=easyFid"); // connexion trévor
+            //optionsBuilder.UseMySql("server=localhost;port=8889;user id=root;password=root;database=easyFid"); // connexion trévor
 
             //optionsBuilder.UseMySql("server=localhost;user id=root;password=rrrrr;database=projet2"); //connexion Laura
-            //optionsBuilder.UseMySql("server=localhost;user id=root;password=rrrrrrrr;database=UserData"); //connexion Louis
+            optionsBuilder.UseMySql("server=localhost;user id=root;password=rrrrrrrr;database=UserData"); //connexion Louis
             //optionsBuilder.UseMySql("server=localhost;user id=root;password=root;database=easyFid"); //connexion Seb
 
         }
@@ -59,7 +61,7 @@ namespace Projet2_EasyFid.Data
             this.UserDatas.AddRange(
 
                 new UserData { Id = 1, Lastname = "Xuxu", Firstname = "Xaxa", Birthday = new DateTime(2018, 12, 4), Email = "xaxa@isika.com"},
-                new UserData { Id = 2, Lastname = "Watson", Firstname = "Bobby", Birthday = new DateTime(2015, 5, 28), Email = "bobby@isika.com" },
+                new UserData { Id = 2, Lastname = "Watson", Firstname = "Bobby", Birthday = new DateTime(2015, 5, 28), Email = "nootybear@gmail.com" },
                 new UserData { Id = 3, Lastname = "Multipass", Firstname = "Lilou", Birthday = new DateTime(2019, 6, 18), Email = "lilou@isika.com" },
                 new UserData { Id = 4, Lastname = "JeSuisManager", Firstname = "Henry", Birthday = new DateTime(2011, 6, 18), Email = "manager@gmail.com" }
                 );

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -23,8 +24,9 @@ namespace Projet2_EasyFid.Controllers
         {
             using (Dal dal = new Dal())
             {
+                User connectedUser = dal.GetUser(HttpContext.User.Identity.Name);
                 // On récupère tous les utilisateurs pour les stocker dans une liste
-                List<User> users = dal.GetAllUsers();
+                List<User> users = dal.GetAllUsersButNotTheAdmin(connectedUser.Id);
                 UserListViewModel userList = new UserListViewModel { Users = users };
                 return View(userList);
             }
@@ -310,6 +312,12 @@ namespace Projet2_EasyFid.Controllers
 
             return RedirectToAction("Index");
 
+        }
+
+        public ActionResult Logout()
+        {
+            HttpContext.SignOutAsync();
+            return RedirectToAction("Index", "Login");
         }
     }
 }
