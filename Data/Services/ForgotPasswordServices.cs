@@ -9,25 +9,26 @@ public class ForgotPasswordServices
 {
     public void SendPasswordResetEmail(string email)
     {
-        // Verify that the email exists in the database
+        // Vérifie que l'email existe dans la base de données
         bool emailExists = CheckEmailExists(email);
 
         if (emailExists)
         {
-            // Generate a unique password reset token
+            // Générer un jeton de réinitialisation de mot de passe unique
             string token = GeneratePasswordResetToken();
 
-            // Store the token in the database
+            // Stocker le jeton dans la base de données
             StorePasswordResetToken(email, token);
 
-            // Send the email with a link to reset the password
+            // Envoyer l'email avec un lien pour réinitialiser le mot de passe
             SendEmail(email, token);
         }
         else
         {
-            // Handle the case where the email doesn't exist in the database
+            // Gérer le cas où l'email n'existe pas dans la base de données
         }
     }
+
     public static User GetUserByEmail(BddContext _bddContext, string email)
     {
         return _bddContext.Users.SingleOrDefault(u => u.UserData.Email == email);
@@ -52,10 +53,10 @@ public class ForgotPasswordServices
 
     private string GeneratePasswordResetToken()
     {
-        // Generate a new GUID
+        // Générer un nouveau GUID
         Guid guid = Guid.NewGuid();
 
-        // Convert the GUID to a string and return it
+        // Convertir le GUID en chaîne et le renvoyer
         return guid.ToString();
     }
 
@@ -66,14 +67,14 @@ public class ForgotPasswordServices
             User user = ForgotPasswordServices.GetUserByEmail(_bddContext, email);
             if (user != null)
             {
-                // Update the user's password reset token
+                // Mettre à jour le jeton de réinitialisation de mot de passe de l'utilisateur
                 user.PasswordResetToken = token;
                 user.PasswordResetTokenExpiration = DateTime.UtcNow.AddHours(3);
                 _bddContext.SaveChanges();
             }
             else
             {
-                throw new ArgumentException("Invalid email address.");
+                throw new ArgumentException("Adresse e-mail invalide.");
             }
         }
     }
@@ -83,8 +84,8 @@ public class ForgotPasswordServices
         var fromAddress = new MailAddress("test.easyfid@gmail.com");
         var fromPassword = "xhrouikhiofiwmao";
         var toAddress = new MailAddress(email);
-        string subject = "Reset Password";
-        string body = $"Please click the following link to reset your password: https://localhost:5001/PasswordReset?token={token}";
+        string subject = "Réinitialisation du mot de passe";
+        string body = $"Veuillez cliquer sur le lien suivant pour réinitialiser votre mot de passe : https://localhost:5001/PasswordReset?token={token}";
 
         var smtp = new SmtpClient
         {
@@ -104,5 +105,6 @@ public class ForgotPasswordServices
             smtp.Send(message);
         }
     }
+
 }
 

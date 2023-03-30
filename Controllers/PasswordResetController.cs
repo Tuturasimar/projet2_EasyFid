@@ -10,73 +10,72 @@ public class PasswordResetController : Controller
     [HttpGet]
     public IActionResult Get(string token)
     {
+        // Vérifier que le jeton n'est pas vide ou null
         if (string.IsNullOrEmpty(token))
         {
-            return BadRequest("Token cannot be null or empty.");
+            return BadRequest("Le jeton ne peut pas être vide ou null.");
         }
 
         using (BddContext _bddContext = new BddContext())
         {
-            // Get the user with the specified password reset token
+            // Récupere l'utilisateur avec le jeton de réinitialisation de mot de passe spécifié
             User user = _bddContext.Users.SingleOrDefault(u => u.PasswordResetToken == token);
 
             if (user == null)
             {
-                // Handle the case where the token is invalid or has expired
-                return BadRequest("Invalid or expired token.");
+                // Gére le cas où le jeton est invalide ou a expiré
+                return BadRequest("Jeton invalide ou expiré.");
             }
 
-            // Check if the token has expired
+            // Vérifie si le jeton a expiré
             if (DateTime.UtcNow > user.PasswordResetTokenExpiration)
             {
-                // Handle the case where the token has expired
-                return BadRequest("Token has expired.");
+                return BadRequest("Le jeton a expiré.");
             }
 
-            // Return a view that allows the user to reset their password
+            // Renvoyer une vue qui permet à l'utilisateur de réinitialiser son mot de passe
             return View(new PasswordResetViewModel { Token = token });
         }
     }
 
+    // Action pour traiter la demande de réinitialisation de mot de passe
     [HttpPost]
     public IActionResult Post(PasswordResetViewModel model)
     {
+        // Vérifie si le modèle est valide
         if (!ModelState.IsValid)
         {
-            // Display validation errors to the user
             return View(model);
         }
 
         using (BddContext _bddContext = new BddContext())
         {
-            // Get the user with the specified password reset token
+            // Récupere l'utilisateur avec le jeton de réinitialisation de mot de passe spécifié
             User user = _bddContext.Users.SingleOrDefault(u => u.PasswordResetToken == model.Token);
 
             if (user == null)
             {
-                // Handle the case where the token is invalid or has expired
-                return BadRequest("Invalid or expired token.");
+                return BadRequest("Jeton invalide ou expiré.");
             }
 
-            // Check if the token has expired
+            // Vérifier si le jeton a expiré
             if (DateTime.UtcNow > user.PasswordResetTokenExpiration)
             {
-                // Handle the case where the token has expired
-                return BadRequest("Token has expired.");
+                return BadRequest("Le jeton a expiré.");
             }
 
-            // Update the user's password and password reset token
+            // Mets a jour: mot de passe et jeton de réinitialisation de mot de passe
             user.Password = Dal.EncodeMD5(model.Password);
             user.PasswordResetToken = null;
             user.PasswordResetTokenExpiration = null;
             _bddContext.SaveChanges();
 
-            // Redirect to a page that indicates the password has been reset
+            // Rediriger vers une page qui indique que le mot de passe a été réinitialisé
             return RedirectToAction("PasswordResetConfirmation");
         }
     }
 
-
+    // Action pour afficher la vue de confirmation de réinitialisation de mot de passe
     [HttpGet]
     [Route("PasswordResetConfirmation")]
     public IActionResult PasswordResetConfirmation()
