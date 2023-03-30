@@ -172,13 +172,13 @@ namespace Projet2_EasyFid.Controllers
                 List<int> activitiesId = new List<int>();
 
 
-                foreach(CraDetailViewModel craModel in cdvm)
+                foreach (CraDetailViewModel craModel in cdvm)
                 {
                     activitiesId.Add(craModel.Activity.Id);
-                    
+
                 }
 
-                for(int i = 0; i<BeginDate.Count - 1; i++)
+                for (int i = 0; i < BeginDate.Count - 1; i++)
                 {
                     BeginDateList.Add(BeginDate[i]);
                     EndDateList.Add(EndDate[i]);
@@ -208,17 +208,17 @@ namespace Projet2_EasyFid.Controllers
                 // On récupère tous les ActivityDate liés à ces CraActivity pour les supprimer
                 List<ActivityDate> oldActivityDate = new List<ActivityDate>();
 
-                for(int i = 0; i< activitiesId.Count - 1; i++)
+                for (int i = 0; i < activitiesId.Count - 1; i++)
                 {
-                    oldActivityDate.AddRange(dal.GetAllActivityDateByActivityIdAndCraId(activitiesId[i],Id));
+                    oldActivityDate.AddRange(dal.GetAllActivityDateByActivityIdAndCraId(activitiesId[i], Id));
                 }
 
-                foreach(ActivityDate activityDateToDelete in oldActivityDate)
+                foreach (ActivityDate activityDateToDelete in oldActivityDate)
                 {
                     dal.DeleteActivityDate(activityDateToDelete);
                 }
 
-                foreach(CraActivity craActivityToDelete in oldCraActivity)
+                foreach (CraActivity craActivityToDelete in oldCraActivity)
                 {
                     dal.DeleteCraActivity(craActivityToDelete);
                 }
@@ -255,8 +255,8 @@ namespace Projet2_EasyFid.Controllers
                     dal.CreateActivityDate(newActivityDate);
                 }
 
-                return RedirectToAction("CraDetail", new { @id = Id });    
-               
+                return RedirectToAction("CraDetail", new { @id = Id });
+            } 
 
         }
 
