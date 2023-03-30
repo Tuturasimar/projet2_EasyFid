@@ -18,6 +18,7 @@
         <td>Type de mission</td>
         <td>Modifier</td>
         <td>Supprimer</td>
+        <td>Voir les avis</td>
     </tr>
     @foreach (var mission in Model.Missions)
     {
@@ -29,6 +30,7 @@
 
             <td>@Html.ActionLink("Modifier", "UpdateMission", new { id = mission.Id })</td>
             <td>@Html.ActionLink("Supprimer", "IndexManager")</td>
+            <td>@Html.ActionLink("Voir les avis", "SeeUserFeedback", new { id = mission.Id})</td>
         </tr>
     }
 </table>

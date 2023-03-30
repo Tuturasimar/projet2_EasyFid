@@ -171,6 +171,7 @@ namespace Projet2_EasyFid.Controllers
                 List<DateTime> EndDateList = new List<DateTime>();
                 List<int> activitiesId = new List<int>();
 
+
                 foreach(CraDetailViewModel craModel in cdvm)
                 {
                     activitiesId.Add(craModel.Activity.Id);
@@ -189,6 +190,7 @@ namespace Projet2_EasyFid.Controllers
 
                 if (!isDateValid)
                 {
+
                     return RedirectToAction("Index");
                 }
 
@@ -199,6 +201,7 @@ namespace Projet2_EasyFid.Controllers
                 oldCra.UpdatedAt = DateTime.Now;
                 oldCra.StateCra = StateEnum.DRAFT;
                 dal.ModifyCra(oldCra);
+
 
                 ////On recupère tous les CraActivity en fonction de l'id du Cra pour les supprimer ensuite
                 List<CraActivity> oldCraActivity = dal.GetAllCraActivityByCraId(Id);
@@ -254,8 +257,8 @@ namespace Projet2_EasyFid.Controllers
 
                 return RedirectToAction("CraDetail", new { @id = Id });    
                
+
         }
-    }
 
         //Affiche le formulaire de creation du Cra
         public IActionResult CreateCra()

@@ -154,6 +154,30 @@ namespace Projet2_EasyFid.Data.Services
             return userFeedback.Id;
         }
 
+
+        public static List<UserFeedback> GetAllUserFeedBack(BddContext _bddContext)
+        {
+            return _bddContext.UserFeedbacks.ToList();
+        }
+
+        public static List<MissionUser> GetAllMissionUserByMissionId (BddContext _bddContext, int id)
+        {
+            return _bddContext.MissionUsers.Include(mu => mu.UserFeedback).Include(mu => mu.Mission).Include(mu => mu.User).Include(mu => mu.User.UserData).Where(mu => mu.MissionId == id).ToList();
+        }
+
+        public static List<UserFeedback> GetAllUserFeedBackByMissionId (BddContext _bddContext, int id)
+        {
+            var query = from mu in _bddContext.MissionUsers
+                        join uf in _bddContext.UserFeedbacks on mu.UserFeedbackId equals uf.Id
+                        join m in _bddContext.Missions on mu.MissionId equals m.Id
+                        join u in _bddContext.Users on mu.UserId equals u.Id
+                        where mu.MissionId == id
+                        select uf;
+            return query.ToList();
+        }
+
+
+
     }
 }
 

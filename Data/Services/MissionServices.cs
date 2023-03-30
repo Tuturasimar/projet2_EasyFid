@@ -102,6 +102,7 @@ namespace Projet2_EasyFid.Data.Services
             List<DateTime> eDate = new List<DateTime>();
             bool isCompatible = true;
 
+
             if (BeginDate.Count != missions.Count - 1 || EndDate.Count != missions.Count - 1)
             {
                 Notification notification = new Notification { ClassContext = "danger", MessageContent = "Renseignez tous les champs lors de l'ajout d'activités", UserId = user.Id };
@@ -127,5 +128,6 @@ namespace Projet2_EasyFid.Data.Services
                 }
             }
             return isCompatible;
-        }   }
+        }   
+
 }
