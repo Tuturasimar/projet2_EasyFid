@@ -37,6 +37,10 @@ namespace Projet2_EasyFid.Data
         {
             return MissionServices.GetAllMissions(_bddContext);
         }
+        public List<MissionUser> GetAllMissionUsers()
+        {
+            return MissionUserServices.GetAllMissionUsers(_bddContext);
+        }
         public List<Formation> GetAllFormations()
         {
             return FormationServices.GetAllFormations(_bddContext);
@@ -54,6 +58,14 @@ namespace Projet2_EasyFid.Data
         public int CreateMission(Mission mission)
         {
             return MissionServices.CreateMission(_bddContext, mission);
+        }
+        public int CreateMissionUser(MissionUser missionUser)
+        {
+            return MissionUserServices.CreateMissionUser(_bddContext, missionUser);
+        }
+        public void UpdateMissionUser(MissionUser missionUser)
+        {
+             MissionUserServices.UpdateMissionUser(_bddContext, missionUser);
         }
 
         public int CreateFormation(Formation formation)
@@ -208,10 +220,7 @@ namespace Projet2_EasyFid.Data
         }
 
         
-        //public List<Formation> GetAllFormations()
-        //{
-        //    return CraServices.GetAllFormations(_bddContext);
-        //}
+        
         
 
         public void UpdateFormation(Formation formation)

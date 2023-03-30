@@ -21,13 +21,13 @@
     </tr>
     @foreach (var formation in Model.Formations)
     {
-            <tr>
-                <td>@formation.Name</td>
-                <td>@formation.NbOfDays</td>
-                <td>@formation.Location</td>
-                <td>@formation.Description</td>
-                <td>@Html.ActionLink("Modifier", "UpdateFormation", new { id = formation.Id })</td>
-                <td>@Html.ActionLink("Supprimer", "Index")</td>
-            </tr>
+        <tr>
+            <td>@formation.Name</td>
+            <td>@formation.NbOfDays</td>
+            <td>@formation.Location</td>
+            <td>@formation.Description</td>
+            <td>@Html.ActionLink("Modifier", "UpdateFormation", new { id = formation.Id })</td>
+            <td>@Html.ActionLink("Supprimer", "Index")</td>
+        </tr>
     }
 </table>

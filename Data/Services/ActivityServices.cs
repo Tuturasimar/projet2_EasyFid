@@ -113,7 +113,9 @@ namespace Projet2_EasyFid.Data.Services
 		{
 			return _bddContext.Activities.Where(a => a.AbsenceId != null || a.FormationId != null).ToList();
 
+
 		}
+
 
 
 

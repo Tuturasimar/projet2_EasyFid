@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Projet2_EasyFid.Data;
 using Projet2_EasyFid.Data.Enums;
+using Projet2_EasyFid.Data.Services;
 using Projet2_EasyFid.Models;
 using Projet2_EasyFid.ViewModels;
 
@@ -29,8 +30,10 @@ namespace Projet2_EasyFid.Controllers
                 User user = dal.GetUser(HttpContext.User.Identity.Name);
                 //Récupération des missions que l'on stocke dans une liste
 
+
                 List<Cra> crasForManager = dal.GetAllCrasByManagerIdOrderByCreationDate(user.Id);
                 
+
 
                 CraListViewModel craList = new CraListViewModel { Cras = crasForManager };
                 return View(craList);
@@ -140,6 +143,16 @@ namespace Projet2_EasyFid.Controllers
                 return View(missionList);
             }
         }
+        public IActionResult SeeMissionUsers()
+        {
+            using Dal dal = new Dal();
+            {
+                //Récupération des missions que l'on stocke dans une liste
+                List<Mission> missionUsers = dal.GetAllMissions();
+                MissionListViewModel missionUsersList = new MissionListViewModel { Missions = missionUsers };
+                return View(missionUsersList);
+            }
+        }
         public IActionResult SeeFormation()
         {
             using Dal dal = new Dal();
@@ -234,7 +247,7 @@ namespace Projet2_EasyFid.Controllers
                 using (Dal dal = new Dal())
                 {
                     dal.UpdateMission(mission);
-                    return RedirectToAction("UpdateMission", new { @id = mission.Id });
+                    return RedirectToAction("SeeMissions", new { @id = mission.Id });
                 }
             }
             else
@@ -256,7 +269,7 @@ namespace Projet2_EasyFid.Controllers
                 using (Dal dal = new Dal())
                 {
                     dal.UpdateFormation(formation);
-                    return RedirectToAction("UpdateFormation", new { @id = formation.Id });
+                    return RedirectToAction("SeeFormation", new { @id = formation.Id });
                 }
             }
             else
@@ -273,35 +286,87 @@ namespace Projet2_EasyFid.Controllers
 
             return View();
         }
+        
 
         [HttpPost]
         //Une fois qu'on appuie sur le bouton du formulaire, cette methode recupere un objet Mission
         public IActionResult CreateMission(Mission mission)
         {
             using (Dal dal = new Dal())
-            {
 
-                Mission newMission = new Mission
+            {
+                User user = dal.GetUser(HttpContext.User.Identity.Name);
+                bool isDateValid = ActivityServices.isDateValid(mission.MissionStart, mission.MissionEnd);
+                if (isDateValid)
                 {
-                    Name = mission.Name,
-                    MissionStart = mission.MissionStart,
-                    MissionEnd = mission.MissionEnd,
-                    MissionType = mission.MissionType
-                };
-                int missionId = dal.CreateMission(newMission);
-                //Recuperation de l'id de la mission que nous venons de creer
-                Activity activity = new Activity
+                    Mission newMission = new Mission
+                    {
+                        Name = mission.Name,
+                        MissionStart = mission.MissionStart,
+                        MissionEnd = mission.MissionEnd,
+                        MissionType = mission.MissionType
+                    };
+                    int missionId = dal.CreateMission(newMission);
+                    //Recuperation de l'id de la mission que nous venons de creer
+                    Activity activity = new Activity
+                    {
+                        LabelActivity = mission.Name,
+                        MissionId = missionId
+                    };
+                    dal.CreateActivity(activity);
+                }
+                else
                 {
-                    LabelActivity = mission.Name,
-                    MissionId = missionId
-                };
-                dal.CreateActivity(activity);
+                    Notification notif = new Notification
+                    {
+                        MessageContent = "Merci de bien vouloir renseigner des dates cohérentes",
+                        ClassContext = "danger",
+                        UserId = user.Id
+                    };
+                    dal.CreateNotification(notif);
+                }
             }
 
             //Pour retourner sur la page d'affichage des mission
-            return RedirectToAction("Index");
+
+            return RedirectToAction("SeeMissions");
 
         }
+        
+
+        
+        //Une fois qu'on appuie sur le bouton du formulaire, cette methode recupere un objet Mission
+        public IActionResult CreateMissionUser()
+        {
+            using (Dal dal = new Dal())
+
+            {
+                List<UserData> userDatas = new List<UserData>();
+                List<Mission>missions = new List<Mission>();
+                ViewBag.userDatas = userDatas;
+                ViewBag.missions = missions;
+           
+            }
+            return View();
+        }
+        
+        [HttpPost]
+        //Une fois qu'on appuie sur le bouton du formulaire, cette methode recupere un objet Mission
+        public IActionResult CreateMissionUser(MissionUser missionUser)
+        {
+            using (Dal dal = new Dal())
+
+            {
+                List<UserData> userDatas = new List<UserData>();
+                List<Mission> missions = new List<Mission>();
+                ViewBag.userDatas = userDatas;
+                ViewBag.missions = missions;
+
+            }
+            return View();
+
+        }
+
 
         public IActionResult CreateFormation()
         {
@@ -334,7 +399,7 @@ namespace Projet2_EasyFid.Controllers
             }
 
             //Pour retourner sur la page d'affichage des mission
-            return RedirectToAction("Index");
+            return RedirectToAction("SeeFormation");
 
 
 

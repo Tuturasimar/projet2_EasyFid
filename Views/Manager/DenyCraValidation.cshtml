@@ -9,16 +9,16 @@
 <p>Le refus d'un CRA doit être justifié. Envoyez un commentaire lié au refus du Cra de @ViewBag.cra.User.UserData.Firstname @ViewBag.cra.User.UserData.Lastname</p>
 
 @using (Html.BeginForm("CraToDraft", "Manager", FormMethod.Post))
-    {
+{
 
     <input hidden name="id" value="@ViewBag.cra.Id" />
-    
+
     @Html.LabelFor(m => m.MessageContent)
     @Html.TextAreaFor(m => m.MessageContent)
     @Html.ValidationMessageFor(m => m.MessageContent)
 
     <input type="submit" value="Confirmer la suppression" class="btn btn-danger" />
-    }
+}
 
 @Html.ActionLink("Retour", "CraDetails", "Manager", new { id = ViewBag.cra.Id }, new { @class = "btn btn-info" })
 

@@ -25,7 +25,9 @@ namespace Projet2_EasyFid.Data
 
 
 
+
        public DbSet<Statistic> Statistics { get; set; }
+
 
 
 
@@ -41,6 +43,7 @@ namespace Projet2_EasyFid.Data
 
 
 
+
             optionsBuilder.UseMySql("server=localhost;port=8889;user id=root;password=root;database=easyFid"); // connexion trévor
 
 
@@ -48,8 +51,9 @@ namespace Projet2_EasyFid.Data
             //optionsBuilder.UseMySql("server=localhost;user id=root;password=rrrrrrrr;database=UserData"); //connexion Louis
             //optionsBuilder.UseMySql("server=localhost;user id=root;password=root;database=easyFid"); //connexion Seb
 
+
         }
-        
+
         public void InitialiseDb()
         {
             // Suppression et création de la BDD
