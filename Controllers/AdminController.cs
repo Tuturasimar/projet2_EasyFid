@@ -313,12 +313,6 @@ namespace Projet2_EasyFid.Controllers
             return RedirectToAction("Index");
 
         }
-
-        public ActionResult Logout()
-        {
-            HttpContext.SignOutAsync();
-            return RedirectToAction("Index", "Login");
-        }
     }
 }
 

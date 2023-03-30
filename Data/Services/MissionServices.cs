@@ -128,6 +128,6 @@ namespace Projet2_EasyFid.Data.Services
                 }
             }
             return isCompatible;
-        }   
-
+        }
+    }
 }

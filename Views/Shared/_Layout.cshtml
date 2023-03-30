@@ -35,7 +35,7 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fas fa-user"></i> Profile <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li>@Html.ActionLink("Utilisateur", "UserDetail","Salarie", new { id = User.Identity.Name })</li>
-                                <li>@Html.ActionLink("Deconnexion", "Logout")</li>
+                                <li>@Html.ActionLink("Déconnexion", "Logout", "Salarie")</li>
                             </ul>
                         </li>
                     </ul>
