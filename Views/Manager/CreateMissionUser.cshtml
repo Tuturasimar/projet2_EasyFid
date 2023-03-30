@@ -1,0 +1,23 @@
+﻿@model Projet2_EasyFid.Models.MissionUser
+@{
+    Layout = "_Layout";
+    ViewBag.Title = "Formulaire d'affection de la mission";
+}
+
+@using (Html.BeginForm("CreateMissionUser", "Manager", FormMethod.Post))
+{
+    <fieldset>
+        <legend>Affectation de la mission</legend>
+        @Html.LabelFor(m => Model.User)
+        @Html.ValidationMessageFor(m=> Model.User)
+        <br />
+        @Html.LabelFor(m => Model.Mission)
+        @Html.ValidationMessageFor(m=> Model.Mission)
+        <br />
+        <input type="submit" value="Valider" />
+        @Html.ActionLink("Annuler", "SeeMissionUsers")
+
+    </fieldset>
+}<script type="text/javascript" src="~/Scripts/jquery-3.3.1.js"></script>
+<script type="text/javascript" src="~/Scripts/jquery.validate-vsdoc.js"></script>
+<script type="text/javascript" src="~/Scripts/jquery.validate.unobtrusive.js"></script>

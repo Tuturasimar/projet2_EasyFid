@@ -7,8 +7,12 @@
 @Html.ActionLink("Retour", "Index")
 
 <h2>Liste des missions</h2>
-<div>
-    @Html.ActionLink("Ajouter", "CreateMission")
+<div border="1" style="">
+    @Html.ActionLink("Créer mission", "CreateMission")
+  
+</div>
+<div border="1">
+    @Html.ActionLink("Affecter mission", "CreateMissionUser")
 </div>
 <table id="Missions" border="1">
     <tr>

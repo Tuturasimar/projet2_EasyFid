@@ -15,24 +15,25 @@ namespace Projet2_EasyFid.Data
 
 		int CreateCra (Cra cra);
 
-		//void UpdateCra(int id, StateEnum stateCra);
+        //void UpdateCra(int id, StateEnum stateCra);
 
-
-		List<Mission> GetAllMissions();
-
+        List<Mission> GetAllMissions();
+        List<MissionUser> GetAllMissionUsers();
         List<Formation> GetAllFormations();
 
-        //int DeleteMission(int id);
+        
         void UpdateMission(Mission mission);
+        void UpdateMissionUser(MissionUser missionUser);
         void UpdateFormation(Formation formation);
     
 
 
 
 		int CreateMission(Mission mission);
-		int CreateFormation(Formation formation);
+        int CreateMissionUser(MissionUser missionUser);
+        int CreateFormation(Formation formation);
 
-        //int DeleteFormation(int id);
+        
 
 
 

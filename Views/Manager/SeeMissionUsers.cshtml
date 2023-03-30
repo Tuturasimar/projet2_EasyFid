@@ -1,0 +1,34 @@
+﻿@model Projet2_EasyFid.ViewModels.MissionUserListViewModel
+@{
+    Layout = "_Layout";
+    ViewBag.Title = "Liste des affectations de missions";
+}
+
+@Html.ActionLink("Retour", "Index")
+
+<h2>Liste des affectations de mission</h2>
+<div>
+    @Html.ActionLink("Ajouter", "CreateMissionUser")
+</div>
+<table id="Missions" border="1">
+    <tr>
+        <td>Nom du consultant</td>
+        <td>Prenom du consultant</td>
+        <td>Nom de la mission</td>
+        <td>Statut de la mission</td>
+        <td>Modifier</td>
+        <td>Supprimer</td>
+    </tr>
+    @foreach (var missionUser in Model.MissionUsers)
+    {
+    <tr>
+    <td>@missionUser.User.UserData.Firstname</td>
+    <td>@missionUser.User.UserData.Lastname</td>
+    <td>@missionUser.Mission.Name</td>
+    <td>@missionUser.Mission.MissionState</td>
+
+    <td>@Html.ActionLink("Modifier", "UpdateMissionUser", new { id = missionUser.Id })</td>
+    <td>@Html.ActionLink("Supprimer", "SeeMissionUsers")</td>
+    </tr>
+    }
+</table>

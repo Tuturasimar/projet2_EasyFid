@@ -6,30 +6,30 @@
 }
 
 
-    @using (Html.BeginForm("UpdateFormation", "Manager", FormMethod.Post))
-    {
-        <fieldset>
-            <legend>Mettre à jour une formation</legend>
-            @Html.LabelFor(f => Model.Name)
-            @Html.TextBoxFor(f => Model.Name)
-            @Html.ValidationMessageFor(f => Model.Name)
-            <br />
-            @Html.LabelFor(f => Model.NbOfDays)
-            @Html.TextBoxFor(f => Model.NbOfDays)
-            @Html.ValidationMessageFor(f => Model.NbOfDays)
-            <br />
-            @Html.LabelFor(f => Model.Location)
-            @Html.TextBoxFor(f => Model.Location)
-            @Html.ValidationMessageFor(f => Model.Location)
-            <br />
-            @Html.LabelFor(f => Model.Description)
-            @Html.TextAreaFor(f => Model.Description,10,40, htmlAttributes: new {style="width: 100%; max-width: 100%;" })
-            @Html.ValidationMessageFor(f => Model.Description)
+@using (Html.BeginForm("UpdateFormation", "Manager", FormMethod.Post))
+{
+    <fieldset>
+        <legend>Mettre à jour une formation</legend>
+        @Html.LabelFor(f => Model.Name)
+        @Html.TextBoxFor(f => Model.Name)
+        @Html.ValidationMessageFor(f => Model.Name)
         <br />
-            <input type="submit" value="Modifier" />
-            @Html.ActionLink("Retour", "SeeFormation")
-        </fieldset>
-    }
-    <script type="text/javascript" src="~/Scripts/jquery-3.3.1.js"></script>
-    <script type="text/javascript" src="~/Scripts/jquery.validate-vsdoc.js"></script>
-    <script type="text/javascript" src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+        @Html.LabelFor(f => Model.NbOfDays)
+        @Html.TextBoxFor(f => Model.NbOfDays)
+        @Html.ValidationMessageFor(f => Model.NbOfDays)
+        <br />
+        @Html.LabelFor(f => Model.Location)
+        @Html.TextBoxFor(f => Model.Location)
+        @Html.ValidationMessageFor(f => Model.Location)
+        <br />
+        @Html.LabelFor(f => Model.Description)
+        @Html.TextAreaFor(f => Model.Description,10,40, htmlAttributes: new {style="width: 100%; max-width: 100%;" })
+        @Html.ValidationMessageFor(f => Model.Description)
+        <br />
+        <input type="submit" value="Modifier" />
+        @Html.ActionLink("Retour", "SeeFormation")
+    </fieldset>
+}
+<script type="text/javascript" src="~/Scripts/jquery-3.3.1.js"></script>
+<script type="text/javascript" src="~/Scripts/jquery.validate-vsdoc.js"></script>
+<script type="text/javascript" src="~/Scripts/jquery.validate.unobtrusive.js"></script>
