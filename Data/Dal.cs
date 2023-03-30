@@ -37,7 +37,10 @@ namespace Projet2_EasyFid.Data
         {
             return MissionServices.GetAllMissions(_bddContext);
         }
-
+        public List<Formation> GetAllFormations()
+        {
+            return FormationServices.GetAllFormations(_bddContext);
+        }
 
         public void SetUserIdNullOnDelete(Cra cra)
         {
@@ -122,6 +125,8 @@ namespace Projet2_EasyFid.Data
             return UserServices.GetAllUsersByManagerId(_bddContext, id);
         }
 
+
+
         public User GetUserById(int id)
         {
             return UserServices.GetUserById(_bddContext, id);
@@ -203,10 +208,10 @@ namespace Projet2_EasyFid.Data
         }
 
         
-        public List<Formation> GetAllFormations()
-        {
-            return CraServices.GetAllFormations(_bddContext);
-        }
+        //public List<Formation> GetAllFormations()
+        //{
+        //    return CraServices.GetAllFormations(_bddContext);
+        //}
         
 
         public void UpdateFormation(Formation formation)
@@ -382,16 +387,8 @@ namespace Projet2_EasyFid.Data
             return ActivityServices.GetAllAbsenceAndFormation(_bddContext);
         }
 
-        public void DeleteCraActivity(CraActivity craActivity)
-        {
-            CraServices.DeleteCraActivity(_bddContext, craActivity);
-        }
 
-        public void DeleteActivityDate(ActivityDate activityDate)
-        {
-            ActivityServices.DeleteActivityDate(_bddContext, activityDate);
 
-        }
 
         public List<UserFeedback> GetAllUserFeedBack()
         {
@@ -405,8 +402,32 @@ namespace Projet2_EasyFid.Data
 
         public List<UserFeedback> GetAllUserFeedBackByMissionId(int id)
         {
-            return UserServices.GetAllUserFeedBackByMissionId(_bddContext, id);
+            return UserServices.GetAllUserFeedBackByMissionId(_bddContext, id); }
+
+        public User GetUserByResetToken(string token)
+        {
+
+                return _bddContext.Users.SingleOrDefault(u => u.PasswordResetToken == token && u.PasswordResetTokenExpiration > DateTime.UtcNow);
+            }
+
+
+        public void DeleteCraActivity(CraActivity craActivity)
+        {
+            CraServices.DeleteCraActivity(_bddContext, craActivity);
+        }
+
+        public void DeleteActivityDate(ActivityDate activityDate)
+        {
+            ActivityServices.DeleteActivityDate(_bddContext,activityDate);
+
+        }
+
+        public List<User> GetAllUsersButNotTheAdmin(int id)
+        {
+            return UserServices.GetAllUsersButNotTheAdmin(_bddContext, id);
+
         }
     }
 }
+
 

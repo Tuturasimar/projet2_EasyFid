@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Projet2_EasyFid.Data;
 using Projet2_EasyFid.Data.Enums;
 using Projet2_EasyFid.Models;
@@ -12,6 +15,7 @@ using Projet2_EasyFid.ViewModels;
 
 namespace Projet2_EasyFid.Controllers
 {
+    [Authorize (Roles ="ADMIN")]
     // Controller qui gère les méthodes pour l'Administrateur (require authentificateur Admin)
     public class AdminController : Controller
     {
@@ -20,8 +24,9 @@ namespace Projet2_EasyFid.Controllers
         {
             using (Dal dal = new Dal())
             {
+                User connectedUser = dal.GetUser(HttpContext.User.Identity.Name);
                 // On récupère tous les utilisateurs pour les stocker dans une liste
-                List<User> users = dal.GetAllUsers();
+                List<User> users = dal.GetAllUsersButNotTheAdmin(connectedUser.Id);
                 UserListViewModel userList = new UserListViewModel { Users = users };
                 return View(userList);
             }
@@ -163,7 +168,7 @@ namespace Projet2_EasyFid.Controllers
             
             using (Dal dal = new Dal())
             {
-                if (!ModelState.IsValid)
+                if(!ModelState.IsValid)
                 {
                     List<Company> companies = dal.GetAllCompanies();
                     List<UserData> userDatas = new List<UserData>();
@@ -290,13 +295,29 @@ namespace Projet2_EasyFid.Controllers
         {
             using(Dal dal = new Dal())
             {
-                User userToChange = dal.GetUserById(user.Id);
-                userToChange.Password = Dal.EncodeMD5(user.Password);
-                dal.ModifyUser(userToChange);
+
+                if(user.Password != null)
+                {
+                    User userToChange = dal.GetUserById(user.Id);
+                    userToChange.Password = Dal.EncodeMD5(user.Password);
+                    dal.ModifyUser(userToChange);
+                } else
+                {
+                    User userConnected = dal.GetUser(HttpContext.User.Identity.Name);
+                    Notification notification = new Notification { ClassContext = "danger", MessageContent = "Un mot de passe ne peut être vide...", UserId = userConnected.Id };
+                    dal.CreateNotification(notification);
+                    return RedirectToAction("Index");
+                }
             }
 
             return RedirectToAction("Index");
 
+        }
+
+        public ActionResult Logout()
+        {
+            HttpContext.SignOutAsync();
+            return RedirectToAction("Index", "Login");
         }
     }
 }

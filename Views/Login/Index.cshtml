@@ -4,15 +4,14 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <title>Connexion EasyFid</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/login.css">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/js/bootstrap.min.js"></script>
 </head>
 <body>
     <div class="container">
@@ -24,36 +23,41 @@
                         Vous êtes déjà authentifié avec le login :
                         @Model.User.Login
                     </h4>
-                    @Html.ActionLink("Souhaitez-vous vous déconnecter ?", "Logout")
+                    <h5>
+                        @Html.ActionLink("Souhaitez-vous vous déconnecter ?", "Logout")
+                    </h5>
                 }
+
                 else
                 {
-                    <div>
-                        <div>
-                            <img src="/assets/image/beMyTech.png" alt="Logo" width="250" height="250" class="logo">
+                    <div class="row">
+                        <div class="col-md-12 text-center mb-3">
+                            <img src="/assets/image/beMyTech.png" alt="Logo" class="img-fluid" style="max-width: 250px;">
                         </div>
-                        <form method="post">
-                            <div>
-                                <label for="login">Login :</label>
-                                @Html.TextBoxFor(m => m.User.Login, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(m => m.User.Login, "", new { @class = "text-danger" })
-                            </div>
-                            <div>
-                                <label for="password">Mot de passe :</label>
-                                @Html.PasswordFor(m => m.User.Password, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(m => m.User.Password, "", new { @class = "text-danger" })
-                            </div>
-                            <div>
-                                <label for="selectedRole">Sélectionnez votre rôle :</label>
-                                @Html.DropDownListFor(m => m.UserRoleViewModel.SelectedRole, new SelectList(Enum.GetValues(typeof(RoleTypeEnum))), new { @class = "form-control" })
-                                @Html.ValidationMessageFor(m => m.UserRoleViewModel.SelectedRole, "", new { @class = "text-danger" })
-                            </div>
-                            <div>
-                                <input type="submit" value="Se connecter" class="btn btn-primary" />
-                                <br />
-                                @Html.ActionLink("Mot de passe oublié", "ResetPassword")
-                            </div>
-                        </form>
+                        <div class="col-md-6 offset-md-3">
+                            <form method="post">
+                                <div class="mb-3">
+                                    <label for="login" class="form-label">Login :</label>
+                                    @Html.TextBoxFor(m => m.User.Login, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.User.Login, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Mot de passe :</label>
+                                    @Html.PasswordFor(m => m.User.Password, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.User.Password, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="mb-3">
+                                    <label for="selectedRole" class="form-label">Sélectionnez votre rôle :</label>
+                                    @Html.DropDownListFor(m => m.UserRoleViewModel.SelectedRole, new SelectList(Enum.GetValues(typeof(RoleTypeEnum))), new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.UserRoleViewModel.SelectedRole, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="mb-3">
+                                    <input type="submit" value="Se connecter" class="btn btn-primary" />
+                                    <br />
+                                    @Html.ActionLink("Mot de passe oublié", "ResetPassword")
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 }
             </div>

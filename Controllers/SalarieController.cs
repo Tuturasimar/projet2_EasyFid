@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Razor.Language.Intermediate;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -16,6 +19,7 @@ using Projet2_EasyFid.ViewModels;
 
 namespace Projet2_EasyFid.Controllers
 {
+    [Authorize(Roles = "SALARIE")]
     // Controller qui va gérer les méthodes basiques de l'application (authentification en tant que salarie)
     public class SalarieController : Controller
     {
@@ -23,6 +27,7 @@ namespace Projet2_EasyFid.Controllers
 
 
         [Produces("application/json")]
+        [AllowAnonymous]
         public IActionResult GetAllNotificationsByUser()
         {
             try
@@ -48,7 +53,7 @@ namespace Projet2_EasyFid.Controllers
                 return BadRequest();
             }
         }
-
+        [AllowAnonymous]
         public IActionResult DeleteOneNotification(int id)
         {
             using(Dal dal = new Dal())
@@ -57,30 +62,41 @@ namespace Projet2_EasyFid.Controllers
                 Notification notifToDelete = dal.GetNotificationById(id);
                 dal.DeleteNotification(notifToDelete);
 
-                List<RoleUser> roleUsers = dal.GetAllRolesById(user.Id);
-                foreach(RoleUser role in roleUsers)
+                // On récupère l'ancienne url 
+                string route = HttpContext.Request.Headers["Referer"];
+                string controllerName = "";
+                // On récupère l'index du / de l'url, après le http://
+                int indexOfControllerSlash = route.IndexOf("/", 8);
+                // On récupère l'index d'un eventuel autre / à la suite
+                int indexOfNextSlash = route.IndexOf("/", indexOfControllerSlash + 1);
+                // S'il existe
+                // Un indexOf qui vaut - 1 veut dire qu'on ne récupère pas l'élément recherché
+                if(indexOfNextSlash != -1)
                 {
-                    if(role.RoleType == RoleTypeEnum.ADMIN)
-                    {
-                        return RedirectToAction("Index","Admin");
-                    } else if (role.RoleType == RoleTypeEnum.SALARIE)
-                    {
-                        return RedirectToAction("Index", "Salarie");
-                    } else if (role.RoleType == RoleTypeEnum.MANAGER)
-                    {
-                        return RedirectToAction("Index", "Manager");
-                    }
+                    // On utilise le substring pour récupérer uniquement ce qui se trouve après le premier / (salarie, manager, admin)
+                    // Substring peut attendre deux arguments :
+                        // Le premier est l'index à partir duquel on récupère le string (ici l'index du / + 1 pour commencer directement là où on souhaite obtenir la donnée)
+                        // Le second est la longueur, ce qui correspond ici à la différence entre les deux index des / - 1
+                    controllerName = route.Substring(indexOfControllerSlash + 1, indexOfNextSlash - indexOfControllerSlash - 1);
+                } else
+                {
+                    // Substring avec un seul argument, va récupérer tout ce qui se situe après le premier /
+                    controllerName = route.Substring(indexOfControllerSlash + 1);
+                }
+               
+
+                if(controllerName != null)
+                {
+                    return RedirectToAction("Index", controllerName);
                 }
 
                 return View("Error");
-
-                
             }
         }
 
         //Affiche tous les cras du salarie
 
-        public IActionResult IndexSalarie()
+        public IActionResult Index()
         {
             using (Dal dal = new Dal())
             {
@@ -155,13 +171,14 @@ namespace Projet2_EasyFid.Controllers
                 List<DateTime> EndDateList = new List<DateTime>();
                 List<int> activitiesId = new List<int>();
 
-                foreach (CraDetailViewModel craModel in cdvm)
+
+                foreach(CraDetailViewModel craModel in cdvm)
                 {
                     activitiesId.Add(craModel.Activity.Id);
-
+                    
                 }
 
-                for (int i = 0; i < BeginDate.Count - 1; i++)
+                for(int i = 0; i<BeginDate.Count - 1; i++)
                 {
                     BeginDateList.Add(BeginDate[i]);
                     EndDateList.Add(EndDate[i]);
@@ -173,6 +190,7 @@ namespace Projet2_EasyFid.Controllers
 
                 if (!isDateValid)
                 {
+
                     return RedirectToAction("Index");
                 }
 
@@ -184,22 +202,23 @@ namespace Projet2_EasyFid.Controllers
                 oldCra.StateCra = StateEnum.DRAFT;
                 dal.ModifyCra(oldCra);
 
+
                 ////On recupère tous les CraActivity en fonction de l'id du Cra pour les supprimer ensuite
                 List<CraActivity> oldCraActivity = dal.GetAllCraActivityByCraId(Id);
                 // On récupère tous les ActivityDate liés à ces CraActivity pour les supprimer
                 List<ActivityDate> oldActivityDate = new List<ActivityDate>();
 
-                for (int i = 0; i < activitiesId.Count - 1; i++)
+                for(int i = 0; i< activitiesId.Count - 1; i++)
                 {
-                    oldActivityDate.AddRange(dal.GetAllActivityDateByActivityIdAndCraId(activitiesId[i], Id));
+                    oldActivityDate.AddRange(dal.GetAllActivityDateByActivityIdAndCraId(activitiesId[i],Id));
                 }
 
-                foreach (ActivityDate activityDateToDelete in oldActivityDate)
+                foreach(ActivityDate activityDateToDelete in oldActivityDate)
                 {
                     dal.DeleteActivityDate(activityDateToDelete);
                 }
 
-                foreach (CraActivity craActivityToDelete in oldCraActivity)
+                foreach(CraActivity craActivityToDelete in oldCraActivity)
                 {
                     dal.DeleteCraActivity(craActivityToDelete);
                 }
@@ -236,9 +255,9 @@ namespace Projet2_EasyFid.Controllers
                     dal.CreateActivityDate(newActivityDate);
                 }
 
-                return RedirectToAction("CraDetail", new { @id = Id });
+                return RedirectToAction("CraDetail", new { @id = Id });    
+               
 
-            }
         }
 
         //Affiche le formulaire de creation du Cra
@@ -249,7 +268,28 @@ namespace Projet2_EasyFid.Controllers
                 // Récupérer l'utilisateur actuellement connecté
                 User user = dal.GetUser(HttpContext.User.Identity.Name);
 
+                // vérifier si un CRA de ce mois existe déjà ou non pour l'utilisateur connecté -> récupérer son ID
+                List<Cra> craList = dal.GetAllCrasByUserId(user.Id);
+                foreach(Cra cra in craList)
+                {
+                    // S'il existe, est ce que son State est DRAFT ?
+                    if(cra.CreatedAt.Month == DateTime.Now.Month && cra.CreatedAt.Year == DateTime.Now.Year)
+                    {
+                        if(cra.StateCra == StateEnum.DRAFT)
+                        {
+                            Notification notification = new Notification { ClassContext = "info", MessageContent = "Le Cra du mois est déjà créé", UserId = user.Id };
+                            return RedirectToAction("UpdateCra", new { id = cra.Id });
+                        } else
+                        {
+                            Notification notification = new Notification { ClassContext = "danger", MessageContent = "Le CRA du mois a déjà été validé ou est en cours de traitement.", UserId = user.Id };
+                            dal.CreateNotification(notification);
+                            return RedirectToAction("Index");
+                        }
+                    } 
+                }
 
+
+                // Si le cra n'existe pas, suite de la méthode habituelle
 
                 List<Activity> activities = new List<Activity>();
                 List<Mission> missionUsers = dal.GetAllMissionUserByUserId(user.Id);
@@ -330,7 +370,7 @@ namespace Projet2_EasyFid.Controllers
             }
 
             //Pour retourner sur la page d'affichade des cras
-            return RedirectToAction("IndexSalarie");
+            return RedirectToAction("Index");
         }
 
         public IActionResult CraDetail(int id)
@@ -365,7 +405,7 @@ namespace Projet2_EasyFid.Controllers
                 }
             }
                 //Si il n'existe pas, on retourne sur la vue Index
-                return RedirectToAction("IndexSalarie");
+                return RedirectToAction("Index");
         }
 
         public IActionResult AskForCraValidation(int id)
@@ -402,6 +442,37 @@ namespace Projet2_EasyFid.Controllers
                 return View(activeMissions);
             }
 
+        }
+
+        [AllowAnonymous]
+        public IActionResult UserDetail(int id)
+        {
+            using (Dal dal = new Dal())
+            {
+                // On récupère l'id de l'utilisateur authentifié
+                string authenticatedUserId = HttpContext.User.Identity.Name;
+                if(authenticatedUserId == null)
+                {
+                    return RedirectToAction("Index", "Login");
+                }
+
+                // On vérifie si l'utilisateur existe en BDD et si l'id correspond à l'utilisateur authentifié
+                User user = dal.GetUserById(id);
+                if (user == null || user.Id.ToString() != authenticatedUserId)
+                {
+                    // Si l'utilisateur n'existe pas ou si l'id ne correspond pas à l'utilisateur authentifié, on redirige vers l'Index Admin
+                    return RedirectToAction("Index");
+                }
+
+                // On récupère tous les rôles de l'utilisateur
+                List<RoleUser> rolesUser = dal.GetAllRolesById(id);
+
+                // On crée un ViewModel pour les détails de l'utilisateur et ses rôles
+                UserRoleViewModel urvm = new UserRoleViewModel { User = user, RolesUser = rolesUser };
+
+                // Envoi en paramètre à la vue UserDetail
+                return View(urvm);
+            }
         }
 
         [HttpPost]
@@ -454,12 +525,16 @@ namespace Projet2_EasyFid.Controllers
                     }
                 }
             }
-
-           
-
             return RedirectToAction("Index");
         }
-     
+
+        // Malgré le fait que le controller nécessite d'être salarié, on override les autorisations ici
+        [AllowAnonymous]
+        public ActionResult Logout()
+        {
+            HttpContext.SignOutAsync();
+            return RedirectToAction("Index", "Login");
+        }
     }
 }
 

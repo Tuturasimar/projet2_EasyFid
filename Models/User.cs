@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Projet2_EasyFid.Data.Enums;
 
 namespace Projet2_EasyFid.Models
@@ -18,6 +19,7 @@ namespace Projet2_EasyFid.Models
         [MaxLength(50)]
         public string Password { get; set; }
         public DateTime CreationDate { get; set; }
+        
         public JobEnum JobEnum { get; set; }
 
         public int UserDataId { get; set; }
@@ -28,6 +30,9 @@ namespace Projet2_EasyFid.Models
 
         public int? ManagerId { get; set; }
         public User Manager { get; set; }
+        public string UserIdentityName { get; internal set; }
+        public string PasswordResetToken { get; internal set; }
+        public DateTime? PasswordResetTokenExpiration { get; internal set; }
     }
 }
 

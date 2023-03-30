@@ -1,0 +1,33 @@
+﻿@model Projet2_EasyFid.ViewModels.FormationListViewModel
+@{
+    Layout = "_Layout";
+    ViewBag.Title = "Liste des Formations";
+}
+
+@Html.ActionLink("Retour", "Index")
+
+<h2>Liste des formations</h2>
+<div>
+    @Html.ActionLink("Ajouter", "CreateFormation")
+</div>
+<table id="Missions" border="1">
+    <tr>
+        <td>Nom</td>
+        <td>Nombre de jours de formation</td>
+        <td>Lieu de formation</td>
+        <td>Description</td>
+        <td>Modifier</td>
+        <td>Supprimer</td>
+    </tr>
+    @foreach (var formation in Model.Formations)
+    {
+            <tr>
+                <td>@formation.Name</td>
+                <td>@formation.NbOfDays</td>
+                <td>@formation.Location</td>
+                <td>@formation.Description</td>
+                <td>@Html.ActionLink("Modifier", "UpdateFormation", new { id = formation.Id })</td>
+                <td>@Html.ActionLink("Supprimer", "Index")</td>
+            </tr>
+    }
+</table>

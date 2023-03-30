@@ -26,7 +26,7 @@
             childStar[i].className = "fa fa-star goldStar";
         } else {
         // Sinon, on change la classe en fa fa-star-o redStar, ce qui correspond à une étoile vide rouge
-            childStar[i].className = "fa fa-star-o redStar";
+            childStar[i].className = "far fa-star redStar";
         }
     }
 }

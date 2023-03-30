@@ -77,6 +77,12 @@ namespace Projet2_EasyFid.Data.Services
 			_bddContext.SaveChanges();
 			return craActivity.Id;
 		}
+
+		public static void DeleteCraActivity(BddContext _bddContext, CraActivity craActivity)
+		{
+			_bddContext.CraActivities.Remove(craActivity);
+			_bddContext.SaveChanges();
+		}
 	
 
 		public static List<Cra> GetAllCrasByUserId(BddContext _bddContext, int id)

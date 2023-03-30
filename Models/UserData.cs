@@ -16,6 +16,7 @@ namespace Projet2_EasyFid.Models
         public string Firstname { get; set; }
 
         [Required(ErrorMessage ="Renseignez votre date de naissance.")]
+        [DataType(DataType.Date)]
         public DateTime Birthday { get; set; }
 
         [Required(ErrorMessage = "Renseignez votre adresse mail.")]

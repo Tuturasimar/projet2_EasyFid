@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Projet2_EasyFid.Data;
 using Projet2_EasyFid.Data.Enums;
@@ -14,6 +16,7 @@ using Projet2_EasyFid.ViewModels;
 
 namespace Projet2_EasyFid.Controllers
 {
+    [Authorize(Roles = "MANAGER")]
     // Controller qui va gérer les méthodes Manager (require authentification Manager)
     public class ManagerController : Controller
     {
@@ -138,6 +141,16 @@ namespace Projet2_EasyFid.Controllers
                 List<Mission> missions = dal.GetAllMissions();
                 MissionListViewModel missionList = new MissionListViewModel { Missions = missions };
                 return View(missionList);
+            }
+        }
+        public IActionResult SeeFormation()
+        {
+            using Dal dal = new Dal();
+            {
+                //Récupération des formations que l'on stocke dans une liste
+                List<Formation> formations = dal.GetAllFormations();
+                FormationListViewModel formationList = new FormationListViewModel { Formations = formations };
+                return View(formationList);
             }
         }
 
@@ -325,10 +338,13 @@ namespace Projet2_EasyFid.Controllers
 
             //Pour retourner sur la page d'affichage des mission
             return RedirectToAction("Index");
+            
+            
+            
 
         }
-
-        public IActionResult SeeUserFeedback(int id)
+        
+                public IActionResult SeeUserFeedback(int id)
 
 
         {
@@ -349,9 +365,34 @@ namespace Projet2_EasyFid.Controllers
                 
             }
         }
+        
+        public IActionResult UserDetail(int id)
+        {
+            using (Dal dal = new Dal())
+            {
+                // On récupère l'id de l'utilisateur authentifié
+                string authenticatedUserId = HttpContext.User.Identity.Name;
 
 
+                // On vérifie si l'utilisateur existe en BDD et si l'id correspond à l'utilisateur authentifié
+                User user = dal.GetUserById(id);
+                if (user == null || user.Id.ToString() != authenticatedUserId)
+                {
+                    // Si l'utilisateur n'existe pas ou si l'id ne correspond pas à l'utilisateur authentifié, on redirige vers l'Index Admin
+                    return RedirectToAction("Index");
+                }
 
+                // On récupère tous les rôles de l'utilisateur
+                List<RoleUser> rolesUser = dal.GetAllRolesById(id);
+
+
+                // On crée un ViewModel pour les détails de l'utilisateur et ses rôles
+                UserRoleViewModel urvm = new UserRoleViewModel { User = user, RolesUser = rolesUser };
+
+                // Envoi en paramètre à la vue UserDetail
+                return View(urvm);
+            }
+        }
 
     }
 }
