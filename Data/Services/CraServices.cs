@@ -186,6 +186,13 @@ namespace Projet2_EasyFid.Data.Services
 
         }
 
+		public static List<Cra> GetAllCrasByManagerIdOrderByCreationDate(BddContext _bddContext, int id)
+		{
+			return _bddContext.Cras.Include(c => c.User).Include(c => c.User.UserData)
+				.Where(c => c.User.ManagerId == id).Where(c => c.StateCra == StateEnum.INHOLD || c.StateCra == StateEnum.VALIDATED )
+				.OrderBy(c => c.CreatedAt).ToList();
+		}
+
 
     }
 

@@ -6,11 +6,8 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
-
     <meta charset="utf-8">
-   
     <link rel="stylesheet" href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/css/bootstrap.min.css' media="screen" />
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" media="screen" />
     <link rel="stylesheet" href="/css/style.css" />
 </head>
@@ -32,9 +29,9 @@
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="#"><i class="fas fa-bell"></i> Notification</a></li>
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fas fa-user"></i> Profile <span class="caret"></span></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fas fa-user"></i> Profil <span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li>@Html.ActionLink("Utilisateur", "UserDetail","Salarie", new { id = User.Identity.Name })</li>
+                                <li>@Html.ActionLink("Utilisateur", "UserProfile", new { id = User.Identity.Name })</li>
                                 <li>@Html.ActionLink("Déconnexion", "Logout", "Salarie")</li>
                             </ul>
                         </li>
@@ -59,11 +56,13 @@
                 @RenderBody()
                 <br />
             </div>
-            <div class="col-sm-2 sidenav" id="notifications">  
-                </div>
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-            <script src="/Scripts/NotificationScript.js"></script>
-            @RenderSection("Scripts", required: false)
+            <div class="col-sm-2 sidenav" id="notifications">
+            </div>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="/Scripts/NotificationScript.js"></script>
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

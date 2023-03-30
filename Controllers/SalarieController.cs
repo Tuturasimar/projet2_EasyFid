@@ -313,7 +313,12 @@ namespace Projet2_EasyFid.Controllers
             using (Dal dal = new Dal())
             {
                 User user = dal.GetUser(HttpContext.User.Identity.Name);
-
+                if(activities.Count == 1)
+                {
+                    Notification notif = new Notification { ClassContext = "danger", UserId = user.Id, MessageContent = "Un CRA doit disposer d'au moins une activité à sa création." };
+                    dal.CreateNotification(notif);
+                    return RedirectToAction("Index");
+                }
                 bool isDateValid =  dal.CheckActivityDateComptability(BeginDate, EndDate, activities, user);
                 if (!isDateValid)
                 {
@@ -444,8 +449,8 @@ namespace Projet2_EasyFid.Controllers
 
         }
 
-        [AllowAnonymous]
-        public IActionResult UserDetail(int id)
+        
+        public IActionResult UserProfile(int id)
         {
             using (Dal dal = new Dal())
             {

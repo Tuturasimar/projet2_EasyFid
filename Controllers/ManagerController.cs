@@ -24,18 +24,15 @@ namespace Projet2_EasyFid.Controllers
         //Affichage de l'ensemble des missions
         public IActionResult Index()
         {
-            using Dal dal =new Dal();
+            using Dal dal = new Dal();
             {
                 User user = dal.GetUser(HttpContext.User.Identity.Name);
                 //Récupération des missions que l'on stocke dans une liste
-                List<User> users = dal.GetAllUsersByManagerId(user.Id);
-                List<Cra> crasForManager = new List<Cra>();
-                foreach(User userCra in users)
-                {
-                    crasForManager.AddRange(dal.GetAllInHoldAndValidatedCrasByUserId(userCra.Id));
-                }
 
-                CraListViewModel craList  = new CraListViewModel { Cras = crasForManager };
+                List<Cra> crasForManager = dal.GetAllCrasByManagerIdOrderByCreationDate(user.Id);
+                
+
+                CraListViewModel craList = new CraListViewModel { Cras = crasForManager };
                 return View(craList);
             }
 
@@ -79,11 +76,11 @@ namespace Projet2_EasyFid.Controllers
 
         public IActionResult DenyCraValidation(int id)
         {
-            using(Dal dal = new Dal())
+            using (Dal dal = new Dal())
             {
                 Cra cra = dal.GetCraById(id);
 
-                if(cra != null && cra.StateCra == StateEnum.INHOLD)
+                if (cra != null && cra.StateCra == StateEnum.INHOLD)
                 {
                     ViewBag.cra = cra;
 
@@ -102,11 +99,11 @@ namespace Projet2_EasyFid.Controllers
             {
                 Cra cra = dal.GetCraById(id);
 
-                if(cra != null && cra.StateCra == StateEnum.INHOLD)
+                if (cra != null && cra.StateCra == StateEnum.INHOLD)
                 {
                     cra.StateCra = StateEnum.DRAFT;
                     dal.ModifyCra(cra);
-                    Notification notif = new Notification { MessageContent = "ERREUR CRA - " +notification.MessageContent, ClassContext = "danger", UserId = (int)cra.UserId };
+                    Notification notif = new Notification { MessageContent = "ERREUR CRA - " + notification.MessageContent, ClassContext = "danger", UserId = (int)cra.UserId };
                     dal.CreateNotification(notif);
 
                     return RedirectToAction("Index");
@@ -117,7 +114,7 @@ namespace Projet2_EasyFid.Controllers
 
         public IActionResult CraToValidation(int id)
         {
-            using(Dal dal = new Dal())
+            using (Dal dal = new Dal())
             {
                 Cra cra = dal.GetCraById(id);
                 if (cra != null && cra.StateCra == StateEnum.INHOLD)
@@ -159,7 +156,7 @@ namespace Projet2_EasyFid.Controllers
         {
             try
             {
-                var statistics = new BddContext().Statistics.OrderBy(s=>s.Date).ToList();
+                var statistics = new BddContext().Statistics.OrderBy(s => s.Date).ToList();
                 return Ok(statistics);
             }
             catch
@@ -167,7 +164,7 @@ namespace Projet2_EasyFid.Controllers
                 return BadRequest();
             }
         }
-        
+
         public IActionResult DisplayStatistics()
         {
 
@@ -185,7 +182,7 @@ namespace Projet2_EasyFid.Controllers
                 {
                     //je recherche l'ID qui est egal au parametre que m'a transmis l'utilisateur
                     Mission mission = dal.GetMissionById(id);
-                    if(mission == null)
+                    if (mission == null)
                     {
                         return View("Error");
                     }
@@ -218,7 +215,7 @@ namespace Projet2_EasyFid.Controllers
         {
             using Dal dal = new Dal();
             {
-                
+
                 return View();
             }
 
@@ -267,8 +264,8 @@ namespace Projet2_EasyFid.Controllers
                 return View("Error");
             }
         }
-       
-        
+
+
 
         //Affiche le formulaire de creation d'une mission
         public IActionResult CreateMission()
@@ -279,7 +276,7 @@ namespace Projet2_EasyFid.Controllers
 
         [HttpPost]
         //Une fois qu'on appuie sur le bouton du formulaire, cette methode recupere un objet Mission
-        public IActionResult CreateMission( Mission mission)
+        public IActionResult CreateMission(Mission mission)
         {
             using (Dal dal = new Dal())
             {
@@ -300,10 +297,10 @@ namespace Projet2_EasyFid.Controllers
                 };
                 dal.CreateActivity(activity);
             }
-            
+
             //Pour retourner sur la page d'affichage des mission
             return RedirectToAction("Index");
-            
+
         }
 
         public IActionResult CreateFormation()
@@ -324,7 +321,7 @@ namespace Projet2_EasyFid.Controllers
                     Name = formation.Name,
                     FormationStatus = formation.FormationStatus,
                     LocationFormation = formation.LocationFormation,
-                    
+
                 };
                 int formationId = dal.CreateFormation(newFormation);
                 //Recuperation de l'id de la mission que nous venons de creer
@@ -338,13 +335,13 @@ namespace Projet2_EasyFid.Controllers
 
             //Pour retourner sur la page d'affichage des mission
             return RedirectToAction("Index");
-            
-            
-            
+
+
+
 
         }
-        
-                public IActionResult SeeUserFeedback(int id)
+
+        public IActionResult SeeUserFeedback(int id)
 
 
         {
@@ -352,21 +349,21 @@ namespace Projet2_EasyFid.Controllers
             {
                 List<MissionUser> missionUsers = dal.GetAllMissionUserByMissionId(id);
 
-                if(missionUsers.Count == 0)
+                if (missionUsers.Count == 0)
                 {
                     User user = dal.GetUser(HttpContext.User.Identity.Name);
-                    Notification notif = new Notification { MessageContent = "Il n'y pas de notes disponibles pour cette mission" , ClassContext = "danger", UserId = user.Id};
+                    Notification notif = new Notification { MessageContent = "Il n'y pas de notes disponibles pour cette mission", ClassContext = "danger", UserId = user.Id };
                     dal.CreateNotification(notif);
                     return RedirectToAction("SeeMissions");
                 }
 
                 return View(missionUsers);
 
-                
+
             }
         }
-        
-        public IActionResult UserDetail(int id)
+
+        public IActionResult UserProfile(int id)
         {
             using (Dal dal = new Dal())
             {
