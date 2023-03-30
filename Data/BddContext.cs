@@ -35,7 +35,9 @@ namespace Projet2_EasyFid.Data
         {
             // Les paramètres du serveur changent en fonction des configurations personnelles
 
+
             optionsBuilder.UseMySql("server=localhost;port=8889;user id=root;password=root;database=easyFid"); // connexion trévor
+
             //optionsBuilder.UseMySql("server=localhost;user id=root;password=rrrrr;database=projet2"); //connexion Laura
             //optionsBuilder.UseMySql("server=localhost;user id=root;password=rrrrrrrr;database=UserData"); //connexion Louis
             //optionsBuilder.UseMySql("server=localhost;user id=root;password=root;database=easyFid"); //connexion Seb
@@ -67,7 +69,7 @@ namespace Projet2_EasyFid.Data
                 new User { Id = 1, Login = "xxxxx", Password = Dal.EncodeMD5("ppppp"), CreationDate = DateTime.Now, CompanyId = 1, UserDataId = 1, ManagerId = 4, JobEnum = JobEnum.Developpeur },
                 new User { Id = 2, Login = "Bob", Password = Dal.EncodeMD5("ppppp"), CreationDate = DateTime.Now, CompanyId = 1, UserDataId = 2, ManagerId = 4, JobEnum = JobEnum.ChefDeProjet },
                 new User { Id = 3, Login = "Lilou", Password = Dal.EncodeMD5("ppppp"), CreationDate = DateTime.Now, CompanyId = 1, UserDataId = 3, JobEnum = JobEnum.Administrateur },
-                new User { Id = 4, Login = "test", Password = Dal.EncodeMD5("ppppp"), CreationDate = DateTime.Now, CompanyId = 1, UserDataId = 4, JobEnum = JobEnum.Commercial }
+                new User { Id = 4, Login = "Kevin", Password = Dal.EncodeMD5("ppppp"), CreationDate = DateTime.Now, CompanyId = 1, UserDataId = 4, JobEnum = JobEnum.Commercial }
                 );
                 
             //Dans la tables cras
@@ -93,8 +95,10 @@ namespace Projet2_EasyFid.Data
 
             //Dans la table Formation
             this.Formations.AddRange(
-                new Formation { Id = 1, Name ="Formation Incendie", FormationStatus = FormationStatusEnum.GIVEN, LocationFormation = LocationFormationEnum.EXTERN, FormationStart = new DateTime(2023,03,25),FormationEnd=new DateTime(2023,04,10)},
-                new Formation { Id = 2, Name = "Formation nouveau logiciel", FormationStatus = FormationStatusEnum.FOLLOWED, LocationFormation = LocationFormationEnum.INTERN, FormationStart = new DateTime(2023, 03, 25), FormationEnd = new DateTime(2023, 04, 10) }
+                new Formation { Id = 1, Name ="Formation Incendie", NbOfDays=1, FormationStatus = FormationStatusEnum.GIVEN, LocationFormation = LocationFormationEnum.EXTERN,Location= "Alertis Paris", Description="Formation réglementaire visant à sensibiliser les salariés au risque incendie" },
+                new Formation { Id = 2, Name = "Formation nouveau logiciel",NbOfDays=4, FormationStatus = FormationStatusEnum.FOLLOWED, LocationFormation = LocationFormationEnum.INTERN, Location = "BeMyTech",Description ="Formation interne permettant d'upgrader une ancienne application de gestion du compte rendu d'activité"  },
+                new Formation { Id = 4, Name = "Formation Big DATA", NbOfDays = 2, FormationStatus = FormationStatusEnum.FOLLOWED, LocationFormation = LocationFormationEnum.EXTERN, Location = "Mines ParisTech", Description = "Formation à l'environnement Hadoop afin de pouvoir améliorer ses connaissance en infrastructure Big Data" },
+                new Formation { Id = 5, Name = "Formation Cybersecurite", NbOfDays = 3, FormationStatus = FormationStatusEnum.FOLLOWED, LocationFormation = LocationFormationEnum.INTERN, Location = "BeMyTech", Description = "Formation Risques d'intrusion et architecture des réseaux en DevSecOps" }
                 );
 
             //Dans la table Absence
