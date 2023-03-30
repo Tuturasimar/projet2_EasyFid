@@ -1,0 +1,15 @@
+﻿@model Projet2_EasyFid.ViewModels.UserRoleViewModel
+@{
+    Layout = "_Layout";
+    ViewBag.Title = "Détail Utilisateur";
+}
+
+<h2>Bienvenue sur votre profil @Model.User.Login</h2>
+<ul>
+    <li>Login : @Model.User.Login</li>
+    <li>Prénom : @Model.User.UserData.Firstname</li>
+    <li>Nom : @Model.User.UserData.Lastname</li>
+    <li>Date de naissance : @Model.User.UserData.Birthday.ToString("dd/MM/yyyy")</li>
+    
+    <li>Poste : @Model.User.JobEnum</li>
+</ul>

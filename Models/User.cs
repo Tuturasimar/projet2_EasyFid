@@ -30,6 +30,9 @@ namespace Projet2_EasyFid.Models
 
         public int? ManagerId { get; set; }
         public User Manager { get; set; }
+        public string UserIdentityName { get; internal set; }
+        public string PasswordResetToken { get; internal set; }
+        public DateTime? PasswordResetTokenExpiration { get; internal set; }
     }
 }
 

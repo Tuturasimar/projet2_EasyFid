@@ -62,7 +62,7 @@ namespace Projet2_EasyFid
                 // Route de la partie Salarie (/salarie)
                 endpoints.MapControllerRoute(
                     name: "adminHome",
-                    pattern: "{controller=Salarie}/{action=IndexSalarie}/{id?}");
+                    pattern: "{controller=Salarie}/{action=Index}/{id?}");
 
                 // Route de la partie Admin (/admin)
                 endpoints.MapControllerRoute(

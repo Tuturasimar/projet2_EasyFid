@@ -1,13 +1,26 @@
-﻿@using Projet2_EasyFid.Models;
+﻿@using Microsoft.AspNetCore.Http;
+@using Projet2_EasyFid.Models;
+@using Projet2_EasyFid.Data;
 @model Projet2_EasyFid.ViewModels.SalarieViewModel
 @{
     Layout = "_Layout";
     ViewBag.Title = "SalarieAccueil";
 }
 
-<h2>Bienvenue sur votre espace personnel</h2>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/css/bootstrap.min.css' media="screen" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" media="screen" />
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
 
-@Html.ActionLink("Ajouter", "CreateCra", new { @class = "btn btn-success" })
+<h2>Bienvenue dans votre espace utilisateur</h2>
+
+<table id="cras" border="1">
+
+<a href="@Url.Action("CreateCra")" class="btn btn-success">Ajouter</a>
 <table id="cras" border="1" class="center">
     <tr>
         <td>Date de création</td>
@@ -22,14 +35,15 @@
             <td>@cra.UpdatedAt.ToString("dd/MM/yyyy")</td>
             <td>@cra.StateCra</td>
             @if (cra.StateCra == Projet2_EasyFid.Data.Enums.StateEnum.DRAFT)
-                {
+            {
                 <td>@Html.ActionLink("Modifier", "UpdateCra", "Salarie", new { id = cra.Id })</td>
                 <td>@Html.ActionLink("Valider", "AskForCraValidation", "Salarie", new { id = cra.Id })</td>
                 <td>@Html.ActionLink("Détails", "CraDetail", "Salarie", new { id = cra.Id })</td>
-                }
-                else
-                {
+            }
+            else
+            {
                 <td colspan="3">@Html.ActionLink("Détails", "CraDetail", "Salarie", new { id = cra.Id })</td>
-                }
+            }
         </tr>
     }
+</table>

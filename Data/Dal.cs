@@ -125,6 +125,8 @@ namespace Projet2_EasyFid.Data
             return UserServices.GetAllUsersByManagerId(_bddContext, id);
         }
 
+
+
         public User GetUserById(int id)
         {
             return UserServices.GetUserById(_bddContext, id);
@@ -385,6 +387,13 @@ namespace Projet2_EasyFid.Data
             return ActivityServices.GetAllAbsenceAndFormation(_bddContext);
         }
 
+        public User GetUserByResetToken(string token)
+        {
+
+                return _bddContext.Users.SingleOrDefault(u => u.PasswordResetToken == token && u.PasswordResetTokenExpiration > DateTime.UtcNow);
+            }
+
+
         public void DeleteCraActivity(CraActivity craActivity)
         {
             CraServices.DeleteCraActivity(_bddContext, craActivity);
@@ -393,7 +402,9 @@ namespace Projet2_EasyFid.Data
         public void DeleteActivityDate(ActivityDate activityDate)
         {
             ActivityServices.DeleteActivityDate(_bddContext,activityDate);
+
         }
     }
 }
+
 
