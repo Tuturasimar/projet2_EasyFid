@@ -66,3 +66,11 @@ tr:hover {
     .action-link:active {
         background-color: #005cbf;
     }
+
+.goldStar {
+    color: gold;
+}
+
+.redStar {
+    color: darkred
+}

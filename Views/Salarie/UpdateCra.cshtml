@@ -1,4 +1,4 @@
-﻿@model Projet2_EasyFid.Models.Cra
+﻿@model List<Projet2_EasyFid.ViewModels.CraDetailViewModel>
 @{
     Layout = "_Layout";
     ViewBag.Title = "Modification du Cra";
@@ -8,43 +8,59 @@
 <button id="addActivity" type="button" class="btn btn-info">Ajouter une activité</button>
 
 @using (Html.BeginForm("UpdateCra", "Salarie", FormMethod.Post))
-{
+    {
+    <input type="hidden" id="craId" name="craId" value="@ViewBag.craId" />
     <fieldset>
         <legend>Modification</legend>
 
         @*Div cachée afin de pouvoir ajouter une activité dans le cra*@
-        <div id="newActivity">
-            <input type="hidden" id="total" name="total" value=0 />
-        </div>
+    <div id="newActivity">
+        <input type="hidden" id="total" name="total" value=@Model.Count />
 
-        <div name="activityHidden" class="hidden" id="activityHidden">
-            @Html.Label("activites", "Activité : ")
-            @Html.DropDownList("activities", new SelectList(ViewBag.activities, "Id", "LabelActivity"))
-            <br />
+@for (int i = 0; i < Model.Count; i++)
+        {
+                int valueOfSelected = Model[i].Activity.Id;
 
-            @*Calendrier pour choisir la periode de temps sur laquelle a été effectuée l'activité (mission, absence ou formation)*@
-            @Html.Partial("SalariePartialForm", Model)
-
-            <button id="deleteActivity" type="button" class="btn btn-danger">Supprimer l'activité</button>
-            <br />
-            </div>
-
-            @*Div visible qui correspondra à l'ancienne activité de l'User qui sera pré-rempli avec les anciennes données*@
-            <div name="oldActivity" id="activityHiddden">
-                @Html.Label("activites", "Activité : ")
-                @Html.DropDownList("activities", new SelectList(ViewBag.activities, "Id", "LabelActivity"))
+            <div name="oldActivity" id="activityHidden">
+                @Html.HiddenFor(m => m[i].Activity.Id)
+                @Html.LabelFor(m => m[i].Activity)
+                @Html.DropDownListFor(m => m[i].Activity.Id, new SelectList(ViewBag.activities, "Id", "LabelActivity", valueOfSelected))
                 <br />
+           
+                @*Calendrier pour choisir la periode de temps sur laquelle a été effectuée l'activité (mission, absence ou formation)*@
+                @for (int j = 0; j < Model[i].ActivityDates.Count; j++)
+                {
 
-            @*Calendrier pour choisir la periode de temps sur laquelle a été effectuée l'activité (mission, absence ou formation)*@
-            @Html.Partial("SalariePartialForm", Model)
+                    @Html.Partial("SalariePartialForm", Model[i].ActivityDates[j])
+                    @Html.HiddenFor(m => m[i].ActivityDates[j].BeginDate)
+                    @Html.HiddenFor(m => m[i].ActivityDates[j].EndDate)
+                }
 
-            <button id="deleteActivity" type="button" class="btn btn-danger">Supprimer l'activité</button>
+                <button id="deleteActivity" type="button" class="btn btn-danger">Supprimer l'activité</button>
 
             </div>
+        }
+    </div>
 
-            <input type="submit" value="Modifier" />
-   
-  
+
+
+        @*Div visible qui correspondra à l'ancienne activité de l'User qui sera pré-rempli avec les anciennes données*@
+        
+
+    <div name="activityHidden" class="hidden" id="activityHidden">
+        @Html.HiddenFor(m => m[0].Activity.Id)
+        @Html.Label("activities" , "Activité")
+        @Html.DropDownList("activities", new SelectList(ViewBag.activities, "Id", "LabelActivity"))
+        <br />
+
+        @*Calendrier pour choisir la periode de temps sur laquelle a été effectuée l'activité (mission, absence ou formation)*@
+            @Html.Partial("SalariePartialForm", Model[0].ActivityDates[0])
+        <button id="deleteActivity" type="button" class="btn btn-danger">Supprimer l'activité</button>
+        <br />
+    </div>
+        <input type="submit" value="Modifier" />
+
+
     </fieldset>
 }
 @section Scripts {

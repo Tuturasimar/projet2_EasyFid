@@ -6,6 +6,7 @@ namespace Projet2_EasyFid.Models
     {
         public int Id { get; set; }
         [MaxLength(30)]
+        [Display(Name ="Activité")]
         public string LabelActivity { get; set; }
 
         //On cree une clef etrangere vers la table Mission
