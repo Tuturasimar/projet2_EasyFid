@@ -381,6 +381,32 @@ namespace Projet2_EasyFid.Data
         {
             return ActivityServices.GetAllAbsenceAndFormation(_bddContext);
         }
+
+        public void DeleteCraActivity(CraActivity craActivity)
+        {
+            CraServices.DeleteCraActivity(_bddContext, craActivity);
+        }
+
+        public void DeleteActivityDate(ActivityDate activityDate)
+        {
+            ActivityServices.DeleteActivityDate(_bddContext, activityDate);
+
+        }
+
+        public List<UserFeedback> GetAllUserFeedBack()
+        {
+            return UserServices.GetAllUserFeedBack(_bddContext);
+        }
+
+        public List<MissionUser> GetAllMissionUserByMissionId(int id)
+        {
+            return UserServices.GetAllMissionUserByMissionId(_bddContext, id);
+        }
+
+        public List<UserFeedback> GetAllUserFeedBackByMissionId(int id)
+        {
+            return UserServices.GetAllUserFeedBackByMissionId(_bddContext, id);
+        }
     }
 }
 

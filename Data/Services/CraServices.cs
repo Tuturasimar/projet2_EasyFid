@@ -182,7 +182,11 @@ namespace Projet2_EasyFid.Data.Services
 
 
 
-
+        public static void DeleteCraActivity(BddContext _bddContext, CraActivity craActivity)
+        {
+            _bddContext.CraActivities.Remove(craActivity);
+            _bddContext.SaveChanges();
+        }
 
 
 

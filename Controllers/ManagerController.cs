@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Microsoft.AspNetCore.Mvc;
@@ -326,6 +327,29 @@ namespace Projet2_EasyFid.Controllers
             return RedirectToAction("Index");
 
         }
+
+        public IActionResult SeeUserFeedback(int id)
+
+
+        {
+            using (Dal dal = new Dal())
+            {
+                List<MissionUser> missionUsers = dal.GetAllMissionUserByMissionId(id);
+
+                if(missionUsers.Count == 0)
+                {
+                    User user = dal.GetUser(HttpContext.User.Identity.Name);
+                    Notification notif = new Notification { MessageContent = "Il n'y pas de notes disponibles pour cette mission" , ClassContext = "danger", UserId = user.Id};
+                    dal.CreateNotification(notif);
+                    return RedirectToAction("SeeMissions");
+                }
+
+                return View(missionUsers);
+
+                
+            }
+        }
+
 
 
 
