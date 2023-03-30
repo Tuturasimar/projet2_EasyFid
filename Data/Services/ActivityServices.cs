@@ -30,6 +30,12 @@ namespace Projet2_EasyFid.Data.Services
 
             for (int i = 0; i <activities.Count - 1; i++)
 			{
+				if (!isDateValid(BeginDate[i], EndDate[i]))
+				{
+                    Notification notification = new Notification { ClassContext = "danger", MessageContent = "Renseignez des dates de début et de fin cohérentes.", UserId = user.Id };
+                    NotificationServices.CreateNotification(_bddContext, notification);
+					return false;
+                }
 				if (isActivityAMissionById(_bddContext, activities[i]))
 				{
 					
