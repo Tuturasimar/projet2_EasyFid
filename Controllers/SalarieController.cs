@@ -444,8 +444,8 @@ namespace Projet2_EasyFid.Controllers
 
         }
 
-        [AllowAnonymous]
-        public IActionResult UserDetail(int id)
+        
+        public IActionResult UserProfile(int id)
         {
             using (Dal dal = new Dal())
             {
