@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Microsoft.AspNetCore.Authorization;
@@ -28,12 +29,11 @@ namespace Projet2_EasyFid.Controllers
             {
                 User user = dal.GetUser(HttpContext.User.Identity.Name);
                 //Récupération des missions que l'on stocke dans une liste
-                List<User> users = dal.GetAllUsersByManagerId(user.Id);
-                List<Cra> crasForManager = new List<Cra>();
-                foreach (User userCra in users)
-                {
-                    crasForManager.AddRange(dal.GetAllInHoldAndValidatedCrasByUserId(userCra.Id));
-                }
+
+
+                List<Cra> crasForManager = dal.GetAllCrasByManagerIdOrderByCreationDate(user.Id);
+                
+
 
                 CraListViewModel craList = new CraListViewModel { Cras = crasForManager };
                 return View(craList);
@@ -328,6 +328,7 @@ namespace Projet2_EasyFid.Controllers
             }
 
             //Pour retourner sur la page d'affichage des mission
+
             return RedirectToAction("SeeMissions");
 
         }
@@ -347,8 +348,8 @@ namespace Projet2_EasyFid.Controllers
            
             }
             return View();
-
         }
+        
         [HttpPost]
         //Une fois qu'on appuie sur le bouton du formulaire, cette methode recupere un objet Mission
         public IActionResult CreateMissionUser(MissionUser missionUser)
@@ -400,13 +401,40 @@ namespace Projet2_EasyFid.Controllers
             //Pour retourner sur la page d'affichage des mission
             return RedirectToAction("SeeFormation");
 
+
+
+
         }
-        public IActionResult UserDetail(int id)
+
+        public IActionResult SeeUserFeedback(int id)
+
+
+        {
+            using (Dal dal = new Dal())
+            {
+                List<MissionUser> missionUsers = dal.GetAllMissionUserByMissionId(id);
+
+                if (missionUsers.Count == 0)
+                {
+                    User user = dal.GetUser(HttpContext.User.Identity.Name);
+                    Notification notif = new Notification { MessageContent = "Il n'y pas de notes disponibles pour cette mission", ClassContext = "danger", UserId = user.Id };
+                    dal.CreateNotification(notif);
+                    return RedirectToAction("SeeMissions");
+                }
+
+                return View(missionUsers);
+
+
+            }
+        }
+
+        public IActionResult UserProfile(int id)
         {
             using (Dal dal = new Dal())
             {
                 // On récupère l'id de l'utilisateur authentifié
                 string authenticatedUserId = HttpContext.User.Identity.Name;
+
 
                 // On vérifie si l'utilisateur existe en BDD et si l'id correspond à l'utilisateur authentifié
                 User user = dal.GetUserById(id);
@@ -418,6 +446,7 @@ namespace Projet2_EasyFid.Controllers
 
                 // On récupère tous les rôles de l'utilisateur
                 List<RoleUser> rolesUser = dal.GetAllRolesById(id);
+
 
                 // On crée un ViewModel pour les détails de l'utilisateur et ses rôles
                 UserRoleViewModel urvm = new UserRoleViewModel { User = user, RolesUser = rolesUser };

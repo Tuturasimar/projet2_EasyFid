@@ -1,4 +1,4 @@
-﻿@model Projet2_EasyFid.ViewModels.MissionListViewModel
+@model Projet2_EasyFid.ViewModels.MissionListViewModel
 @{
     Layout = "_Layout";
     ViewBag.Title = "Liste des Missions";
@@ -22,6 +22,7 @@
         <td>Type de mission</td>
         <td>Modifier</td>
         <td>Supprimer</td>
+        <td>Voir les avis</td>
     </tr>
     @foreach (var mission in Model.Missions)
     {
@@ -32,7 +33,10 @@
             <td>@mission.MissionType</td>
 
             <td>@Html.ActionLink("Modifier", "UpdateMission", new { id = mission.Id })</td>
-            <td>@Html.ActionLink("Supprimer", "SeeMissions")</td>
+
+            <td>@Html.ActionLink("Supprimer", "IndexManager")</td>
+            <td>@Html.ActionLink("Voir les avis", "SeeUserFeedback", new { id = mission.Id})</td>
+
         </tr>
     }
 </table>

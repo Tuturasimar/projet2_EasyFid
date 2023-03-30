@@ -4,7 +4,7 @@
     ViewBag.Title = "AdminAccueil";
 }
 
-<button>@Html.ActionLink("Ajouter un utilisateur", "CreateUser", "Admin")</button>
+@Html.ActionLink("Ajouter un utilisateur", "CreateUser", "Admin", new {@class="btn btn-success"})
 <table id="users">
     <tr>
         <th>Login</th>

@@ -1,0 +1,47 @@
+﻿@model List<Projet2_EasyFid.Models.MissionUser>
+@{
+    Layout = "_Layout";
+    ViewBag.Title = "Liste des UserFeedback";
+}
+<h2>Liste des Feedback</h2>
+        <div id="UserFeedback">
+            <h3>@Model[0].Mission.Name</h3>
+            </div>
+
+@foreach(Projet2_EasyFid.Models.MissionUser mission in Model)
+{
+
+    <h4>Retour de @mission.User.UserData.Firstname @mission.User.UserData.Lastname</h4>
+    @if(mission.UserFeedbackId != null)
+    {
+        
+    
+    <ul>
+        @{TempData["countStars"] = mission.UserFeedback.GradeMission;}
+        <li>Note de la mission : @Html.Partial("StarWithNoLogic")</li>
+        @{
+            TempData["countStars"] = mission.UserFeedback.GradeManager;
+        }
+        <li>Note manager : @Html.Partial("StarWithNoLogic")</li>
+        @{
+            TempData["countStars"] = mission.UserFeedback.GradeClientRelation;
+        }
+
+        <li>Note relation client : @Html.Partial("StarWithNoLogic")</li>
+        @{
+            TempData["countStars"] = mission.UserFeedback.GradeUserComfort;
+        }
+        <li>Note confort utilisateur : @Html.Partial("StarWithNoLogic")</li>
+    </ul>
+        <p>Commentaire : @mission.UserFeedback.Comment</p>
+    }
+    else
+    {
+        <p>Il n'y a pas encore de retour pour cette mission.</p>
+    }
+}
+
+
+           
+
+

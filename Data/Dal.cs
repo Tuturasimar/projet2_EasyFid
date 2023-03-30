@@ -396,6 +396,23 @@ namespace Projet2_EasyFid.Data
             return ActivityServices.GetAllAbsenceAndFormation(_bddContext);
         }
 
+
+
+
+        public List<UserFeedback> GetAllUserFeedBack()
+        {
+            return UserServices.GetAllUserFeedBack(_bddContext);
+        }
+
+        public List<MissionUser> GetAllMissionUserByMissionId(int id)
+        {
+            return UserServices.GetAllMissionUserByMissionId(_bddContext, id);
+        }
+
+        public List<UserFeedback> GetAllUserFeedBackByMissionId(int id)
+        {
+            return UserServices.GetAllUserFeedBackByMissionId(_bddContext, id); }
+
         public User GetUserByResetToken(string token)
         {
 
@@ -417,6 +434,12 @@ namespace Projet2_EasyFid.Data
         public List<User> GetAllUsersButNotTheAdmin(int id)
         {
             return UserServices.GetAllUsersButNotTheAdmin(_bddContext, id);
+
+        }
+
+        public List<Cra> GetAllCrasByManagerIdOrderByCreationDate(int id)
+        {
+            return CraServices.GetAllCrasByManagerIdOrderByCreationDate(_bddContext, id);
         }
     }
 }

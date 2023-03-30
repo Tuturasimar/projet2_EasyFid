@@ -112,7 +112,12 @@ namespace Projet2_EasyFid.Data.Services
 		public static List<Activity> GetAllAbsenceAndFormation(BddContext _bddContext)
 		{
 			return _bddContext.Activities.Where(a => a.AbsenceId != null || a.FormationId != null).ToList();
+
+
 		}
+
+
+
 
 		public static void DeleteActivityDate(BddContext _bddContext, ActivityDate activityDate)
 		{
@@ -120,5 +125,6 @@ namespace Projet2_EasyFid.Data.Services
 			_bddContext.SaveChanges();
 		}
 	}
+
 }
 
