@@ -142,6 +142,16 @@ namespace Projet2_EasyFid.Controllers
                 return View(missionList);
             }
         }
+        public IActionResult SeeFormation()
+        {
+            using Dal dal = new Dal();
+            {
+                //Récupération des formations que l'on stocke dans une liste
+                List<Formation> formations = dal.GetAllFormations();
+                FormationListViewModel formationList = new FormationListViewModel { Formations = formations };
+                return View(formationList);
+            }
+        }
 
         [Produces("application/json")]
         public IActionResult GetAllStatistics()

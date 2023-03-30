@@ -15,11 +15,11 @@
             @Html.ValidationMessageFor(m => Model.Name)
             <br />
             @Html.LabelFor(m => Model.MissionStart)
-            @Html.TextBoxFor(m => Model.MissionStart)
+            @Html.Label("MissionStart","Début de mission : ")
             @Html.ValidationMessageFor(m => Model.MissionStart)
             <br />
-            @Html.LabelFor(m => Model.MissionEnd)
-            @Html.TextBoxFor(m => Model.MissionEnd)
+            @Html.HiddenFor(m => Model.MissionEnd)
+            @Html.Label("MissionEnd","Fin de mission : ") 
             @Html.ValidationMessageFor(m => Model.MissionEnd)
             <br />
             @Html.LabelFor(m => Model.MissionType)
@@ -27,6 +27,7 @@
             @Html.ValidationMessageFor(m => Model.MissionType)
             <br />
             <input type="submit" value="Modifier" />
+            @Html.ActionLink("Retour", "SeeMissions")
         </fieldset>
     }
     <script type="text/javascript" src="~/Scripts/jquery-3.3.1.js"></script>

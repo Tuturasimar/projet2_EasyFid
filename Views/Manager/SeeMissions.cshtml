@@ -4,7 +4,7 @@
     ViewBag.Title = "Liste des Missions";
 }
 
-
+@Html.ActionLink("Retour", "Index")
 
 <h2>Liste des missions</h2>
 <div>
@@ -15,7 +15,6 @@
         <td>Nom</td>
         <td>Date de début</td>
         <td>Date de fin</td>
-        <td>TJM</td>
         <td>Type de mission</td>
         <td>Modifier</td>
         <td>Supprimer</td>
@@ -26,7 +25,6 @@
             <td>@mission.Name</td>
             <td>@mission.MissionStart.ToString("dd/MM/yyyy")</td>
             <td>@mission.MissionEnd.ToString("dd/MM/yyyy")</td>
-            <td>@mission.Tjm</td>
             <td>@mission.MissionType</td>
 
             <td>@Html.ActionLink("Modifier", "UpdateMission", new { id = mission.Id })</td>

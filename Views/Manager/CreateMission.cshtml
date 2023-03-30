@@ -13,11 +13,11 @@
             @Html.ValidationMessageFor(m => Model.Name)
             <br />
             @Html.LabelFor(m => Model.MissionStart)
-            @Html.TextBoxFor(m => Model.MissionStart)
+            @*@Html.TextBoxFor(m => Model.MissionStart)*@
             @Html.EditorFor(m => Model.MissionStart, "yyyy-MM-dd")
             <br />
             @Html.LabelFor(m => Model.MissionEnd)
-            @Html.TextBoxFor(m => Model.MissionEnd)
+            @*@Html.TextBoxFor(m => Model.MissionEnd)*@
             @Html.EditorFor(m => Model.MissionEnd,"yyyy-MM-dd")
             <br />
             @*Liste déroulante pour choisir le type de contrat*@
@@ -29,10 +29,9 @@
                 }
             </select>
             <br />
-
             <br />
-
             <input type="submit" value="Valider" />
+            @Html.ActionLink("Annuler", "SeeMissions")
         </fieldset>
     }
     <script type="text/javascript" src="~/Scripts/jquery-3.3.1.js"></script>

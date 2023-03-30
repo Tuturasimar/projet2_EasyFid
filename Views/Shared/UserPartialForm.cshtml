@@ -4,7 +4,7 @@
 *@
 
 
-@Html.HiddenFor(m => Model.Id)
+
 @Html.Label("Login", "Login : ")
 @Html.TextBoxFor(m => Model.Login)
 @Html.ValidationMessageFor(m => Model.Login)
@@ -20,7 +20,7 @@
 
 <br />
 @Html.Label("BirthDay", "Date de naissance : ")
-@Html.EditorFor(m => Model.UserData.Birthday)
+@Html.EditorFor(m => Model.UserData.Birthday,"yyyy-MM-dd")
 
 <br />
 @Html.Label("Email", "Email : ")

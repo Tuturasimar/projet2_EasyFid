@@ -37,7 +37,10 @@ namespace Projet2_EasyFid.Data
         {
             return MissionServices.GetAllMissions(_bddContext);
         }
-
+        public List<Formation> GetAllFormations()
+        {
+            return FormationServices.GetAllFormations(_bddContext);
+        }
 
         public void SetUserIdNullOnDelete(Cra cra)
         {
@@ -205,10 +208,10 @@ namespace Projet2_EasyFid.Data
         }
 
         
-        public List<Formation> GetAllFormations()
-        {
-            return CraServices.GetAllFormations(_bddContext);
-        }
+        //public List<Formation> GetAllFormations()
+        //{
+        //    return CraServices.GetAllFormations(_bddContext);
+        //}
         
 
         public void UpdateFormation(Formation formation)
@@ -383,13 +386,25 @@ namespace Projet2_EasyFid.Data
         {
             return ActivityServices.GetAllAbsenceAndFormation(_bddContext);
         }
+
         public User GetUserByResetToken(string token)
         {
-            using (BddContext _bddContext = new BddContext())
-            {
+
                 return _bddContext.Users.SingleOrDefault(u => u.PasswordResetToken == token && u.PasswordResetTokenExpiration > DateTime.UtcNow);
             }
+
+
+        public void DeleteCraActivity(CraActivity craActivity)
+        {
+            CraServices.DeleteCraActivity(_bddContext, craActivity);
+        }
+
+        public void DeleteActivityDate(ActivityDate activityDate)
+        {
+            ActivityServices.DeleteActivityDate(_bddContext,activityDate);
+
         }
     }
 }
+
 

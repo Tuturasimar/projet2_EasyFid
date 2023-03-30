@@ -14,7 +14,7 @@
         <legend>Modification </legend>
         @Html.Partial("UserPartialForm", Model)
 
-        
+        @Html.HiddenFor(m => m.Password)
 
 
         @*Ici, la même boucle que dans la view CreateUser*@
