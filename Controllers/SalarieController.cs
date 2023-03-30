@@ -19,7 +19,7 @@ using Projet2_EasyFid.ViewModels;
 
 namespace Projet2_EasyFid.Controllers
 {
-    [Authorize(Roles = "SALARIE, ADMIN")]
+    [Authorize(Roles = "SALARIE")]
     // Controller qui va gérer les méthodes basiques de l'application (authentification en tant que salarie)
     public class SalarieController : Controller
     {
@@ -62,24 +62,35 @@ namespace Projet2_EasyFid.Controllers
                 Notification notifToDelete = dal.GetNotificationById(id);
                 dal.DeleteNotification(notifToDelete);
 
-                List<RoleUser> roleUsers = dal.GetAllRolesById(user.Id);
-                foreach(RoleUser role in roleUsers)
+                // On récupère l'ancienne url 
+                string route = HttpContext.Request.Headers["Referer"];
+                string controllerName = "";
+                // On récupère l'index du / de l'url, après le http://
+                int indexOfControllerSlash = route.IndexOf("/", 8);
+                // On récupère l'index d'un eventuel autre / à la suite
+                int indexOfNextSlash = route.IndexOf("/", indexOfControllerSlash + 1);
+                // S'il existe
+                // Un indexOf qui vaut - 1 veut dire qu'on ne récupère pas l'élément recherché
+                if(indexOfNextSlash != -1)
                 {
-                    if(role.RoleType == RoleTypeEnum.ADMIN)
-                    {
-                        return RedirectToAction("Index","Admin");
-                    } else if (role.RoleType == RoleTypeEnum.SALARIE)
-                    {
-                        return RedirectToAction("Index", "Salarie");
-                    } else if (role.RoleType == RoleTypeEnum.MANAGER)
-                    {
-                        return RedirectToAction("Index", "Manager");
-                    }
+                    // On utilise le substring pour récupérer uniquement ce qui se trouve après le premier / (salarie, manager, admin)
+                    // Substring peut attendre deux arguments :
+                        // Le premier est l'index à partir duquel on récupère le string (ici l'index du / + 1 pour commencer directement là où on souhaite obtenir la donnée)
+                        // Le second est la longueur, ce qui correspond ici à la différence entre les deux index des / - 1
+                    controllerName = route.Substring(indexOfControllerSlash + 1, indexOfNextSlash - indexOfControllerSlash - 1);
+                } else
+                {
+                    // Substring avec un seul argument, va récupérer tout ce qui se situe après le premier /
+                    controllerName = route.Substring(indexOfControllerSlash + 1);
+                }
+               
+
+                if(controllerName != null)
+                {
+                    return RedirectToAction("Index", controllerName);
                 }
 
                 return View("Error");
-
-                
             }
         }
 
@@ -430,12 +441,17 @@ namespace Projet2_EasyFid.Controllers
 
         }
 
+        [AllowAnonymous]
         public IActionResult UserDetail(int id)
         {
             using (Dal dal = new Dal())
             {
                 // On récupère l'id de l'utilisateur authentifié
                 string authenticatedUserId = HttpContext.User.Identity.Name;
+                if(authenticatedUserId == null)
+                {
+                    return RedirectToAction("Index", "Login");
+                }
 
                 // On vérifie si l'utilisateur existe en BDD et si l'id correspond à l'utilisateur authentifié
                 User user = dal.GetUserById(id);
@@ -509,6 +525,8 @@ namespace Projet2_EasyFid.Controllers
             return RedirectToAction("Index");
         }
 
+        // Malgré le fait que le controller nécessite d'être salarié, on override les autorisations ici
+        [AllowAnonymous]
         public ActionResult Logout()
         {
             HttpContext.SignOutAsync();
