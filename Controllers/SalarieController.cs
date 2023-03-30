@@ -164,6 +164,13 @@ namespace Projet2_EasyFid.Controllers
                 //On recupere l'utilisateur actuellement connecté
                 User user = dal.GetUser(HttpContext.User.Identity.Name);
 
+                // Si l'utilisateur a supprimé toutes ses activités...
+                if (BeginDate.Count == 1 && EndDate.Count == 1)
+                {
+                    Notification notif = new Notification { ClassContext = "danger", UserId = user.Id, MessageContent = "Un CRA doit disposer d'au moins une activité lors de sa modification." };
+                    dal.CreateNotification(notif);
+                    return RedirectToAction("Index");
+                }
                 // Pour vérifier les dates : instancier une liste de DateTime (BeginDate et EndDate), récup celles du modeles et ajouter nouvelles
                 // Aussi, instancier une liste qui regroupe toutes les ID des activités (en comptant aussi l'invisible, car pris en compte dans les méthodes)
 
@@ -174,8 +181,10 @@ namespace Projet2_EasyFid.Controllers
 
                 foreach (CraDetailViewModel craModel in cdvm)
                 {
-                    activitiesId.Add(craModel.Activity.Id);
-
+                    if(craModel.ActivityDates != null)
+                    {
+                        activitiesId.Add(craModel.Activity.Id);
+                    }
                 }
 
                 for (int i = 0; i < BeginDate.Count - 1; i++)
