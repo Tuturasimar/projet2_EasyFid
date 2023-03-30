@@ -20,6 +20,11 @@ namespace Projet2_EasyFid.Data.Services
             return _bddContext.Users.Where(u => u.ManagerId == id).ToList();
         }
 
+        public static List<User> GetAllUsersButNotTheAdmin(BddContext _bddContext, int id)
+        {
+            return _bddContext.Users.Include(u => u.UserData).Where(u => u.Id != id).ToList();
+        }
+
 		public static User GetUserById(BddContext _bddContext, int id)
 		{
             // Le Include permet ici de récupérer les données du UserData (qui est lié à User par une clé étrangère)
