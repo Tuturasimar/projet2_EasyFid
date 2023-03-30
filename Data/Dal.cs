@@ -383,6 +383,13 @@ namespace Projet2_EasyFid.Data
         {
             return ActivityServices.GetAllAbsenceAndFormation(_bddContext);
         }
+        public User GetUserByResetToken(string token)
+        {
+            using (BddContext _bddContext = new BddContext())
+            {
+                return _bddContext.Users.SingleOrDefault(u => u.PasswordResetToken == token && u.PasswordResetTokenExpiration > DateTime.UtcNow);
+            }
+        }
     }
 }
 

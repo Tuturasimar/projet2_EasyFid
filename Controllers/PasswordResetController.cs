@@ -4,58 +4,83 @@ using Projet2_EasyFid.Models;
 using System;
 using System.Linq;
 
+[Route("[controller]")]
 public class PasswordResetController : Controller
 {
-    public IActionResult Reset(string token)
+    [HttpGet]
+    public IActionResult Get(string token)
     {
-        // Verify that the token exists in the database and has not expired
-        User user = GetUserByToken(token);
-        if (user == null)
+        if (string.IsNullOrEmpty(token))
         {
-            // Handle the case where the token is invalid or has expired
-            return RedirectToAction("Index", "Home");
+            return BadRequest("Token cannot be null or empty.");
         }
-        else
+
+        using (BddContext _bddContext = new BddContext())
         {
-            // Display a form for the user to enter their new password
-            PasswordResetViewModel model = new PasswordResetViewModel
+            // Get the user with the specified password reset token
+            User user = _bddContext.Users.SingleOrDefault(u => u.PasswordResetToken == token);
+
+            if (user == null)
             {
-                Token = token
-            };
-            return View(model);
+                // Handle the case where the token is invalid or has expired
+                return BadRequest("Invalid or expired token.");
+            }
+
+            // Check if the token has expired
+            if (DateTime.UtcNow > user.PasswordResetTokenExpiration)
+            {
+                // Handle the case where the token has expired
+                return BadRequest("Token has expired.");
+            }
+
+            // Return a view that allows the user to reset their password
+            return View(new PasswordResetViewModel { Token = token });
         }
     }
 
     [HttpPost]
-    public IActionResult Reset(PasswordResetViewModel model)
+    public IActionResult Post(PasswordResetViewModel model)
     {
-        // Verify that the token exists in the database and has not expired
-        User user = GetUserByToken(model.Token);
-        if (user == null)
+        if (!ModelState.IsValid)
         {
-            // Handle the case where the token is invalid or has expired
-            return RedirectToAction("Index", "Home");
+            // Display validation errors to the user
+            return View(model);
         }
-        else
+
+        using (BddContext _bddContext = new BddContext())
         {
-            // Update the user's password and clear the password reset token
-            using (Dal dal = new Dal())
+            // Get the user with the specified password reset token
+            User user = _bddContext.Users.SingleOrDefault(u => u.PasswordResetToken == model.Token);
+
+            if (user == null)
             {
-                user.Password = Dal.EncodeMD5(model.Password);
-                user.PasswordResetToken = null;
-                user.PasswordResetTokenExpiration = null;
-                dal.ModifyUser(user);
+                // Handle the case where the token is invalid or has expired
+                return BadRequest("Invalid or expired token.");
             }
-            return RedirectToAction("Index", "Home");
+
+            // Check if the token has expired
+            if (DateTime.UtcNow > user.PasswordResetTokenExpiration)
+            {
+                // Handle the case where the token has expired
+                return BadRequest("Token has expired.");
+            }
+
+            // Update the user's password and password reset token
+            user.Password = Dal.EncodeMD5(model.Password);
+            user.PasswordResetToken = null;
+            user.PasswordResetTokenExpiration = null;
+            _bddContext.SaveChanges();
+
+            // Redirect to a page that indicates the password has been reset
+            return RedirectToAction("PasswordResetConfirmation");
         }
     }
 
-    private User GetUserByToken(string token)
+
+    [HttpGet]
+    [Route("PasswordResetConfirmation")]
+    public IActionResult PasswordResetConfirmation()
     {
-        using (BddContext _bddContext = new BddContext())
-        {
-            User user = _bddContext.Users.SingleOrDefault(u => u.PasswordResetToken == token && u.PasswordResetTokenExpiration > DateTime.UtcNow);
-            return user;
-        }
+        return View();
     }
 }

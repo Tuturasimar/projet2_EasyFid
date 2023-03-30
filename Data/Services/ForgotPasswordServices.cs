@@ -28,10 +28,17 @@ public class ForgotPasswordServices
             // Handle the case where the email doesn't exist in the database
         }
     }
-
     public static User GetUserByEmail(BddContext _bddContext, string email)
     {
         return _bddContext.Users.SingleOrDefault(u => u.UserData.Email == email);
+    }
+
+    public static User GetUserByResetToken(string token)
+    {
+        using (BddContext _bddContext = new BddContext())
+        {
+            return _bddContext.Users.SingleOrDefault(u => u.PasswordResetToken == token && u.PasswordResetTokenExpiration > DateTime.UtcNow);
+        }
     }
 
     private bool CheckEmailExists(string email)
@@ -77,7 +84,7 @@ public class ForgotPasswordServices
         var fromPassword = "xhrouikhiofiwmao";
         var toAddress = new MailAddress(email);
         string subject = "Reset Password";
-        string body = $"Please click the following link to reset your password: https://example.com/reset_password?token={token}";
+        string body = $"Please click the following link to reset your password: https://localhost:5001/PasswordReset?token={token}";
 
         var smtp = new SmtpClient
         {

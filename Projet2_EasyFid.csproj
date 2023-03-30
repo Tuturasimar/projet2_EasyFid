@@ -5,9 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\NewFolder1\**" />
     <Compile Remove="wwwroot\bootstrap\**" />
+    <Content Remove="Views\NewFolder1\**" />
     <Content Remove="wwwroot\bootstrap\**" />
+    <EmbeddedResource Remove="Views\NewFolder1\**" />
     <EmbeddedResource Remove="wwwroot\bootstrap\**" />
+    <None Remove="Views\NewFolder1\**" />
     <None Remove="wwwroot\bootstrap\**" />
   </ItemGroup>
 
@@ -28,7 +32,6 @@
   <ItemGroup>
     <Folder Include="wwwroot\assets\" />
     <Folder Include="wwwroot\assets\image\" />
-    <Folder Include="Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\" />
