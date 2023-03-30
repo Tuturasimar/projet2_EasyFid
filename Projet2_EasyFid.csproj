@@ -38,11 +38,8 @@
     <Content Remove="wwwroot\css\" />
     <Content Remove="wwwroot\assets\" />
     <Content Remove="wwwroot\assets\image\" />
-<<<<<<< HEAD
     <Content Remove="Views\Admin\ModifyPassword.cshtml" />
     <Content Remove="wwwroot\css\dashboard.css" />
-=======
->>>>>>> main
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.15" />
