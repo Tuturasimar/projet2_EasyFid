@@ -339,8 +339,31 @@ namespace Projet2_EasyFid.Controllers
             return RedirectToAction("Index");
 
         }
+        public IActionResult UserDetail(int id)
+        {
+            using (Dal dal = new Dal())
+            {
+                // On récupère l'id de l'utilisateur authentifié
+                string authenticatedUserId = HttpContext.User.Identity.Name;
 
+                // On vérifie si l'utilisateur existe en BDD et si l'id correspond à l'utilisateur authentifié
+                User user = dal.GetUserById(id);
+                if (user == null || user.Id.ToString() != authenticatedUserId)
+                {
+                    // Si l'utilisateur n'existe pas ou si l'id ne correspond pas à l'utilisateur authentifié, on redirige vers l'Index Admin
+                    return RedirectToAction("Index");
+                }
 
+                // On récupère tous les rôles de l'utilisateur
+                List<RoleUser> rolesUser = dal.GetAllRolesById(id);
+
+                // On crée un ViewModel pour les détails de l'utilisateur et ses rôles
+                UserRoleViewModel urvm = new UserRoleViewModel { User = user, RolesUser = rolesUser };
+
+                // Envoi en paramètre à la vue UserDetail
+                return View(urvm);
+            }
+        }
 
     }
 }
