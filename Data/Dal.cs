@@ -404,6 +404,11 @@ namespace Projet2_EasyFid.Data
             ActivityServices.DeleteActivityDate(_bddContext,activityDate);
 
         }
+
+        public List<User> GetAllUsersButNotTheAdmin(int id)
+        {
+            return UserServices.GetAllUsersButNotTheAdmin(_bddContext, id);
+        }
     }
 }
 

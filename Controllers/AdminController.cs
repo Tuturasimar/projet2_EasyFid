@@ -24,8 +24,9 @@ namespace Projet2_EasyFid.Controllers
         {
             using (Dal dal = new Dal())
             {
+                User connectedUser = dal.GetUser(HttpContext.User.Identity.Name);
                 // On récupère tous les utilisateurs pour les stocker dans une liste
-                List<User> users = dal.GetAllUsers();
+                List<User> users = dal.GetAllUsersButNotTheAdmin(connectedUser.Id);
                 UserListViewModel userList = new UserListViewModel { Users = users };
                 return View(userList);
             }
