@@ -427,6 +427,11 @@ namespace Projet2_EasyFid.Data
             return UserServices.GetAllUsersButNotTheAdmin(_bddContext, id);
 
         }
+
+        public List<Cra> GetAllCrasByManagerIdOrderByCreationDate(int id)
+        {
+            return CraServices.GetAllCrasByManagerIdOrderByCreationDate(_bddContext, id);
+        }
     }
 }
 

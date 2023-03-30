@@ -28,12 +28,9 @@ namespace Projet2_EasyFid.Controllers
             {
                 User user = dal.GetUser(HttpContext.User.Identity.Name);
                 //Récupération des missions que l'on stocke dans une liste
-                List<User> users = dal.GetAllUsersByManagerId(user.Id);
-                List<Cra> crasForManager = new List<Cra>();
-                foreach (User userCra in users)
-                {
-                    crasForManager.AddRange(dal.GetAllInHoldAndValidatedCrasByUserId(userCra.Id));
-                }
+
+                List<Cra> crasForManager = dal.GetAllCrasByManagerIdOrderByCreationDate(user.Id);
+                
 
                 CraListViewModel craList = new CraListViewModel { Cras = crasForManager };
                 return View(craList);
