@@ -19,7 +19,10 @@ namespace Projet2_EasyFid.Data.Services
             _bddContext.SaveChanges();
             return mission.Id;
         }
-
+        public static List<Mission> GetAllMissionActive(BddContext _bddContext)
+        {
+            return _bddContext.Missions.Where(m=>m.MissionState== MissionStateEnum.ACTIVE).ToList();
+        }
         public static Mission GetMissionById(BddContext _bddContext, int id)
         {
             // Le Include permet ici de récupérer les données du MissionUser (qui est lié à User par une clé étrangère)
@@ -83,6 +86,13 @@ namespace Projet2_EasyFid.Data.Services
             _bddContext.MissionUsers.Update(missionUser);
             _bddContext.SaveChanges();
         }
-        
+
+
+      public static List<MissionUser>  GetAllMissionUserByManagerId(BddContext _bddContext,int id)
+        {
+            return _bddContext.MissionUsers.Include(m=>m.User).Include(m=>m.User.UserData).Include(m=>m.Mission).Where(m=>m.User.ManagerId==id).OrderBy(m=>m.MissionState).ToList();
+        }
+
+
     }
 }

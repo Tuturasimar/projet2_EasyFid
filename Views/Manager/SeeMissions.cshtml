@@ -33,8 +33,7 @@
             <td>@mission.MissionType</td>
 
             <td>@Html.ActionLink("Modifier", "UpdateMission", new { id = mission.Id })</td>
-
-            <td>@Html.ActionLink("Supprimer", "IndexManager")</td>
+            <td>@Html.ActionLink("Clôturer", "IndexManager")</td>
             <td>@Html.ActionLink("Voir les avis", "SeeUserFeedback", new { id = mission.Id})</td>
 
         </tr>

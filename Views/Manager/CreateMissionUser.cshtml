@@ -7,10 +7,12 @@
 @using (Html.BeginForm("CreateMissionUser", "Manager", FormMethod.Post))
 {
     <fieldset>
-        @*<legend>Affectation de la mission</legend>
-        @Html.DropDownList("user", new SelectList(ViewBag.userDatas, "Id", "LastName", Model.User.UserData))
+        <legend>Affectation de la mission</legend>
+        @Html.Label("userDatas", "Collaborateur")
+        @Html.DropDownList("userDatas", new SelectList(ViewBag.userDatas, "Id","Lastname"))
         <br />
-        @Html.DropDownList("mission", new SelectList(ViewBag.missions, "Name", Model.Mission.Name))*@
+         @Html.Label("userList", "Mission")
+        @Html.DropDownList("missions", new SelectList(ViewBag.missions, "Id","Name"))
         <br />
         <input type="submit" value="Valider" />
         @Html.ActionLink("Annuler", "SeeMissionUsers")

@@ -22,7 +22,7 @@ namespace Projet2_EasyFid.Data.Services
 
         public static List<User> GetAllUsersByManagerId (BddContext _bddContext, int id)
         {
-            return _bddContext.Users.Where(u => u.ManagerId == id).ToList();
+            return _bddContext.Users.Include(u=>u.UserData).Where(u => u.ManagerId == id).ToList();
         }
 
         public static List<User> GetAllUsersButNotTheAdmin(BddContext _bddContext, int id)
