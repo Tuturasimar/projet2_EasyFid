@@ -17,9 +17,11 @@ namespace Projet2_EasyFid.Models
 
         [Required(ErrorMessage = "Veuillez indiquer la date de début de la Mission")]
         [Display(Name = "Début")]
+        [DataType(DataType.Date)]
         public DateTime MissionStart { get; set; }
 
         [Display(Name = "Fin")]
+        [DataType(DataType.Date)]
         public DateTime MissionEnd { get; set; }
         [Display(Name = "Taux Journalier Moyen")]
         public float Tjm { get; set; }
