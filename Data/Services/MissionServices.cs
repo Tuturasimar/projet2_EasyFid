@@ -83,51 +83,6 @@ namespace Projet2_EasyFid.Data.Services
             _bddContext.MissionUsers.Update(missionUser);
             _bddContext.SaveChanges();
         }
-        public static bool isDateValid(DateTime beginDate, DateTime endDate)
-        {
-            bool isDateValid = false;
-
-            int value = endDate.CompareTo(beginDate);
-            if (value > 0)
-            {
-                isDateValid = true;
-            }
-
-            return isDateValid;
-        }
-
-        public static bool CheckMissionDateComptability(BddContext _bddContext, List<DateTime> BeginDate, List<DateTime> EndDate, List<int> missions, User user)
-        {
-            List<DateTime> bDate = new List<DateTime>();
-            List<DateTime> eDate = new List<DateTime>();
-            bool isCompatible = true;
-
-
-            if (BeginDate.Count != missions.Count - 1 || EndDate.Count != missions.Count - 1)
-            {
-                Notification notification = new Notification { ClassContext = "danger", MessageContent = "Renseignez tous les champs lors de l'ajout d'activités", UserId = user.Id };
-                NotificationServices.CreateNotification(_bddContext, notification);
-                return false;
-            }
-            for (int i = 0; i < bDate.Count - 1; i++)
-            {
-                for (int j = i + 1; j < bDate.Count; j++)
-                {
-                    int value = bDate[j].CompareTo(eDate[i]);
-                    if (value < 0)
-                    {
-                        int otherValue = bDate[i].CompareTo(eDate[j]);
-                        if (otherValue < 0)
-                        {
-                            isCompatible = false;
-                            Notification notification = new Notification { ClassContext = "danger", MessageContent = "Renseignez des dates de missions qui ne se chevauchent pas", UserId = user.Id };
-                            NotificationServices.CreateNotification(_bddContext, notification);
-                            break;
-                        }
-                    }
-                }
-            }
-            return isCompatible;
-        }
+        
     }
 }
