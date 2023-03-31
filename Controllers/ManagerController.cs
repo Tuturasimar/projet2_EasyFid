@@ -386,6 +386,9 @@ namespace Projet2_EasyFid.Controllers
                     Name = formation.Name,
                     FormationStatus = formation.FormationStatus,
                     LocationFormation = formation.LocationFormation,
+                    NbOfDays = formation.NbOfDays,
+                    Description = formation.Description,
+                    Location = formation.Location
 
                 };
                 int formationId = dal.CreateFormation(newFormation);
