@@ -13,9 +13,11 @@ namespace Projet2_EasyFid.Models
         public int Id { get; set; }
 
         [Display(Name = "Date de création du Cra : ")]
+        [DataType(DataType.Date)]
         public DateTime CreatedAt { get; set; }
 
         [Display(Name = "Date de modification du Cra : ")]
+        [DataType(DataType.Date)]
         public DateTime UpdatedAt { get; set; }
 
 

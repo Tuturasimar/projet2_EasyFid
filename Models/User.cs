@@ -18,6 +18,7 @@ namespace Projet2_EasyFid.Models
         [Required(ErrorMessage = "Ce champ doit être rempli.")]
         [MaxLength(50)]
         public string Password { get; set; }
+        [DataType(DataType.Date)]
         public DateTime CreationDate { get; set; }
         
         public JobEnum JobEnum { get; set; }
