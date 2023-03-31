@@ -1,43 +1,10 @@
 ﻿@*@model Projet2_EasyFid.Models.Statistics*@
 @{
     Layout = "_Layout";
+    ViewBag.Title = "Statistiques";
 }
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Analyse des indicateurs de rentabilité et de performance</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="css/dashboard.css" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <script type="text/javascript">
-        function imprimer_page() {
-            window.print();
-        }
-    </script>
-    <style>
-        /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
-        .row.content {
-            height: 700px
-        }
 
-        /* Set gray background color and 100% height */
-        .sidenav {
-            background-color: #f1f1f1;
-            height: 100%;
-        }
-
-        /* On small screens, set height to 'auto' for the grid */
-        @@media screen and (max-width: 767px) {
-            .row.content {
-                height: auto;
-            }
-        }
-    </style>
-</head>
-<body>
 
     <form>
         <input id="impression" name="impression" type="button" onclick="imprimer_page()" value="Imprimer cette page" />
@@ -112,5 +79,3 @@
     <script src="~/Scripts/jquery-3.3.1.js"></script>
     <script src="~/Scripts/loader.js"></script>
     <script src="~/Scripts/Script.js"></script>
-</body>
-</html>
