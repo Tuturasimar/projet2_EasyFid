@@ -82,7 +82,7 @@ public class ForgotPasswordServices
     private void SendEmail(string email, string token)
     {
         var fromAddress = new MailAddress("testing.easyfid@gmail.com");
-        var fromPassword = "swpqdtkofrjnxuka";
+        var fromPassword = "";
         var toAddress = new MailAddress(email);
         string subject = "Réinitialisation du mot de passe";
         string body = $"Veuillez cliquer sur le lien suivant pour réinitialiser votre mot de passe : https://localhost:5001/PasswordReset?token={token}";
