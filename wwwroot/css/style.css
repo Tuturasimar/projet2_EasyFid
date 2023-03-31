@@ -37,12 +37,7 @@ th {
     background-color: #f2f2f2;
     font-weight: bold;
 }
-/* On small screens, set height to 'auto' for the grid */
-@media screen and (max-width: 767px) {
-    .row.content {
-        height: auto;
-    }
-}
+
 
 tr:nth-child(even) {
     background-color: #f2f2f2;
@@ -121,5 +116,16 @@ label[for="activities"] {
 
 label[for="activities"] {
     margin-bottom: 15px;
+}
+
+.form-check, .pad15 {
+    padding:0 15px
+}
+
+/* On small screens, set height to 'auto' for the grid */
+@media screen and (max-width: 767px) {
+    .row.content {
+        height: auto;
+    }
 }
 
