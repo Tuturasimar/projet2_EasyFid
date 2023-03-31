@@ -1,4 +1,4 @@
-﻿@model Projet2_EasyFid.ViewModels.MissionUserListViewModel
+﻿@model List<Projet2_EasyFid.Models.MissionUser>
 @{
     Layout = "_Layout";
     ViewBag.Title = "Liste des affectations de missions";
@@ -19,7 +19,7 @@
         <td>Modifier</td>
         <td>Supprimer</td>
     </tr>
-    @foreach (var missionUser in Model.MissionUsers)
+    @foreach (var missionUser in Model)
     {
     <tr>
     <td>@missionUser.User.UserData.Firstname</td>
