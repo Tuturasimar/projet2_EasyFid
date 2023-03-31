@@ -17,17 +17,30 @@
         @Html.ValidationMessageFor(f => Model.NbOfDays)
         <br />
         @Html.Label("LocationFormation", "Lieu de formation : ")
-        <select name="LocationFormationEnum">
+        <select name="LocationFormation">
             @foreach (var item in Enum.GetValues(typeof(Projet2_EasyFid.Data.Enums.LocationFormationEnum)))
             {
-                <option name="LocationFormationEnum" value=@item>@item</option>
+                <option name="LocationFormation" value=@item>@item</option>
             }
         </select>
         <br />
+        @Html.Label("FormationStatus", "Statut de la formation : ")
+        <select name="FormationStatus">
+            @foreach (var item in Enum.GetValues(typeof(Projet2_EasyFid.Data.Enums.FormationStatusEnum)))
+            {
+                <option name="FormationStatus" value=@item>@item</option>
+            }
+        </select>
+        <br />
+
         @Html.LabelFor(f => Model.Description)
-        @Html.TextBoxFor(f => Model.Description)
+        @Html.TextAreaFor(f => Model.Description)
         @Html.ValidationMessageFor(f => Model.Description)
         <br />
+        @Html.LabelFor(f => Model.Location)
+        @Html.TextBoxFor(f => Model.Location)
+        @Html.ValidationMessageFor(f => Model.Location)
+
         <input type="submit" value="Valider" />
     </fieldset>
 }
