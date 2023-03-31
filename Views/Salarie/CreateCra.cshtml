@@ -29,9 +29,13 @@
             @Html.Partial("SalariePartialForm", Model)
 
             <br />
-            <button id="deleteActivity" type="button" class="btn btn-danger">Supprimer l'activité</button>
+            <button id="deleteActivity" type="button" class="btn btn-danger">
+                <i class="fas fa-trash-alt"></i>  Supprimer l'activité
+            </button>
         </div>
-        <input type="submit" value="Valider" />
+        <button type="submit" class="btn btn-success">
+            <i class="fas fa-check"></i> Valider
+        </button>
     </fieldset>
 }
 

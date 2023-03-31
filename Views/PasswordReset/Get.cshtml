@@ -1,32 +1,54 @@
 ﻿@using Projet2_EasyFid.Models
 @model PasswordResetViewModel
 
-<h1>Reset Password</h1>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/login.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+                            <div class="card-body">
+                    <h1 class="card-title mb-4">Reset Password</h1>
 
-@if (!ViewData.ModelState.IsValid)
-{
-    <div class="alert alert-danger">
-        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
-        {
-            <p>@error.ErrorMessage</p>
-        }
-    </div>
-}
+                    @if (!ViewData.ModelState.IsValid)
+                    {
+                        <div class="alert alert-danger">
+                            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                            {
+                                <p>@error.ErrorMessage</p>
+                            }
+                        </div>
+                    }
 
-<form method="post">
-    <div class="form-group">
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="Email" class="form-control" value="@Model.Email" required>
+                    <form method="post">
+                        <div class="form-group mb-3">
+                            <label for="email" class="form-label">Email:</label>
+                            <input type="email" id="email" name="Email" class="form-control" value="@Model.Email" required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="password" class="form-label">New Password:</label>
+                            <input type="password" id="password" name="Password" class="form-control" required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="confirmPassword" class="form-label">Confirm New Password:</label>
+                            <input type="password" id="confirmPassword" name="ConfirmPassword" class="form-control" required>
+                        </div>
+                        <input type="hidden" name="Token" value="@Model.Token">
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Reset Password</button>
+                        </div>
+                    </form>
+                </div>
+        </div>
     </div>
-    <div class="form-group">
-        <label for="password">New Password:</label>
-        <input type="password" id="password" name="Password" class="form-control" required>
-    </div>
-    <div class="form-group">
-        <label for="confirmPassword">Confirm New Password:</label>
-        <input type="password" id="confirmPassword" name="ConfirmPassword" class="form-control" required>
-    </div>
-    <input type="hidden" name="Token" value="@Model.Token">
-    <button type="submit" class="btn btn-primary">Reset Password</button>
-</form>
-
+</body>
+</html>
