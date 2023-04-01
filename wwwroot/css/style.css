@@ -145,6 +145,21 @@ label[for="activities"] {
     padding-right: 60px;
 }
 
+.status-green {
+    color: green;
+    font-weight: 600;
+}
+
+.status-orange {
+    color: darkorange;
+    font-weight: 600;
+}
+
+.status-blue {
+    color: blue;
+    font-weight: 600;
+}
+
 legend {
     display: block;
     width: 100%;
