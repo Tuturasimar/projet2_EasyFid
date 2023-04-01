@@ -8,12 +8,15 @@
 <button id="addActivity" type="button" class="btn btn-info">Ajouter une activité</button>
 
 @using (Html.BeginForm("UpdateCra", "Salarie", FormMethod.Post))
+
     {
+
     <input type="hidden" id="craId" name="craId" value="@ViewBag.craId" />
     <fieldset>
         <legend>Modification</legend>
 
         @*Div cachée afin de pouvoir ajouter une activité dans le cra*@
+
     <div id="newActivity">
         <input type="hidden" id="total" name="total" value=@Model.Count />
 
@@ -58,6 +61,7 @@
         <button id="deleteActivity" type="button" class="btn btn-danger">Supprimer l'activité</button>
         <br />
     </div>
+
         <input type="submit" value="Modifier" />
 
 

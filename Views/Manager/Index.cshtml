@@ -21,14 +21,14 @@
     @foreach (var cra in @Model.Cras)
     {
         <tr>
-            
+
             <td>@cra.CreatedAt.ToString("dd/MM/yyyy")</td>
             <td>@cra.UpdatedAt.ToString("dd/MM/yyyy")</td>
             <td>@cra.User.UserData.Lastname</td>
             <td>@cra.User.UserData.Firstname</td>
             <td>@cra.StateCra</td>
             <td>@Html.ActionLink("Détails", "CraDetails", "Manager", new { id = cra.Id })</td>
-            
+
         </tr>
     }
 </table>

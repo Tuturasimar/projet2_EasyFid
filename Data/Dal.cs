@@ -37,6 +37,10 @@ namespace Projet2_EasyFid.Data
         {
             return MissionServices.GetAllMissions(_bddContext);
         }
+        public List<MissionUser> GetAllMissionUsers()
+        {
+            return MissionUserServices.GetAllMissionUsers(_bddContext);
+        }
         public List<Formation> GetAllFormations()
         {
             return FormationServices.GetAllFormations(_bddContext);
@@ -54,6 +58,14 @@ namespace Projet2_EasyFid.Data
         public int CreateMission(Mission mission)
         {
             return MissionServices.CreateMission(_bddContext, mission);
+        }
+        public int CreateMissionUser(MissionUser missionUser)
+        {
+            return MissionUserServices.CreateMissionUser(_bddContext, missionUser);
+        }
+        public void UpdateMissionUser(MissionUser missionUser)
+        {
+             MissionUserServices.UpdateMissionUser(_bddContext, missionUser);
         }
 
         public int CreateFormation(Formation formation)
@@ -208,10 +220,7 @@ namespace Projet2_EasyFid.Data
         }
 
         
-        //public List<Formation> GetAllFormations()
-        //{
-        //    return CraServices.GetAllFormations(_bddContext);
-        //}
+        
         
 
         public void UpdateFormation(Formation formation)
@@ -387,6 +396,23 @@ namespace Projet2_EasyFid.Data
             return ActivityServices.GetAllAbsenceAndFormation(_bddContext);
         }
 
+
+
+
+        public List<UserFeedback> GetAllUserFeedBack()
+        {
+            return UserServices.GetAllUserFeedBack(_bddContext);
+        }
+
+        public List<MissionUser> GetAllMissionUserByMissionId(int id)
+        {
+            return UserServices.GetAllMissionUserByMissionId(_bddContext, id);
+        }
+
+        public List<UserFeedback> GetAllUserFeedBackByMissionId(int id)
+        {
+            return UserServices.GetAllUserFeedBackByMissionId(_bddContext, id); }
+
         public User GetUserByResetToken(string token)
         {
 
@@ -403,6 +429,25 @@ namespace Projet2_EasyFid.Data
         {
             ActivityServices.DeleteActivityDate(_bddContext,activityDate);
 
+        }
+
+        public List<User> GetAllUsersButNotTheAdmin(int id)
+        {
+            return UserServices.GetAllUsersButNotTheAdmin(_bddContext, id);
+
+        }
+
+        public List<Cra> GetAllCrasByManagerIdOrderByCreationDate(int id)
+        {
+            return CraServices.GetAllCrasByManagerIdOrderByCreationDate(_bddContext, id);
+        }
+        public  List<Mission> GetAllMissionActive()
+        {
+            return MissionServices.GetAllMissionActive( _bddContext);
+        }
+        public List<MissionUser> GetAllMissionUserByManagerId(int id)
+        {
+            return MissionServices.GetAllMissionUserByManagerId(_bddContext, id);
         }
     }
 }

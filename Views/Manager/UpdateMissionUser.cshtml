@@ -1,0 +1,34 @@
+﻿@model Projet2_EasyFid.Models.MissionUser
+@{
+    Layout = "_Layout";
+    ViewBag.Title = "Statut de la Mission";
+
+}
+
+
+@using (Html.BeginForm("UpdateMission", "Manager", FormMethod.Post))
+{
+    <fieldset>
+        <legend>Affectation de la mission</legend>
+        @Html.LabelFor(m => Model.User)
+        @Html.ValidationMessageFor(m=> Model.User)
+        <br />
+        @Html.LabelFor(m => Model.Mission)
+        @Html.ValidationMessageFor(m=> Model.Mission)
+        <br />
+        @*Liste déroulante pour choisir le type de contrat*@
+        @Html.Label("MissionStateEnum", "Statut de la mission : ")
+        <select name="MissionStateEnum">
+            @foreach (var item in Enum.GetValues(typeof(Projet2_EasyFid.Data.Enums.MissionStateEnum)))
+            {
+                <option name="MissionStateEnum" value=@item>@item</option>
+            }
+        </select>
+        
+        <input type="submit" value="Modifier" />
+        @Html.ActionLink("Retour", "SeeMissionUsers")
+    </fieldset>
+}
+<script type="text/javascript" src="~/Scripts/jquery-3.3.1.js"></script>
+<script type="text/javascript" src="~/Scripts/jquery.validate-vsdoc.js"></script>
+<script type="text/javascript" src="~/Scripts/jquery.validate.unobtrusive.js"></script>

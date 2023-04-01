@@ -32,13 +32,14 @@
   <ItemGroup>
     <Folder Include="wwwroot\assets\" />
     <Folder Include="wwwroot\assets\image\" />
+
+
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\" />
     <Content Remove="wwwroot\css\" />
     <Content Remove="wwwroot\assets\" />
     <Content Remove="wwwroot\assets\image\" />
-    <Content Remove="Views\Admin\ModifyPassword.cshtml" />
     <Content Remove="wwwroot\css\dashboard.css" />
   </ItemGroup>
   <ItemGroup>

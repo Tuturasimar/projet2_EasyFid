@@ -30,6 +30,12 @@ namespace Projet2_EasyFid.Data.Services
 
             for (int i = 0; i <activities.Count - 1; i++)
 			{
+				if (!isDateValid(BeginDate[i], EndDate[i]))
+				{
+                    Notification notification = new Notification { ClassContext = "danger", MessageContent = "Renseignez des dates de début et de fin cohérentes.", UserId = user.Id };
+                    NotificationServices.CreateNotification(_bddContext, notification);
+					return false;
+                }
 				if (isActivityAMissionById(_bddContext, activities[i]))
 				{
 					
@@ -112,7 +118,12 @@ namespace Projet2_EasyFid.Data.Services
 		public static List<Activity> GetAllAbsenceAndFormation(BddContext _bddContext)
 		{
 			return _bddContext.Activities.Where(a => a.AbsenceId != null || a.FormationId != null).ToList();
+
+
 		}
+
+
+
 
 		public static void DeleteActivityDate(BddContext _bddContext, ActivityDate activityDate)
 		{
@@ -120,5 +131,6 @@ namespace Projet2_EasyFid.Data.Services
 			_bddContext.SaveChanges();
 		}
 	}
+
 }
 

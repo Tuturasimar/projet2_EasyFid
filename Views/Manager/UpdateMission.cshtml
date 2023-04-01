@@ -1,7 +1,7 @@
 ﻿@model Projet2_EasyFid.Models.Mission
 @{
     Layout = "_Layout";
-    ViewBag.Title = "Edition de Mission";
+    ViewBag.Title = "Modification de Mission";
 
 }
 
@@ -15,12 +15,10 @@
             @Html.ValidationMessageFor(m => Model.Name)
             <br />
             @Html.LabelFor(m => Model.MissionStart)
-            @Html.Label("MissionStart","Début de mission : ")
-            @Html.ValidationMessageFor(m => Model.MissionStart)
+            @Html.EditorFor(m => Model.MissionStart, "yyyy-MM-dd")
             <br />
-            @Html.HiddenFor(m => Model.MissionEnd)
-            @Html.Label("MissionEnd","Fin de mission : ") 
-            @Html.ValidationMessageFor(m => Model.MissionEnd)
+            @Html.LabelFor(m => Model.MissionEnd)
+            @Html.EditorFor(m => Model.MissionEnd,"yyyy-MM-dd")
             <br />
             @Html.LabelFor(m => Model.MissionType)
             @Html.TextBoxFor(m => Model.MissionType)
