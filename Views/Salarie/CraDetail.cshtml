@@ -5,7 +5,7 @@
 }
 
 
-<h2>Détail du Cra de @ViewBag.cra.User.UserData.Firstname @ViewBag.cra.User.UserData.Lastname </h2>
+<h2>Détail du CRA de @ViewBag.cra.User.UserData.Firstname @ViewBag.cra.User.UserData.Lastname </h2>
 <ul>
     <li>Date de création : @ViewBag.cra.CreatedAt.ToString("dd/MM/yy")</li>
     <li>Date de modification : @ViewBag.cra.UpdatedAt.ToString("dd/MM/yy")</li>
@@ -30,3 +30,7 @@
         </ul>
         }
 </ul>
+
+<button type="button" class="btn btn-primary" onclick="history.back();">
+    <i class="fas fa-arrow-left"></i> Retour
+</button>

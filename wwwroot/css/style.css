@@ -7,12 +7,33 @@ body {
     margin: 0;
 }
 
+.container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
 h2 {
+    font-family: 'Poppins', sans-serif;
     font-size: 2.5rem;
     margin-top: 5rem;
     margin-bottom: 5rem;
     text-align: center;
 }
+
+label {
+    display: inline-block;
+    margin-bottom: 5px;
+    font-weight: normal;
+}
+
+h3 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 2.5rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
 
 .card {
     display: flex;
@@ -37,12 +58,7 @@ th {
     background-color: #f2f2f2;
     font-weight: bold;
 }
-/* On small screens, set height to 'auto' for the grid */
-@media screen and (max-width: 767px) {
-    .row.content {
-        height: auto;
-    }
-}
+
 
 tr:nth-child(even) {
     background-color: #f2f2f2;
@@ -66,9 +82,13 @@ tr:hover {
     transition: background-color 0.3s ease;
 }
 
-    .action-link:hover {
-        background-color: #0069d9;
-    }
+#userComfortGrade > label {
+    margin-bottom: 4rem;
+}
+
+.action-link:hover {
+    background-color: #0069d9;
+}
 
     .action-link:active {
         background-color: #005cbf;
@@ -98,8 +118,8 @@ tr:hover {
 }
 
 .btn-danger {
-    margin-bottom: 20px;
-    margin-top: 5px;
+    margin-bottom: 0px;
+    margin-top: 20px;
 }
 
 .btn-info {
@@ -115,10 +135,65 @@ tr:hover {
     padding-right: 0.7rem;
 }
 
-label[for="activities"] {
-    margin-bottom: 15px;
+#activities {
+    width: 14%;
 }
 
 label[for="activities"] {
+    margin-top: 40px;
     margin-bottom: 15px;
+    padding-right: 60px;
 }
+
+legend {
+    display: block;
+    width: 100%;
+    padding: 0;
+    margin-bottom: 0px;
+    font-size: 21px;
+    line-height: inherit;
+    color: #333;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+#activityHidden > label:nth-child(5) {
+    padding-bottom: 10px;
+    padding-right: 11px;
+}
+
+#activityHidden > label:nth-child(8) {
+    padding-right: 35px;
+}
+
+#Menu1 > ul.nav.navbar-nav.navbar-right > li:nth-child(1) > a > i {
+    padding-right: 7px;
+}
+
+#Menu1 > ul.nav.navbar-nav.navbar-right > li.dropdown > a > i {
+    padding-right: 7px;
+}
+
+#activityHidden > button.btn.btn-primary > i {
+    padding-right: 0.7rem;
+}
+
+
+/* On small screens, set height to 'auto' for the grid */
+@media screen and (max-width: 767px) {
+    .row.content {
+        height: auto;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .col-md-6, .col-md-12 {
+        width: 100%;
+    }
+}
+
+    @media screen and (min-width: 768px) {
+        .form-horizontal .control-label {
+            text-align: left;
+        }
+    }
