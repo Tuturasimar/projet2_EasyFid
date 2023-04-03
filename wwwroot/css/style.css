@@ -149,6 +149,12 @@ body > div.container-fluid.text-center > div > div.col-sm-8.text-left > div > di
     margin-right: 10px;
 }
 
+.btnMargin {
+    margin-bottom: 0px;
+    margin-top: 20px;
+    margin-right: 10px;
+}
+
 .taille {
     width: 120%;
 }

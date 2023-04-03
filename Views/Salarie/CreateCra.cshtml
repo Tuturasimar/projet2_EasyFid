@@ -19,27 +19,26 @@
         </div>
 
         <div name="activityHidden" class="hidden" id="activityHidden">
+            <br />
 
             @Html.Label("activities", "Activité : ")
 
             @Html.DropDownList("activities", new SelectList(ViewBag.activities, "Id", "LabelActivity"))
             <br />
-
-
             @*Calendrier pour choisir la periode de temps*@
             @Html.Partial("SalariePartialForm", Model)
+
 
             <button id="deleteActivity" type="button" class="btn btn-danger">
                 <i class="fas fa-trash-alt"></i>  Supprimer l'activité
             </button>
         </div>
 
-        <br />
         <button type="submit" class="btn btn-success">
             <i class="fas fa-check"></i> Valider
         </button>
 
-        <button type="button" class="btn btn-primary" onclick="history.back();">
+        <button type="button" class="btn btn-primary btnMargin" onclick="history.back();">
             <i class="fas fa-arrow-left"></i> Retour
         </button>
 

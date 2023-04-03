@@ -20,16 +20,16 @@
     <div id="newActivity">
         <input type="hidden" id="total" name="total" value=@Model.Count />
 
-@for (int i = 0; i < Model.Count; i++)
+        @for (int i = 0; i < Model.Count; i++)
         {
-                int valueOfSelected = Model[i].Activity.Id;
-
+            int valueOfSelected = Model[i].Activity.Id;
+            <br />
             <div name="oldActivity" id="activityHidden">
                 @Html.HiddenFor(m => m[i].Activity.Id)
                 @Html.LabelFor(m => m[i].Activity)
                 @Html.DropDownListFor(m => m[i].Activity.Id, new SelectList(ViewBag.activities, "Id", "LabelActivity", valueOfSelected))
                 <br />
-           
+
                 @*Calendrier pour choisir la periode de temps sur laquelle a été effectuée l'activité (mission, absence ou formation)*@
                 @for (int j = 0; j < Model[i].ActivityDates.Count; j++)
                 {
@@ -51,15 +51,16 @@
         
 
     <div name="activityHidden" class="hidden" id="activityHidden">
+        <br />
         @Html.HiddenFor(m => m[0].Activity.Id)
-        @Html.Label("activities" , "Activité")
+        @Html.Label("activities", "Activité")
         @Html.DropDownList("activities", new SelectList(ViewBag.activities, "Id", "LabelActivity"))
         <br />
 
         @*Calendrier pour choisir la periode de temps sur laquelle a été effectuée l'activité (mission, absence ou formation)*@
-            @Html.Partial("SalariePartialForm", Model[0].ActivityDates[0])
+        @Html.Partial("SalariePartialForm", Model[0].ActivityDates[0])
         <button id="deleteActivity" type="button" class="btn btn-danger">Supprimer l'activité</button>
-        <br />
+
     </div>
 
         <input type="submit" value="Modifier" />
