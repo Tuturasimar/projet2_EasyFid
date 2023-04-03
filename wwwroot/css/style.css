@@ -1,9 +1,8 @@
 ﻿/* Google Font Import - Poppins */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-
+@import url(‘https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap’);
 /* Styles for the salarie accueil page */
 body {
-    font-family: 'Poppins', sans-serif;
+    font-family: ‘Poppins’, sans-serif;
     margin: 0;
 }
 
@@ -14,7 +13,7 @@ body {
 }
 
 h2 {
-    font-family: 'Poppins', sans-serif;
+    font-family: ‘Poppins’, sans-serif;
     font-size: 2.5rem;
     margin-top: 5rem;
     margin-bottom: 5rem;
@@ -28,12 +27,11 @@ label {
 }
 
 h3 {
-    font-family: 'Poppins', sans-serif;
+    font-family: ‘Poppins’, sans-serif;
     font-size: 2.5rem;
     margin-top: 2rem;
     margin-bottom: 2rem;
 }
-
 
 .card {
     display: flex;
@@ -58,7 +56,6 @@ th {
     background-color: #f2f2f2;
     font-weight: bold;
 }
-
 
 tr:nth-child(even) {
     background-color: #f2f2f2;
@@ -90,9 +87,9 @@ tr:hover {
     background-color: #0069d9;
 }
 
-    .action-link:active {
-        background-color: #005cbf;
-    }
+.action-link:active {
+    background-color: #005cbf;
+}
 
 .goldStar {
     color: gold;
@@ -122,6 +119,12 @@ tr:hover {
     margin-top: 20px;
 }
 
+.btn-success {
+    margin-bottom: 0px;
+    margin-top: 20px;
+    margin-left: 10px;
+}
+
 .btn-info {
     margin-bottom: 20px;
     margin-top: 20px;
@@ -135,11 +138,25 @@ tr:hover {
     padding-right: 0.7rem;
 }
 
+.btn-primary .fa-arrow-left {
+    padding-right: 0.7rem;
+}
+
+body > div.container-fluid.text-center > div > div.col-sm-8.text-left > div > div > div > button {
+    margin-bottom: 0px;
+    margin-top: 20px;
+    margin-right: 10px;
+}
+
+.taille {
+    width: 120%;
+}
+
 #activities {
     width: 14%;
 }
 
-label[for="activities"] {
+label[for=“activities”] {
     margin-top: 40px;
     margin-bottom: 15px;
     padding-right: 60px;
@@ -192,8 +209,23 @@ legend {
     padding-right: 0.7rem;
 }
 
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    margin-left: 20px;
+    margin-right: 40px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
 
-/* On small screens, set height to 'auto' for the grid */
+body > div.container-fluid.text-center > div > div:nth-child(1) {
+    position: relative;
+    min-height: 1px;
+    max-width: 200px;
+    padding-right: 0px;
+    padding-left: 0px;
+}
+/* On small screens, set height to ‘auto’ for the grid */
 @media screen and (max-width: 767px) {
     .row.content {
         height: auto;
@@ -207,8 +239,8 @@ legend {
     }
 }
 
-    @media screen and (min-width: 768px) {
-        .form-horizontal .control-label {
-            text-align: left;
-        }
+@media screen and (min-width: 768px) {
+    .form-horizontal .control-label {
+        text-align: left;
     }
+}

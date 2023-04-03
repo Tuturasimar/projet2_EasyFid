@@ -7,18 +7,11 @@
     ViewBag.Title = "SalarieAccueil";
 }
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>@ViewBag.Title</title>
-    <link rel="stylesheet" href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/css/bootstrap.min.css' media="screen" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" media="screen" />
-    <link rel="stylesheet" href="/css/style.css" />
-</head>
+
 
 <h2>Bienvenue dans votre espace utilisateur</h2>
 
-<a href="@Url.Action("CreateCra")" class="btn btn-success">Ajouter</a>
+<a href="@Url.Action("CreateCra")" class="btn btn-success">Ajouter un CRA</a>
 
 <table id="cras" border="1" class="center">
     <tr>
