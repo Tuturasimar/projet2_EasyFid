@@ -3,12 +3,7 @@
     Layout = "_Layout";
     ViewBag.Title = "ManagerAccueil";
 }
-
-<button>@Html.ActionLink("Mission", "SeeMissions", "Manager")</button>
-<button>@Html.ActionLink("Formation", "SeeFormation", "Manager")</button>
-<button>@Html.ActionLink("Indicateurs", "EditDashboard", "Manager")</button>
 <h2> Activité de mon équipe</h2>
-
 <table id="cras" border="1">
     <tr>
         <th>Date création</th>
@@ -21,14 +16,33 @@
     @foreach (var cra in @Model.Cras)
     {
         <tr>
-
             <td>@cra.CreatedAt.ToString("dd/MM/yyyy")</td>
             <td>@cra.UpdatedAt.ToString("dd/MM/yyyy")</td>
             <td>@cra.User.UserData.Lastname</td>
             <td>@cra.User.UserData.Firstname</td>
-            <td>@cra.StateCra</td>
+            <td class="@GetCraStatusClass(cra.StateCra)">@cra.StateCra</td>
             <td>@Html.ActionLink("Détails", "CraDetails", "Manager", new { id = cra.Id })</td>
-
         </tr>
     }
 </table>
+@functions {
+    private string GetCraStatusClass(Projet2_EasyFid.Data.Enums.StateEnum state)
+    {
+        if (state == Projet2_EasyFid.Data.Enums.StateEnum.VALIDATED)
+        {
+            return "status-green";
+        }
+        else if (state == Projet2_EasyFid.Data.Enums.StateEnum.INHOLD)
+        {
+            return "status-orange";
+        }
+        else if (state == Projet2_EasyFid.Data.Enums.StateEnum.DRAFT)
+        {
+            return "status-blue";
+        }
+        else
+        {
+            return "";
+        }
+    }
+}
