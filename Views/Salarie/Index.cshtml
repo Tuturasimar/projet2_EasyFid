@@ -9,9 +9,13 @@
 
 
 
+<body>
+
 <h2>Bienvenue dans votre espace utilisateur</h2>
 
+
 <a href="@Url.Action("CreateCra")" class="btn btn-success">Ajouter un CRA</a>
+
 
 <table id="cras" border="1" class="center">
     <tr>
@@ -40,6 +44,10 @@
     }
 </table>
 
+</body>
+<</html>
+
+
 @functions {
     private string GetCraStatusClass(Projet2_EasyFid.Data.Enums.StateEnum state)
     {
@@ -61,3 +69,4 @@
         }
     }
 }
+

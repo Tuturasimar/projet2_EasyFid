@@ -1,31 +1,63 @@
 ﻿@model Projet2_EasyFid.Models.User
+
 @*
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
 
 
 
-@Html.Label("Login", "Login : ")
-@Html.TextBoxFor(m => Model.Login)
-@Html.ValidationMessageFor(m => Model.Login)
-<br />
-@Html.Label("FirstName", "Prénom : ")
-@Html.TextBoxFor(m => Model.UserData.Firstname)
-@Html.ValidationMessageFor(m => Model.UserData.Firstname)
 
-<br />
-@Html.Label("LastName", "Nom : ")
-@Html.TextBoxFor(m => Model.UserData.Lastname)
-@Html.ValidationMessageFor(m => Model.UserData.Lastname)
 
-<br />
-@Html.Label("BirthDay", "Date de naissance : ")
-@Html.EditorFor(m => Model.UserData.Birthday,"yyyy-MM-dd")
+<div class="form-group col-md-4">
 
-<br />
-@Html.Label("Email", "Email : ")
-@Html.EditorFor(m => Model.UserData.Email)
-@Html.ValidationMessageFor(m => Model.UserData.Email)
+    @Html.Label("Login", "Login : ")
+    @Html.TextBoxFor(m => Model.Login, new {@class = "form-control"})
+    @Html.ValidationMessageFor(m => Model.Login)
+
+</div>
+
+
+
+<div class="form-group col-md-4">
+
+
+    @Html.Label("FirstName", "Prénom : ")
+    @Html.TextBoxFor(m => Model.UserData.Firstname, new {@class = "form-control"})
+    @Html.ValidationMessageFor(m => Model.UserData.Firstname)
+
+</div>
+
+
+
+<div class="form-group col-md-4">
+
+    @Html.Label("LastName", "Nom : ")
+    @Html.TextBoxFor(m => Model.UserData.Lastname, new {@class = "form-control"})
+    @Html.ValidationMessageFor(m => Model.UserData.Lastname)
+
+
+</div>
+
+<div class="form-group col-md-4">
+
+
+    @Html.Label("BirthDay", "Date de naissance : ")
+    @Html.EditorFor(m => Model.UserData.Birthday,"yyyy-MM-dd", new {@class = "form-control"})
+
+
+</div>
+
+
+
+<div class="form-group col-md-4">
+
+
+    @Html.Label("Email", "Email : ")
+    @Html.TextBoxFor(m => Model.UserData.Email, new {@class = "form-control"})
+    @Html.ValidationMessageFor(m => Model.UserData.Email)
+
+</div>
+
 
 
 

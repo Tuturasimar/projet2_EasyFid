@@ -57,6 +57,7 @@ th {
     font-weight: bold;
 }
 
+
 tr:nth-child(even) {
     background-color: #f2f2f2;
 }
@@ -244,3 +245,15 @@ body > div.container-fluid.text-center > div > div:nth-child(1) {
         text-align: left;
     }
 }
+
+.form-check, .pad15 {
+    padding:0 15px
+}
+
+/* On small screens, set height to 'auto' for the grid */
+@media screen and (max-width: 767px) {
+    .row.content {
+        height: auto;
+    }
+}
+
