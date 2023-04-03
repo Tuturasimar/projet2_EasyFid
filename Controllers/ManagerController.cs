@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration.UserSecrets;
 using Projet2_EasyFid.Data;
 using Projet2_EasyFid.Data.Enums;
 using Projet2_EasyFid.Data.Services;
@@ -147,10 +148,11 @@ namespace Projet2_EasyFid.Controllers
         {
             using Dal dal = new Dal();
             {
+                User user = dal.GetUser(HttpContext.User.Identity.Name);
                 //Récupération des missions que l'on stocke dans une liste
-                List<Mission> missionUsers = dal.GetAllMissions();
-                MissionListViewModel missionUsersList = new MissionListViewModel { Missions = missionUsers };
-                return View(missionUsersList);
+                List<MissionUser> missionUsers = dal.GetAllMissionUserByManagerId(user.Id);
+                
+                return View(missionUsers);
             }
         }
         public IActionResult SeeFormation()
@@ -199,6 +201,7 @@ namespace Projet2_EasyFid.Controllers
                     {
                         return View("Error");
                     }
+
                     return View(mission);
                 }
             }
@@ -341,29 +344,37 @@ namespace Projet2_EasyFid.Controllers
             using (Dal dal = new Dal())
 
             {
+                
+                User user = dal.GetUser(HttpContext.User.Identity.Name);
+             
+                List<User> userList = dal.GetAllUsersByManagerId(user.Id);
                 List<UserData> userDatas = new List<UserData>();
-                List<Mission>missions = new List<Mission>();
+                foreach (User newUser in userList)
+                {
+                    userDatas.Add(newUser.UserData);
+                }
+                List<Mission>missions = dal.GetAllMissionActive();
                 ViewBag.userDatas = userDatas;
                 ViewBag.missions = missions;
-           
+                
             }
             return View();
         }
+
+       
         
         [HttpPost]
         //Une fois qu'on appuie sur le bouton du formulaire, cette methode recupere un objet Mission
-        public IActionResult CreateMissionUser(MissionUser missionUser)
+        public IActionResult CreateMissionUser(int userDatas, int missions)
         {
             using (Dal dal = new Dal())
-
             {
-                List<UserData> userDatas = new List<UserData>();
-                List<Mission> missions = new List<Mission>();
-                ViewBag.userDatas = userDatas;
-                ViewBag.missions = missions;
-
+                User user = dal.GetUserByUserDataId(userDatas);
+                MissionUser missionUser = new MissionUser { MissionId = missions, UserId =user.Id, MissionState= MissionStateEnum.ACTIVE };
+                dal.CreateMissionUser(missionUser);
             }
-            return View();
+            
+            return RedirectToAction("SeeMissionUsers");
 
         }
 

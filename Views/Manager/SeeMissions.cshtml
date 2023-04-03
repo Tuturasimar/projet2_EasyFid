@@ -4,7 +4,7 @@
     ViewBag.Title = "Liste des Missions";
 }
 
-@Html.ActionLink("Retour", "Index")
+@Html.ActionLink("Retour", "Index", new { @class = "btn btn-primary" })
 
 <h2>Liste des missions</h2>
 <div border="1" style="">
@@ -13,6 +13,9 @@
 </div>
 <div border="1">
     @Html.ActionLink("Affecter mission", "CreateMissionUser")
+</div>
+<div border="1">
+    @Html.ActionLink("Liste des affectations", "SeeMissionUsers")
 </div>
 <table id="Missions" border="1">
     <tr>
@@ -33,8 +36,7 @@
             <td>@mission.MissionType</td>
 
             <td>@Html.ActionLink("Modifier", "UpdateMission", new { id = mission.Id })</td>
-
-            <td>@Html.ActionLink("Supprimer", "IndexManager")</td>
+            <td>@Html.ActionLink("Clôturer", "IndexManager")</td>
             <td>@Html.ActionLink("Voir les avis", "SeeUserFeedback", new { id = mission.Id})</td>
 
         </tr>

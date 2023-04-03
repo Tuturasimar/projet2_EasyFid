@@ -20,10 +20,10 @@
         <br />
         @*Liste déroulante pour choisir le type de contrat*@
         @Html.Label("MissionTypeEnum", "Type de mission : ")
-        <select name="MissionTypeEnum">
+        <select name="MissionType">
             @foreach (var item in Enum.GetValues(typeof(Projet2_EasyFid.Data.Enums.MissionTypeEnum)))
             {
-                <option name="MissionTypeEnum" value=@item>@item</option>
+                <option name="MissionType" value=@item>@item</option>
             }
         </select>
         <br />
@@ -32,6 +32,12 @@
         @Html.ActionLink("Annuler", "SeeMissions")
     </fieldset>
 }
+
+<button type="button" class="btn btn-primary" onclick="history.back();">
+    <i class="fas fa-arrow-left"></i> Retour
+</button>
+
+
 <script type="text/javascript" src="~/Scripts/jquery-3.3.1.js"></script>
 <script type="text/javascript" src="~/Scripts/jquery.validate-vsdoc.js"></script>
 <script type="text/javascript" src="~/Scripts/jquery.validate.unobtrusive.js"></script>

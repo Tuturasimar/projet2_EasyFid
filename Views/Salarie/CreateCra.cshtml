@@ -1,9 +1,10 @@
 ﻿@model List<Projet2_EasyFid.Models.ActivityDate>
 @{
     Layout = "_Layout";
-    ViewBag.Title = "Formulaire création d'un Cra";
+    ViewBag.Title = "Formulaire création d'un CRA";
 }
-<h2>Formulaire de création du Cra</h2>
+
+<h2>Formulaire de création du CRA</h2>
 
 <button id="addActivity" type="button" class="btn btn-info">Ajouter une activité</button>
 
@@ -28,14 +29,20 @@
             @*Calendrier pour choisir la periode de temps*@
             @Html.Partial("SalariePartialForm", Model)
 
-            <br />
             <button id="deleteActivity" type="button" class="btn btn-danger">
                 <i class="fas fa-trash-alt"></i>  Supprimer l'activité
             </button>
         </div>
+
+        <br />
         <button type="submit" class="btn btn-success">
             <i class="fas fa-check"></i> Valider
         </button>
+
+        <button type="button" class="btn btn-primary" onclick="history.back();">
+            <i class="fas fa-arrow-left"></i> Retour
+        </button>
+
     </fieldset>
 }
 

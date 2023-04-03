@@ -3,33 +3,42 @@
     Layout = "_Layout";
     ViewBag.Title = "Détail Cra";
 }
-
 <h2>Détail du Cra de @ViewBag.cra.User.UserData.Firstname @ViewBag.cra.User.UserData.Lastname</h2>
-<ul>
-    <li>Date de création : @ViewBag.cra.CreatedAt.ToString("dd/MM/yy")</li>
-    <li>Date de modification : @ViewBag.cra.UpdatedAt.ToString("dd/MM/yy")</li>
-    <li>Etat : @ViewBag.cra.StateCra</li>
-    <br />
-    <p>Activités : </p>
-    <ul>
-        @foreach (var craDetailViewModel in Model)
-        {
-            <li>@craDetailViewModel.Activity.LabelActivity</li>
-            foreach (var activityDate in craDetailViewModel.ActivityDates)
-            {
-                <ul>
-                    <li>Date de début : @activityDate.BeginDate.ToString("dd/MM/yy")</li>
-                    <li>Date de fin : @activityDate.EndDate.ToString("dd/MM/yy")</li>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 taille">
+            <ul class="list-group">
+                <li class="list-group-item">Date de création : @ViewBag.cra.CreatedAt.ToString("dd/MM/yy")</li>
+                <li class="list-group-item">Date de modification : @ViewBag.cra.UpdatedAt.ToString("dd/MM/yy")</li>
+                <li class="list-group-item">Etat : @ViewBag.cra.StateCra</li>
+            </ul>
+            <br />
+            <div class="panel panel-default">
+                <div class="panel-heading">Activités</div>
+                <ul class="list-group">
+                    @foreach (var craDetailViewModel in Model)
+                    {
+                        <li class="list-group-item">
+                            <strong>@craDetailViewModel.Activity.LabelActivity</strong>
+                            <ul class="list-unstyled">
+                                @foreach (var activityDate in craDetailViewModel.ActivityDates)
+                                {
+                                    <li>Date de début : @activityDate.BeginDate.ToString("dd/MM/yy")</li>
+                                    <li>Date de fin : @activityDate.EndDate.ToString("dd/MM/yy")</li>
+                                }
+                            </ul>
+                        </li>
+                    }
                 </ul>
+            </div>
+            <button type="button" class="btn btn-primary" onclick="history.back();">
+                <i class="fas fa-arrow-left"></i> Retour
+            </button>
+            @if (ViewBag.cra.StateCra == Projet2_EasyFid.Data.Enums.StateEnum.INHOLD)
+            {
+                @Html.ActionLink("Refuser", "DenyCraValidation", "Manager", new { id = ViewBag.cra.Id }, new { @class = "btn btn-danger" })
+                @Html.ActionLink("Valider", "CraToValidation", "Manager", new { id = ViewBag.cra.Id }, new { @class = "btn btn-success" })
             }
-        }
-    </ul>
-
-</ul>
-@if (ViewBag.cra.StateCra == Projet2_EasyFid.Data.Enums.StateEnum.INHOLD)
-{
-    @Html.ActionLink("Refuser", "DenyCraValidation", "Manager", new { id = ViewBag.cra.Id}, new { @class = "btn btn-danger" })
-    @Html.ActionLink("Valider", "CraToValidation", "Manager", new { id = ViewBag.cra.Id }, new { @class = "btn btn-success" })
-}
-
-
+        </div>
+    </div>
+</div>

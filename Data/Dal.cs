@@ -441,6 +441,14 @@ namespace Projet2_EasyFid.Data
         {
             return CraServices.GetAllCrasByManagerIdOrderByCreationDate(_bddContext, id);
         }
+        public  List<Mission> GetAllMissionActive()
+        {
+            return MissionServices.GetAllMissionActive( _bddContext);
+        }
+        public List<MissionUser> GetAllMissionUserByManagerId(int id)
+        {
+            return MissionServices.GetAllMissionUserByManagerId(_bddContext, id);
+        }
     }
 }
 

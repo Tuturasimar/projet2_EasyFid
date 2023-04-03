@@ -7,22 +7,16 @@
     ViewBag.Title = "SalarieAccueil";
 }
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>@ViewBag.Title</title>
-    <link rel="stylesheet" href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/css/bootstrap.min.css' media="screen" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" media="screen" />
-    <link rel="stylesheet" href="/css/style.css" />
-</head>
+
 
 <body>
 
 <h2>Bienvenue dans votre espace utilisateur</h2>
 
 
+<a href="@Url.Action("CreateCra")" class="btn btn-success">Ajouter un CRA</a>
 
-<a href="@Url.Action("CreateCra")" class="btn btn-success">Ajouter</a>
+
 <table id="cras" border="1" class="center">
     <tr>
         <td>Date de création</td>
@@ -35,7 +29,7 @@
         <tr>
             <td>@cra.CreatedAt.ToString("dd/MM/yyyy")</td>
             <td>@cra.UpdatedAt.ToString("dd/MM/yyyy")</td>
-            <td>@cra.StateCra</td>
+            <td class="@GetCraStatusClass(cra.StateCra)">@cra.StateCra</td>
             @if (cra.StateCra == Projet2_EasyFid.Data.Enums.StateEnum.DRAFT)
             {
                 <td>@Html.ActionLink("Modifier", "UpdateCra", "Salarie", new { id = cra.Id })</td>
@@ -49,5 +43,30 @@
         </tr>
     }
 </table>
+
 </body>
 <</html>
+
+
+@functions {
+    private string GetCraStatusClass(Projet2_EasyFid.Data.Enums.StateEnum state)
+    {
+        if (state == Projet2_EasyFid.Data.Enums.StateEnum.VALIDATED)
+        {
+            return "status-green";
+        }
+        else if (state == Projet2_EasyFid.Data.Enums.StateEnum.INHOLD)
+        {
+            return "status-orange";
+        }
+        else if (state == Projet2_EasyFid.Data.Enums.StateEnum.DRAFT)
+        {
+            return "status-blue";
+        }
+        else
+        {
+            return "";
+        }
+    }
+}
+
